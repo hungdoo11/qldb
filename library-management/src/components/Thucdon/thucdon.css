@@ -1,0 +1,81 @@
+.menu-td-food {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.menu-td-food-item {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  overflow: hidden;
+      width: 400px;
+    height: 400px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.menu-td-food {
+  display: flex;
+  flex-wrap: wrap;  /* Cho phép xuống hàng */
+  gap: 20px;        /* Khoảng cách giữa các món */
+}
+
+.menu-td-food-item {
+  flex: 1 1 calc(33.333% - 20px); /* Mỗi món chiếm 1/3 hàng */
+  box-sizing: border-box;
+}
+
+.menu-td-food-item:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.menu-td-wrapper {
+  position: relative;
+  width: 100%;
+  height: 325px;
+  overflow: hidden;
+}
+
+.menu-td-wrapper img.bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.menu-td-wrapper img.ct {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  max-height: 150px;
+}
+
+.menu-title {
+  text-align: center;
+  font-weight: bold;
+  font-size: 16px;
+  color: #e21b22; /* đỏ như Jollibee */
+  padding: 10px;
+}
+
+.menu-name {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 10px 0 5px;
+  color: #333;
+}
+
+.menu-price {
+  font-size: 16px;
+  font-weight: bold;
+  color: #e74c3c;
+  margin-bottom: 5px;
+}
+
+.menu-category {
+  font-size: 14px;
+  color: #777;
+}

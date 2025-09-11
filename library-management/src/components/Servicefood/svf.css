@@ -1,0 +1,171 @@
+.slide-content {
+  position: relative; /* để text đặt đè lên ảnh */
+  text-align: center;
+}
+
+.slide-content img {
+  width: 100%;
+  display: block;
+}
+
+.slide-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  max-width: 600px;
+}
+
+.slide-text h2 {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.slide-text p {
+  font-size: 19px;
+  margin-bottom: 20px;
+}
+
+.btn-order {
+  background: #e62b2b;
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-order:hover {
+  background: #c52020;
+}
+
+.combo-section {
+  background: #fde2a7; /* nền vàng nhạt như hình */
+  padding: 40px 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.combo-box {
+  display: flex;
+  background: #fff;
+  border-radius: 15px;
+  overflow: hidden;
+  max-width: 1000px;
+  width: 100%;
+  align-items: center;
+  padding: 20px;
+  gap: 30px;
+}
+
+.combo-left img {
+  max-width: 350px;
+  border-radius: 10px;
+}
+
+.combo-right {
+  flex: 1;
+  text-decoration: none;
+}
+
+.combo-link {
+  text-decoration: none; /* bỏ gạch chân */
+  color: inherit;        /* giữ nguyên màu chữ */
+  display: block;        /* để ô combo chiếm khối */
+}
+
+
+.combo-right h2 {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.combo-right h2 .highlight {
+  color: #e62b2b; /* đỏ đậm */
+}
+
+.combo-right ul {
+  list-style: none;
+  padding: 0;
+}
+
+.combo-right li {
+  font-size: 18px;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+/* {mn} */
+
+.party-section {
+  text-align: center;
+  padding: 50px 20px;
+}
+
+.party-title {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 40px;
+  color: #d60000; /* đỏ nổi bật */
+}
+
+.party-combos {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.combo-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  max-width: 300px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: transform 0.3s;
+}
+
+.combo-card:hover {
+  transform: translateY(-8px);
+}
+
+.combo-card img {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.combo-card h3 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.price {
+  font-size: 20px;
+  font-weight: bold;
+  color: #e62b2b;
+  margin-bottom: 15px;
+}
+
+.btn-order {
+  background: #e62b2b;
+  color: #fff;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.btn-order:hover {
+  background: #c52020;
+}
