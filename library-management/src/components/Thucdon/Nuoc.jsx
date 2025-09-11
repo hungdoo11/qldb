@@ -1,34 +1,84 @@
-import React, { Component } from 'react';
-import './thucdon.css'
-class Nuoc extends Component {
-  render() {
-        // Dữ liệu mẫu
-        const foods = [
-            { id: 1, title: "DEAL XỊN ĐÓN LƯỢNG CHỈ 99K", img: "/images/food1.png", category: "Nước", price: "120.000đ", name: "Khoáng lạt" },
-            { id: 2, title: "DEAL XỊN ĐÓN LƯỢNG CHỈ 99K", img: "/images/food1.png", category: "Nước", price: "89.000đ", name: "rựu 700namw" },
-            { id: 3, title: "DEAL XỊN ĐÓN LƯỢNG CHỈ 99K", img: "/images/food1.png", category: "Nước", price: "199.000đ", name: "7up" },
-            { id: 4, title: "DEAL XỊN ĐÓN LƯỢNG CHỈ 99K", img: "/images/food1.png", category: "Nước", price: "65.000đ", name: "Trà sữa tươi" },
-            { id: 5, title: "DEAL XỊN ĐÓN LƯỢNG CHỈ 99K", img: "/images/food1.png", category: "Nước", price: "39.000đ", name: "Trà Đào Cam Sả" },
-            { id: 6, title: "DEAL XỊN ĐÓN LƯỢNG CHỈ 99K", img: "/images/food1.png", category: "Nước", price: "49.000đ", name: "Nước lọc" },
-        ];
+import React, { Component } from "react";
+import axios from "axios";
+import "./thucdon.css";
 
-        return (
-            <div className="menu-td-food">
-                {foods.map(food => (
-                    <div key={food.id} className="menu-td-food-item">
-                        <div className="menu-td-wrapper">
-                            <img src="/images/bgr1.jpg" alt="Background" className='bg' />
-                            <img src={food.img} alt={food.name} className='ct' />
-                        </div>
-                        {/* <div className="menu-title">{food.title}</div> */}
-                        <div className="menu-name">{food.name}</div>
-                        <div className="menu-price">{food.price}</div>
-                        <div className="menu-category">{food.category}</div>
-                    </div>
-                ))}
+class Bo extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      foods: [],
+      categories: [],
+      selectedCategoryId: null, // lưu id category (vd: id của "Bò Mỹ")
+    };
+  }
+
+  componentDidMount() {
+    this.fetchCategories();
+    this.fetchFoods();
+  }
+
+  // Lấy danh sách category
+  fetchCategories = () => {
+    axios
+      .get("http://127.0.0.1:8000/api/categories")
+      .then((res) => {
+        const categories = res.data;
+
+        // Tìm category "Bò Mỹ" -> lấy id
+        const boMy = categories.find((c) => c.name === "Nước");
+
+        this.setState({
+          categories: categories,
+          selectedCategoryId: boMy ? boMy.id : null,
+        });
+      })
+      .catch((err) => console.error("Fetch categories error:", err));
+  };
+
+  // Lấy danh sách món ăn
+  fetchFoods = () => {
+    axios
+      .get("http://127.0.0.1:8000/api/dishes")
+      .then((res) => {
+        this.setState({ foods: res.data });
+      })
+      .catch((err) => console.error("Fetch foods error:", err));
+  };
+
+  render() {
+    const { foods, selectedCategoryId } = this.state;
+
+    // Lọc món ăn theo id category
+    const filteredFoods = foods.filter((food) => {
+      if (typeof food.category === "object") {
+        return food.category?.id === selectedCategoryId;
+      }
+      return food.category_id === selectedCategoryId;
+    });
+
+    return (
+      <div className="menu-td-food">
+        {filteredFoods.length > 0 ? (
+          filteredFoods.map((food) => (
+            <div key={food.id} className="menu-td-food-item">
+              <div className="menu-td-wrapper">
+                <img src="/images/bgr1.jpg" alt="Background" className="bg" />
+                <img
+                  src={`http://127.0.0.1:8000/storage/images/${food.image}`}
+                  alt={food.name}
+                  className="ct"
+                />
+              </div>
+              <div className="menu-name">{food.name}</div>
+              <div className="menu-price">{food.price}đ</div>
             </div>
-        );
-    }
+          ))
+        ) : (
+          <p>Chưa có món ăn nào.</p>
+        )}
+      </div>
+    );
+  }
 }
 
-export default Nuoc;
+export default Bo;
