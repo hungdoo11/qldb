@@ -142,9 +142,8 @@
   width: 100%;
 }
 
-.menu-wrapper{
-  position: relative;
-}
+
+
 .bg{
       display: block;
     width: 296px;
@@ -174,8 +173,9 @@
 }
 
 /* {sẻvice} */
-.service-page{
+.service-page {
   margin-top: 30px;
+  text-align: center;
 }
 
 .service-page-tilte{
@@ -308,5 +308,129 @@
 .about-content button:hover {
     background-color: #c91430;
 }
+/* repo */
+/* ========== Responsive ========== */
 
+/* Tablet (<= 1024px) */
+/* @media (max-width: 1024px) {
+  .slide {
+    height: 400px;
+  }
+  .slide-content img {
+    width: 90%;
+  }
+  .slide-left img,
+  .slide-right img {
+    width: 250px;
+  }
+
+  .menu-food {
+    flex-wrap: wrap;
+    height: auto;
+  }
+  .bg {
+    width: 240px;
+    height: auto;
+  }
+  .ct {
+    width: 280px;
+  }
+
+  .service-page-content {
+    flex-wrap: wrap;
+    gap: 40px;
+  }
+  .service-page-logo {
+    width: 250px;
+    height: 250px;
+  }
+  .service-page-logo img {
+    margin: 0; 
+    width: 100%;
+    height: 100%;
+  }
+
+  .about-content h2 {
+    font-size: 32px;
+  }
+  .about-content p {
+    font-size: 16px;
+  }
+} */
+
+/* Mobile (<= 768px) */
+/* @media (max-width: 768px) {
+  .slide {
+    height: auto;
+    flex-direction: column;
+    padding: 20px 0;
+  }
+  .slide-content img {
+    width: 100%;
+    border-radius: 6px;
+  }
+  .slide-content_top p {
+    font-size: 18px;
+  }
+  .slide-content_top li {
+    font-size: 14px;
+  }
+  .bot-icon {
+    position: static;
+    justify-content: space-between;
+    margin-top: 15px;
+  }
+  .slide-left img,
+  .slide-right img {
+    display: none;
+  }
+
+  .menu-food {
+    flex-direction: column;
+    align-items: center;
+    height: auto;
+  }
+  .bg {
+    width: 80%;
+    height: auto;
+  }
+  .ct {
+    width: 100%;
+    top: 20%;
+  }
+
+  .service-page-content {
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
+  .service-page-logo {
+    width: 200px;
+    height: 200px;
+  }
+  .service-page-info h3 {
+    font-size: 18px;
+  }
+
+  .about-section {
+    height: auto;
+    padding: 40px 20px;
+  }
+  .about-content {
+    position: static;
+    transform: none;
+    padding: 20px;
+    max-width: 100%;
+  }
+  .about-content h2 {
+    font-size: 26px;
+  }
+  .about-content p {
+    font-size: 15px;
+  }
+  .about-content button {
+    font-size: 16px;
+    padding: 10px 20px;
+  }
+} */
 

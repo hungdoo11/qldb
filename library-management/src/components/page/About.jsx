@@ -1,16 +1,23 @@
 import React, { Component } from 'react';
 import './index.css';
-
+import AOS from "aos";
+import "aos/dist/aos.css";
 class About extends Component {
+      componentDidMount() {
+        AOS.init({
+          duration: 1000, // thời gian hiệu ứng
+          once: true,     // chỉ chạy 1 lần
+        });
+      }
     render() {
         return (
-           <div className="about-section">
+           <div className="about-section" data-aos="zoom-in">
     <img
         className="about-banner"
         src="./images/baner2.jpg"
         alt="Banner Jollibee"
     />
-    <div className="about-content">
+    <div className="about-content" >
         <h2>JOLLIBEE, XIN CHÀO</h2>
         <p>
             Chúng tôi là Jollibee Việt Nam với hơn 200 cửa hàng trên khắp cả nước,

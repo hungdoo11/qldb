@@ -62,39 +62,14 @@ class DishController extends Controller
     public function update(Request $request, $id)
     {
         $dish = Dishes::findOrFail($id);
-
-        $request->validate([
-            'name' => 'sometimes|string|max:150',
-            'category_id' => 'sometimes|integer',
-            'price' => 'sometimes|numeric',
-            'unit' => 'sometimes|string|max:50',
-            'status' => 'sometimes|in:available,soldout',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
-        ]);
-
-        if ($request->hasFile('image')) {
-            if ($dish->image) {
-                Storage::disk('public')->delete($dish->image);
-            }
-            $dish->image = $request->file('image')->store('images', 'public');
-        }
-
-        $dish->update($request->except('image'));
-
-        return response()->json(['message' => 'Món ăn đã được cập nhật', 'data' => $dish]);
+        $dish->update($request->all());
+        return response()->json($dish);
     }
 
-    // ✅ Xóa món ăn
     public function destroy($id)
     {
         $dish = Dishes::findOrFail($id);
-
-        if ($dish->image) {
-            Storage::disk('public')->delete($dish->image);
-        }
-
         $dish->delete();
-
-        return response()->json(['message' => 'Món ăn đã bị xóa']);
+        return response()->json(['message' => 'Deleted successfully']);
     }
 }

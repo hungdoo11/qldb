@@ -9,25 +9,25 @@ class Slide extends Component {
                     {/* {sliderbar} */}
           <div className="slide">
             <div className="slide-right">
-            <img src="/images/book2.png" alt="" />
+            <img src="/images/bo1.png" alt="" />
             </div>
             <div className="slide-content">
-              <img src="/images/slide1.jpg" alt="" />
+              <img src="/images/baner.jpg" alt="" />
             
               <div className="slide-content_bot">
                 <div className="bot-btn">
 
               <button type="submit">Tham gia</button>
                 </div>
-              <div className="bot-icon">
+              {/* <div className="bot-icon">
                <i class="fa-solid fa-arrow-left"></i>
               <i class="fa-solid fa-arrow-right"></i>
 
-             </div>
+             </div> */}
               </div>
             </div>
             <div className="slide-left">
-            <img src="/images/book1.png" alt="" />
+            <img src="/images/heo1.png" alt="" />
             </div>
           </div>
             </div>

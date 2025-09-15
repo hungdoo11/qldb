@@ -1,14 +1,15 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { useOutletContext } from "react-router-dom";
 import "./thucdon.css";
 
-class Bo extends Component {
+class Com extends Component {
   constructor(props) {
     super(props);
     this.state = {
       foods: [],
       categories: [],
-      selectedCategoryId: null, // lưu id category (vd: id của "Bò Mỹ")
+      selectedCategoryId: null,
     };
   }
 
@@ -17,28 +18,21 @@ class Bo extends Component {
     this.fetchFoods();
   }
 
-  // Lấy danh sách category
   fetchCategories = () => {
-    axios
-      .get("http://127.0.0.1:8000/api/categories")
+    axios.get("http://127.0.0.1:8000/api/categories")
       .then((res) => {
         const categories = res.data;
-
-        // Tìm category "Bò Mỹ" -> lấy id
-        const boMy = categories.find((c) => c.name === "Cơm");
-
+        const Com = categories.find((c) => c.name === "Cơm");
         this.setState({
           categories: categories,
-          selectedCategoryId: boMy ? boMy.id : null,
+          selectedCategoryId: Com ? Com.id : null,
         });
       })
       .catch((err) => console.error("Fetch categories error:", err));
   };
 
-  // Lấy danh sách món ăn
   fetchFoods = () => {
-    axios
-      .get("http://127.0.0.1:8000/api/dishes")
+    axios.get("http://127.0.0.1:8000/api/dishes")
       .then((res) => {
         this.setState({ foods: res.data });
       })
@@ -47,8 +41,8 @@ class Bo extends Component {
 
   render() {
     const { foods, selectedCategoryId } = this.state;
+    const { addToCart } = this.props;
 
-    // Lọc món ăn theo id category
     const filteredFoods = foods.filter((food) => {
       if (typeof food.category === "object") {
         return food.category?.id === selectedCategoryId;
@@ -60,7 +54,18 @@ class Bo extends Component {
       <div className="menu-td-food">
         {filteredFoods.length > 0 ? (
           filteredFoods.map((food) => (
-            <div key={food.id} className="menu-td-food-item">
+            <div
+              key={food.id}
+              className="menu-td-food-item"
+              onClick={() =>
+                addToCart({
+                  id: food.id,
+                  name: food.name,
+                  price: parseFloat(food.price),
+                  image: food.image,
+                })
+              }
+            >
               <div className="menu-td-wrapper">
                 <img src="/images/bgr1.jpg" alt="Background" className="bg" />
                 <img
@@ -81,4 +86,7 @@ class Bo extends Component {
   }
 }
 
-export default Bo;
+export default function ComWithContext(props) {
+  const { addToCart } = useOutletContext();
+  return <Com {...props} addToCart={addToCart} />;
+}

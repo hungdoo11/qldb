@@ -1,14 +1,16 @@
-import React from "react";
-import { Outlet } from "react-router-dom";
-import Header from "../header/Header";
+import React from 'react';
+import Header from '../header/Header'; // Đảm bảo đường dẫn đúng
+import { Outlet } from 'react-router-dom';
 
-export default function MainLayout() {
+function MainLayout({ cart, addToCart }) {
   return (
-    <div>
-      <Header />
-      <div className="main-content">
-        <Outlet />
-      </div>
-    </div>
+    <>
+      <Header cart={cart} addToCart={addToCart} /> {/* Truyền cart từ props */}
+      <main>
+        <Outlet context={{ cart, addToCart }} /> {/* Truyền props qua Outlet */}
+      </main>
+    </>
   );
 }
+
+export default MainLayout;

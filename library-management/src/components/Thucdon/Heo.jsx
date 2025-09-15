@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { useOutletContext } from "react-router-dom"; // để lấy addToCart từ context
 import "./thucdon.css";
 
-class Bo extends Component {
+class Heo extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -25,11 +26,11 @@ class Bo extends Component {
         const categories = res.data;
 
         // Tìm category "Bò Mỹ" -> lấy id
-        const boMy = categories.find((c) => c.name === "Heo");
+        const HeoQuay = categories.find((c) => c.name === "Heo Quay");
 
         this.setState({
           categories: categories,
-          selectedCategoryId: boMy ? boMy.id : null,
+          selectedCategoryId: HeoQuay ? HeoQuay.id : null,
         });
       })
       .catch((err) => console.error("Fetch categories error:", err));
@@ -47,6 +48,7 @@ class Bo extends Component {
 
   render() {
     const { foods, selectedCategoryId } = this.state;
+    const { addToCart } = this.props;
 
     // Lọc món ăn theo id category
     const filteredFoods = foods.filter((food) => {
@@ -60,7 +62,18 @@ class Bo extends Component {
       <div className="menu-td-food">
         {filteredFoods.length > 0 ? (
           filteredFoods.map((food) => (
-            <div key={food.id} className="menu-td-food-item">
+            <div
+              key={food.id}
+              className="menu-td-food-item"
+              onClick={() =>
+                addToCart({
+                  id: food.id,
+                  name: food.name,
+                  price: parseFloat(food.price),
+                  image: food.image,
+                })
+              }
+            >
               <div className="menu-td-wrapper">
                 <img src="/images/bgr1.jpg" alt="Background" className="bg" />
                 <img
@@ -81,4 +94,8 @@ class Bo extends Component {
   }
 }
 
-export default Bo;
+// Wrapper để dùng hook trong class
+export default function HeoWithContext(props) {
+  const { addToCart } = useOutletContext();
+  return <Heo {...props} addToCart={addToCart} />;
+}

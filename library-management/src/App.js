@@ -1,5 +1,8 @@
-import React from 'react';
+
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+// import AOS from "aos";
+// import "aos/dist/aos.css";
 
 // Layouts
 import MainLayout from "./components/layout/MainLayout";
@@ -37,11 +40,30 @@ import Tables from "./components/adm/Tables";
 import DishList from "./components/api/DishList";
 
 function App() {
+  const [cart, setCart] = useState([]);
+
+  const addToCart = (item) => {
+    setCart((prevCart) => {
+      const existingItem = prevCart.find((i) => i.id === item.id);
+      let newCart;
+      if (existingItem) {
+        newCart = prevCart.map((i) =>
+          i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
+        );
+      } else {
+        newCart = [...prevCart, { ...item, quantity: 1 }];
+      }
+      console.log("Cart after add:", newCart); // 👈 log giỏ hàng thực sự
+      return newCart;
+    });
+  };
   return (
     <BrowserRouter>
       <Routes>
         {/* Main Layout */}
-        <Route element={<MainLayout />}>
+        <Route
+          element={<MainLayout cart={cart} addToCart={addToCart} />}
+        >
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />

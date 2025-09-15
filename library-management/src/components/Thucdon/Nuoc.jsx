@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { useOutletContext } from "react-router-dom"; // để lấy addToCart từ context
 import "./thucdon.css";
 
-class Bo extends Component {
+class Nuoc extends Component {
   constructor(props) {
     super(props);
     this.state = {
       foods: [],
-      categories: [],
-      selectedCategoryId: null, // lưu id category (vd: id của "Bò Mỹ")
+      selectedCategoryId: null, // id của category "Thức uống"
     };
   }
 
@@ -17,25 +17,25 @@ class Bo extends Component {
     this.fetchFoods();
   }
 
-  // Lấy danh sách category
+  // Lấy categories từ API
   fetchCategories = () => {
     axios
       .get("http://127.0.0.1:8000/api/categories")
       .then((res) => {
         const categories = res.data;
-
-        // Tìm category "Bò Mỹ" -> lấy id
-        const boMy = categories.find((c) => c.name === "Nước");
+        // Tìm category "Thức uống"
+        const nuocCategory = categories.find(
+          (c) => c.name.toLowerCase() === "thức uống"
+        );
 
         this.setState({
-          categories: categories,
-          selectedCategoryId: boMy ? boMy.id : null,
+          selectedCategoryId: nuocCategory ? nuocCategory.id : null,
         });
       })
       .catch((err) => console.error("Fetch categories error:", err));
   };
 
-  // Lấy danh sách món ăn
+  // Lấy danh sách món
   fetchFoods = () => {
     axios
       .get("http://127.0.0.1:8000/api/dishes")
@@ -47,12 +47,15 @@ class Bo extends Component {
 
   render() {
     const { foods, selectedCategoryId } = this.state;
+    const { addToCart } = this.props;
 
-    // Lọc món ăn theo id category
+    // Lọc món theo category_id
     const filteredFoods = foods.filter((food) => {
-      if (typeof food.category === "object") {
-        return food.category?.id === selectedCategoryId;
+      // Nếu API trả về food.category là object
+      if (typeof food.category === "object" && food.category !== null) {
+        return food.category.id === selectedCategoryId;
       }
+      // Nếu API trả về food.category_id
       return food.category_id === selectedCategoryId;
     });
 
@@ -60,7 +63,18 @@ class Bo extends Component {
       <div className="menu-td-food">
         {filteredFoods.length > 0 ? (
           filteredFoods.map((food) => (
-            <div key={food.id} className="menu-td-food-item">
+            <div
+              key={food.id}
+              className="menu-td-food-item"
+              onClick={() =>
+                addToCart({
+                  id: food.id,
+                  name: food.name,
+                  price: parseFloat(food.price),
+                  image: food.image,
+                })
+              }
+            >
               <div className="menu-td-wrapper">
                 <img src="/images/bgr1.jpg" alt="Background" className="bg" />
                 <img
@@ -74,11 +88,15 @@ class Bo extends Component {
             </div>
           ))
         ) : (
-          <p>Chưa có món ăn nào.</p>
+          <p>Chưa có món nước nào.</p>
         )}
       </div>
     );
   }
 }
 
-export default Bo;
+// Wrapper để dùng hook trong class component
+export default function NuocWithContext(props) {
+  const { addToCart } = useOutletContext();
+  return <Nuoc {...props} addToCart={addToCart} />;
+}

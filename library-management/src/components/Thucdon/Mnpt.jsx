@@ -1,47 +1,44 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-import './thucdon.css';
+  import React, { Component } from 'react';
+  import axios from 'axios';
+  import { useOutletContext } from "react-router-dom";
+  import './thucdon.css';
 
-class Mnpt extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      foods: []
+  class Mnpt extends Component {
+    constructor(props) {
+      super(props);
+      this.state = { foods: [] };
+    }
+
+    componentDidMount() {
+      this.fetchFoods();
+    }
+
+    fetchFoods = () => {
+      axios.get("http://127.0.0.1:8000/api/dishes")
+        .then(res => this.setState({ foods: res.data }))
+        .catch(err => console.error("Fetch foods error:", err));
     };
-  }
-
-  componentDidMount() {
-    this.fetchFoods();
-  }
-
-  // Hàm fetch dữ liệu từ API
-  fetchFoods = () => {
-    axios.get("http://127.0.0.1:8000/api/dishes")
-      .then(res => {
-        // API trả về mảng dish -> set vào state
-        this.setState({ foods: res.data });
-      })
-      .catch(err => console.error("Fetch foods error:", err));
-  };
 
   render() {
     const { foods } = this.state;
+    const { addToCart } = this.props;
+    console.log("Foods data:", foods); // Kiểm tra dữ liệu
 
-    // Lọc theo category "Món ngon phải thử"
-    const filteredFoods = foods.filter(food => {
-      // Nếu BE trả về object category, phải lấy food.category.name
-      if (typeof food.category === "object") {
-        return food.category?.name === "Món ngon phải thử";
-      }
-      // Nếu BE trả về string category
-      return food.category === "Món ngon phải thử";
-    });
+    if (!addToCart) {
+      console.error("addToCart is not provided as a prop");
+      return <div>Error: addToCart not available</div>;
+    }
 
     return (
       <div className="menu-td-food">
-        {filteredFoods.length > 0 ? (
-          filteredFoods.map((food, index) => (
-            <div key={food.id || index} className="menu-td-food-item">
+        {foods.length > 0 ? (
+          foods.map(food => (
+            <div
+              key={food.id}
+              className="menu-td-food-item"
+            onClick={() => addToCart({ id: food.id, name: food.name, price: food.price, quantity: 1 })}
+
+            >
               <div className="menu-td-wrapper">
                 <img src="/images/bgr1.jpg" alt="Background" className="bg" />
                 <img
@@ -50,17 +47,20 @@ class Mnpt extends Component {
                   className="ct"
                 />
               </div>
-
               <div className="menu-name">{food.name}</div>
               <div className="menu-price">{food.price}đ</div>
             </div>
           ))
         ) : (
-          <p>Chưa có món ăn nào.</p>
+          <p>Đang tải dữ liệu...</p>
         )}
       </div>
     );
   }
-}
+  }
 
-export default Mnpt;
+  // Wrapper để dùng hook trong class
+  export default function MnptWithContext(props) {
+    const { addToCart } = useOutletContext();
+    return <Mnpt {...props} addToCart={addToCart} />;
+  }
