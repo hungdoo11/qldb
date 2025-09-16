@@ -8,6 +8,7 @@ use App\Models\OrderDetail;
 
 use App\Models\Dishes;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller
 {
@@ -61,7 +62,7 @@ class OrderController extends Controller
             ], 201);
         } catch (\Exception $e) {
             DB::rollBack();
-            \Log::error("Order creation failed: " . $e->getMessage());
+            Log::error("Order creation failed: " . $e->getMessage());
             return response()->json([
                 'message' => 'Đặt món thất bại',
                 'error' => $e->getMessage()

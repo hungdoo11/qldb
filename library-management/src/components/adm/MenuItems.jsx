@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState, useEffect } from "react";
 
 function MenuItems() {
@@ -30,20 +31,16 @@ function MenuItems() {
   // Lấy danh sách món ăn
   const fetchMenuItems = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/dishes");
-      const data = await response.json();
-
-      const formattedData = data.map((item) => ({
-        id: item.id, // ✅ giữ id để sửa/xóa
+      const response = await axios.get("http://127.0.0.1:8000/api/dishes");
+      const formattedData = response.data.map((item) => ({
+        id: item.id, 
         name: item.name,
         price: item.price,
         quantity: item.quantity || 1,
-        category: item.category ? item.category.name : "",
+        category: item.category_id ? item.category_name : "",
         category_id: item.category_id,
         status: item.status || "Available",
-        preview: item.image
-          ? `http://127.0.0.1:8000/storage/images/${item.image}`
-          : "",
+        preview: item.image_path
       }));
 
       setMenuItems(formattedData);
@@ -75,60 +72,61 @@ function MenuItems() {
 
   // Thêm hoặc Cập nhật món ăn
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  const formDataToSend = new FormData();
-  formDataToSend.append("name", formData.name);
-  formDataToSend.append("price", formData.price);
-  formDataToSend.append("quantity", formData.quantity);
-  formDataToSend.append("category_id", formData.category_id);
-  formDataToSend.append("status", formData.status);
+    const formDataToSend = new FormData();
+    formDataToSend.append("name", formData.name);
+    formDataToSend.append("price", formData.price);
+    formDataToSend.append("quantity", formData.quantity);
+    formDataToSend.append("category_id", formData.category_id);
+    formDataToSend.append("status", formData.status);
 
-  if (formData.image) {
-    formDataToSend.append("image", formData.image);
-  }
-
-  try {
-    let url = "http://127.0.0.1:8000/api/dishes";
-    let method = "POST";
-
-    if (editingId) {
-      // ✅ Update món ăn
-      url = `http://127.0.0.1:8000/api/dishes/${editingId}`;
-      method = "POST"; 
-      formDataToSend.append("_method", "PUT"); // Laravel sẽ hiểu là PUT
+    if (formData.image) {
+      formDataToSend.append("image", formData.image);
     }
 
-    const response = await fetch(url, {
-      method,
-      body: formDataToSend,
-    });
+    try {
+      let url = "http://127.0.0.1:8000/api/dishes";
+      let method = "POST";
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.error("Validation errors:", errorData);
-      return;
+      if (editingId) {
+        // ✅ Update món ăn
+        url = `http://127.0.0.1:8000/api/dishes/${editingId}`;
+        method = "POST";
+        formDataToSend.append("_method", "PUT"); // Laravel sẽ hiểu là PUT
+      }
+
+      const response = await fetch(url, {
+        method,
+        body: formDataToSend,
+      });
+      console.log(response)
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("Validation errors:", errorData);
+        return;
+      }
+
+      await fetchMenuItems(); // load lại danh sách
+
+      // Reset form
+      setFormData({
+        name: "",
+        price: "",
+        quantity: "",
+        category_id: "",
+        status: "Available",
+        image: null,
+        preview: "",
+      });
+      setEditingId(null);
+      setShowForm(false);
+
+    } catch (err) {
+      console.error("Fetch error:", err);
     }
-
-    await fetchMenuItems(); // load lại danh sách
-
-    // Reset form
-    setFormData({
-      name: "",
-      price: "",
-      quantity: "",
-      category_id: "",
-      status: "Available",
-      image: null,
-      preview: "",
-    });
-    setEditingId(null);
-    setShowForm(false);
-
-  } catch (err) {
-    console.error("Fetch error:", err);
-  }
-};
+  };
 
 
   // Sửa món ăn
@@ -148,23 +146,23 @@ function MenuItems() {
 
   // Xóa món ăn
   const handleDelete = async (id) => {
-  if (!window.confirm("Bạn có chắc muốn xóa món này?")) return;
+    if (!window.confirm("Bạn có chắc muốn xóa món này?")) return;
 
-  try {
-    const response = await fetch(`http://127.0.0.1:8000/api/dishes/${id}`, {
-      method: "DELETE",
-    });
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/api/dishes/${id}`, {
+        method: "DELETE",
+      });
 
-    if (response.ok) {
-      await fetchMenuItems(); // load lại danh sách sau khi xóa
-    } else {
-      const err = await response.json();
-      console.error("Delete error:", err);
+      if (response.ok) {
+        await fetchMenuItems(); // load lại danh sách sau khi xóa
+      } else {
+        const err = await response.json();
+        console.error("Delete error:", err);
+      }
+    } catch (err) {
+      console.error("Fetch error:", err);
     }
-  } catch (err) {
-    console.error("Fetch error:", err);
-  }
-};
+  };
 
 
   return (
