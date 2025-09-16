@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Dish;
 use App\Models\Dishes;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class DishController extends Controller
@@ -12,13 +13,15 @@ class DishController extends Controller
     // Lấy tất cả món ăn
     public function index()
     {
-        $dishes = Dishes::with('category')->get();
-
+        $url = config('app.url');
+        $dishes = Dishes::join('categories as c', 'dishes.category_id', 'c.id')
+        ->select('dishes.*', 'c.name as category_name',
+        DB::raw("CONCAT('$url/',dishes.image) as image_path"))
+        ->get();
         return response()->json($dishes);
     }
 
 
-    // ✅ Thêm món ăn
     public function store(Request $request)
     {
 
@@ -26,7 +29,7 @@ class DishController extends Controller
             'name' => 'required|string',
             'price' => 'required|numeric',
             'quantity' => 'required|integer',
-            'category_id' => 'required|integer', // ✅
+            'category_id' => 'required|integer', 
             'status' => 'required|string',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
@@ -43,7 +46,7 @@ class DishController extends Controller
             'quantity' => $request->quantity,
             'category_id' => $request->category_id,
             'status' => $request->status,
-            'image' => $imageName
+            'image' => 'storage/images/'. $imageName
         ]);
 
 

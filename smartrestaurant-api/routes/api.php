@@ -8,7 +8,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OrderController;
 
 
-Route::apiResource('dishes', DishController::class);
+// Route::apiResource('dishes', DishController::class);
 Route::apiResource('users', UserController::class);
 
 // routes/api.php
@@ -33,8 +33,8 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/admin/login', [AuthController::class, 'loginAdmin']);
 
 
-// Route::get('/dishes', [DishController::class, 'index']);
-// Route::post('/dishes', [DishController::class, 'store']); // 👉 thêm món
+Route::get('/dishes', [DishController::class, 'index']);
+Route::post('/dishes', [DishController::class, 'store']); 
 
 
 Route::get('/categories', [CategoryController::class, 'index']);

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { useOutletContext } from "react-router-dom";
-import "./thucdon.css";
+import "./menu.css";
 
 class Com extends Component {
   constructor(props) {
