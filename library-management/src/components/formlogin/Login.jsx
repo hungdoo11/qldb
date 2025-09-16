@@ -22,17 +22,19 @@ function Login() {
 
     try {
       const res = await axios.post("http://127.0.0.1:8000/api/login", formData);
-      alert(res.data.message);
+      console.log(res)
+      // alert(res.data.message);
 
-      localStorage.setItem("user", JSON.stringify(res.data.user));
+      // localStorage.setItem("user", JSON.stringify(res.data.user));
 
-      if (res.data.user.level === 1) {
-        navigate("/admin"); // 👉 Admin
-      } else {
-        navigate("/"); // 👉 User
-      }
+      // if (res.data.user.level === 1) {
+      //   navigate("/admin"); 
+      // } else {
+      //   navigate("/"); 
+      // }
     } catch (err) {
-      alert(err.response?.data?.message || "Đăng nhập thất bại");
+      console.log(err)
+      // alert(err.response?.data?.message || "Đăng nhập thất bại");
     }
   };
 
@@ -44,8 +46,8 @@ function Login() {
 
         <form onSubmit={handleLogin} className="login-form">
           <input
-            type="email"
-            placeholder="Email"
+            type="text"
+            placeholder="Email or User_name"
             name="email"
             value={formData.email}
             onChange={handleChange}
