@@ -1,6 +1,5 @@
 import React from 'react';
-import Header from '../header/Header';
-import Footer from '../footer/Footer'; // Đảm bảo đường dẫn đúng
+import Header from '../header/Header'; // Đảm bảo đường dẫn đúng
 import { Outlet } from 'react-router-dom';
 
 function MainLayout({ cart, addToCart }) {
@@ -10,7 +9,6 @@ function MainLayout({ cart, addToCart }) {
       <main>
         <Outlet context={{ cart, addToCart }} /> {/* Truyền props qua Outlet */}
       </main>
-       <Footer />
     </>
   );
 }

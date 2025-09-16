@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 // Layouts
@@ -8,19 +8,19 @@ import AdminLayout from "./components/adm/AdminLayout";
 // FE pages
 import Login from "./components/formlogin/Login";
 import Register from "./components/formlogin/Register";
-import Home from './components/page/Home';
-import About from './components/about/About';
-import Discount from './components/discount/Discount';
-import Service from './components/Service/Service';
-import Thucdon from './components/Thucdon/Thucdon';
-import Bo from './components/Thucdon/Bo';
-import Heo from './components/Thucdon/Heo';
-import Com from './components/Thucdon/Com';
-import Nuoc from './components/Thucdon/Nuoc';
-import Sinhnhat from './components/Servicefood/Sinhnhat';
-import Snmenu from './components/Servicefood/Snmenu';
-import Tv from './components/Servicefood/Tv';
-import Vip from './components/Servicefood/Vip';
+import Home from "./components/page/Home";
+import About from "./components/about/About";
+import Discount from "./components/discount/Discount";
+import Service from "./components/Service/Service";
+import Thucdon from "./components/Thucdon/Thucdon";
+import Bo from "./components/Thucdon/Bo";
+import Heo from "./components/Thucdon/Heo";
+import Com from "./components/Thucdon/Com";
+import Nuoc from "./components/Thucdon/Nuoc";
+import Sinhnhat from "./components/Servicefood/Sinhnhat";
+import Snmenu from "./components/Servicefood/Snmenu";
+import Tv from "./components/Servicefood/Tv";
+import Vip from "./components/Servicefood/Vip";
 
 // Admin pages
 import AdminDashboard from "./components/adm/AdminDashboard";
@@ -33,8 +33,8 @@ import Categories from "./components/adm/Categories";
 import Customers from "./components/adm/Customers";
 import Tables from "./components/adm/Tables";
 
-// API demo
-import DishList from "./components/api/DishList";
+// shield
+import ProtectedRoute from "./components/shield/ProtectedRoute";
 
 function App() {
   const [cart, setCart] = useState([]);
@@ -54,29 +54,34 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-
-        {/* Main Layout (User FE) */}
+        {/* Public + FE Layout */}
         <Route element={<MainLayout cart={cart} addToCart={addToCart} />}>
-          <Route index element={<Home />} />
-          <Route path="login" element={<Login />} />
-          <Route path="register" element={<Register />} />
-          <Route path="about" element={<About />} />
-          <Route path="discount" element={<Discount />} />
-          <Route path="service" element={<Service />} />
-          <Route path="thucdon" element={<Thucdon />} />
-          <Route path="bo" element={<Bo />} />
-          <Route path="heo" element={<Heo />} />
-          <Route path="com" element={<Com />} />
-          <Route path="nuoc" element={<Nuoc />} />
-          <Route path="sn" element={<Sinhnhat />} />
-          <Route path="snmn" element={<Snmenu />} />
-          <Route path="tv" element={<Tv />} />
-          <Route path="vip" element={<Vip />} />
-          <Route path="dishes" element={<DishList />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/discount" element={<Discount />} />
+          <Route path="/service" element={<Service />} />
+          <Route path="/thucdon" element={<Thucdon />} />
+          <Route path="/bo" element={<Bo />} />
+          <Route path="/heo" element={<Heo />} />
+          <Route path="/com" element={<Com />} />
+          <Route path="/nuoc" element={<Nuoc />} />
+          <Route path="/sn" element={<Sinhnhat />} />
+          <Route path="/snmn" element={<Snmenu />} />
+          <Route path="/tv" element={<Tv />} />
+          <Route path="/vip" element={<Vip />} />
         </Route>
 
-        {/* Admin Layout */}
-        <Route path="/admin" element={<AdminLayout />}>
+        {/* Admin Layout (chỉ admin level=1) */}
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute allowedRoles={[1]}>
+              <AdminLayout />
+            </ProtectedRoute>
+          }
+        >
           <Route index element={<AdminDashboard />} />
           <Route path="menuitems" element={<MenuItems />} />
           <Route path="orders" element={<Orders />} />
@@ -87,7 +92,6 @@ function App() {
           <Route path="customers" element={<Customers />} />
           <Route path="tables" element={<Tables />} />
         </Route>
-
       </Routes>
     </BrowserRouter>
   );

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import "./admin.css"; // để css cho popup
+import api from "../api/Api"; // ✅ import từ file api.js
+import "./admin.css";
 
 export default function Customers() {
   const [customers, setCustomers] = useState([]);
@@ -11,23 +11,19 @@ export default function Customers() {
     phone: "",
   });
 
-  // Load danh sách users
-  const fetchCustomers = () => {
-    axios
-      .get("http://127.0.0.1:8000/api/users")
-      .then((res) => {
-        setCustomers(res.data);
-      })
-      .catch((err) => {
-        console.error("Lỗi khi load users:", err);
-      });
+  const fetchCustomers = async () => {
+    try {
+      const res = await api.get("/users");
+      setCustomers(res);
+    } catch (err) {
+      console.error("Lỗi khi load users:", err);
+    }
   };
 
   useEffect(() => {
     fetchCustomers();
   }, []);
 
-  // Khi bấm nút "Sửa" → hiện box
   const handleEdit = (customer) => {
     setEditingCustomer(customer.id);
     setFormData({
@@ -37,31 +33,28 @@ export default function Customers() {
     });
   };
 
-  // Khi bấm nút "Xóa"
   const handleDelete = async (id) => {
     if (!window.confirm("Bạn có chắc muốn xóa khách hàng này?")) return;
-
     try {
-      await axios.delete(`http://127.0.0.1:8000/api/users/${id}`);
+      await api.delete(`/users/${id}`);
       fetchCustomers();
     } catch (err) {
       console.error("Lỗi khi xóa:", err);
     }
   };
 
-  // Lưu khi sửa
   const handleSave = async () => {
     try {
-      await axios.put(
-        `http://127.0.0.1:8000/api/users/${editingCustomer}`,
-        formData
-      );
+      await api.put(`/users/${editingCustomer}`, formData);
       setEditingCustomer(null);
       fetchCustomers();
     } catch (err) {
       console.error("Lỗi khi lưu:", err);
     }
   };
+
+
+
 
   return (
     <div>

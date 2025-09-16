@@ -6,7 +6,7 @@ class Banner extends Component {
             <img
                 className="about-banner"
                 src="./images/baner2.jpg"
-                alt="Banner FOOD"
+                alt="Banner Jollibee"
             />
             <div className="about-content">
                 <h2>FOOD, XIN CHÀO</h2>

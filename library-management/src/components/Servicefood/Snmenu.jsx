@@ -28,7 +28,7 @@ class Snmenu extends Component {
     {/* Combo C */}
     <div className="combo-card">
       <img src="/images/combo3.jpg" alt="Combo C" />
-      <h3>PHẦN C FOOD (10 NGƯỜI)</h3>
+      <h3>PHẦN C JOLLIBEE (10 NGƯỜI)</h3>
       <p className="price">1,150,000 đ</p>
       <button className="btn-order">ĐẶT HÀNG</button>
     </div>

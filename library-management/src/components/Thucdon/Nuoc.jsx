@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import axios from "axios";
+import api from "../api/Api";
 import { useOutletContext } from "react-router-dom"; // để lấy addToCart từ context
 import "./menu.css";
 
@@ -18,31 +18,27 @@ class Nuoc extends Component {
   }
 
   // Lấy categories từ API
-  fetchCategories = () => {
-    axios
-      .get("http://127.0.0.1:8000/api/categories")
-      .then((res) => {
-        const categories = res.data;
-        // Tìm category "Thức uống"
-        const nuocCategory = categories.find(
-          (c) => c.name.toLowerCase() === "thức uống"
-        );
-
-        this.setState({
-          selectedCategoryId: nuocCategory ? nuocCategory.id : null,
-        });
-      })
-      .catch((err) => console.error("Fetch categories error:", err));
+    fetchCategories = async () => {
+    try {
+      const categories = await api.get("/categories");
+      const Nuoc = categories.find((c) => c.name === "Thức uống");
+      this.setState({
+        categories,
+        selectedCategoryId: Nuoc ? Nuoc.id : null,
+      });
+    } catch (err) {
+      console.error("Fetch categories error:", err);
+    }
   };
 
   // Lấy danh sách món
-  fetchFoods = () => {
-    axios
-      .get("http://127.0.0.1:8000/api/dishes")
-      .then((res) => {
-        this.setState({ foods: res.data });
-      })
-      .catch((err) => console.error("Fetch foods error:", err));
+ fetchFoods = async () => {
+    try {
+      const foods = await api.get("/dishes");
+      this.setState({ foods });
+    } catch (err) {
+      console.error("Fetch foods error:", err);
+    }
   };
 
   render() {

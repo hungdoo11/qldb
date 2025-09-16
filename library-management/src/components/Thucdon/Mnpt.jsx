@@ -1,5 +1,5 @@
   import React, { Component } from 'react';
-  import axios from 'axios';
+import api from "../api/Api";
   import { useOutletContext } from "react-router-dom";
   import './menu.css';
 
@@ -13,11 +13,14 @@
       this.fetchFoods();
     }
 
-    fetchFoods = () => {
-      axios.get("http://127.0.0.1:8000/api/dishes")
-        .then(res => this.setState({ foods: res.data }))
-        .catch(err => console.error("Fetch foods error:", err));
-    };
+  fetchFoods = async () => {
+    try {
+      const foods = await api.get("/dishes");
+      this.setState({ foods });
+    } catch (err) {
+      console.error("Fetch foods error:", err);
+    }
+  };
 
   render() {
     const { foods } = this.state;

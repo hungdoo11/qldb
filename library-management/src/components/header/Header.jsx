@@ -140,7 +140,7 @@ const handleOrder = async () => {
           </div>
         ))}
 
-        
+        {/* Thêm tổng tiền ở đây */}
         <div className="cart-total">
           Tổng:{" "}
           {cart
@@ -159,7 +159,7 @@ const handleOrder = async () => {
   </div>
 </div>
 
-         
+          {/* Search */}
           <FaSearch className="icon" />
 
           {/* Tài khoản */}

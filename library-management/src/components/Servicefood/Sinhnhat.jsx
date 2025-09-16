@@ -18,10 +18,10 @@ class Sinhnhat extends Component {
             <div className="slide-text">
               <h2>TIỆC VUI THẢ GA – ĂN NGON CỰC ĐÃ</h2>
               <p>
-                FOOD luôn muốn làm điều tốt đẹp nhất cho người mà FOOD yêu quý
+                Jollibee luôn muốn làm điều tốt đẹp nhất cho người mà Jollibee yêu quý
                 nhất, còn bạn thì sao? Người bạn yêu quý nhất có phải là những thiên
                 thần bé bỏng nhà mình? Bạn có muốn làm điều gì đó thật đặc biệt cho
-                sinh nhật con bạn không? Nếu có thì hãy bắt tay với FOOD để thực
+                sinh nhật con bạn không? Nếu có thì hãy bắt tay với Jollibee để thực
                 hiện kế hoạch này nhé!
               </p>
               <button className="btn-order">ĐẶT TIỆC NGAY</button>
@@ -38,7 +38,7 @@ class Sinhnhat extends Component {
         <div className="combo-section">
           <div className="combo-box">
             <div className="combo-left">
-              <img src="/images/food1.png" alt="Combo FOOD" />
+              <img src="/images/food1.png" alt="Combo Jollibee" />
             </div>
 
             <div className="combo-right">

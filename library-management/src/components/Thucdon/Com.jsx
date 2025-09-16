@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import axios from "axios";
+import api from "../api/Api";
 import { useOutletContext } from "react-router-dom";
 import "./menu.css";
 
@@ -18,25 +18,26 @@ class Com extends Component {
     this.fetchFoods();
   }
 
-  fetchCategories = () => {
-    axios.get("http://127.0.0.1:8000/api/categories")
-      .then((res) => {
-        const categories = res.data;
-        const Com = categories.find((c) => c.name === "Cơm");
-        this.setState({
-          categories: categories,
-          selectedCategoryId: Com ? Com.id : null,
-        });
-      })
-      .catch((err) => console.error("Fetch categories error:", err));
+    fetchCategories = async () => {
+    try {
+      const categories = await api.get("/categories");
+      const Com = categories.find((c) => c.name === "Cơm");
+      this.setState({
+        categories,
+        selectedCategoryId: Com ? Com.id : null,
+      });
+    } catch (err) {
+      console.error("Fetch categories error:", err);
+    }
   };
 
-  fetchFoods = () => {
-    axios.get("http://127.0.0.1:8000/api/dishes")
-      .then((res) => {
-        this.setState({ foods: res.data });
-      })
-      .catch((err) => console.error("Fetch foods error:", err));
+ fetchFoods = async () => {
+    try {
+      const foods = await api.get("/dishes");
+      this.setState({ foods });
+    } catch (err) {
+      console.error("Fetch foods error:", err);
+    }
   };
 
   render() {
