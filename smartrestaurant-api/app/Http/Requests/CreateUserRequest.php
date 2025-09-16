@@ -24,25 +24,21 @@ class CreateUserRequest extends FormRequest
     public function rules()
     {
         return [
+             'name' => 'required|string|max:255',
+            'email' => 'required|string|email|unique:customers',
+            'phone' => 'unique:customers',
+            'password' => 'required|string|min:6',
             'birthday' => 'before_or_equal:today',
-            'avatar' => 'mimes:jpg,png,jpeg',
-            'password' => 'max:12',
-            'address' => 'regex:/^[A-Za-z0-9À-ỹ,\s\W]+$/',
-            'user_name' => 'unique:users',
-            'phone' => 'digits:10',
-            'name' => 'regex:/^[A-Za-zÀ-ỹ\s]+$/'
         ];
     }
     public function messages()
     {
         return [
             'birthday.before_or_equal' => 'Ngày tháng năm sinh không hợp lệ',
-            'avatar.mimes' => 'Kiểu ảnh không đúng định dạng',
-            'password.max' => 'Đã vượt quá 12 kí tự',
-            'address.regex' => 'Không được có kí tự đặt biệt',
-            'user_name.unique' => 'Không được trùng tên',
-            'phone.digits' => 'Số điện thoại quy định 10 số',
-            'name.regex' => 'Tên chỉ bao gồm chữ cái'
+            'password.min' => 'Mật khấu tối thiểu 6 kí tự',
+            'email.unique' => 'Email đã tồn tại.',
+            'phone.unique' => 'Số điện thoại đã tồn tại',
+            'name.string' => 'Tên chỉ bao gồm chữ cái'
         ];
     }
 }

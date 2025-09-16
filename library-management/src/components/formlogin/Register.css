@@ -92,3 +92,40 @@ body {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
+/* Khi input có lỗi */
+.input-error {
+  border-color: #ef4444 !important;
+  background: #fff5f5; /* nền nhạt đỏ cho dễ nhận diện */
+}
+
+.error-text {
+  color: #ef4444;         /* đỏ cảnh báo */
+  font-size: 13px;        /* chữ nhỏ */
+  margin-top: 4px;        /* cách input 1 chút */
+  text-align: left;       /* căn trái */
+  padding-left: 4px;      /* lùi nhẹ sang phải cho cân */
+}
+
+/* Gom nhóm input + error cho cân đối */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 14px;
+}
+
+/* Input mặc định */
+.register-form input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  outline: none;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+/* Input khi focus */
+.register-form input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
