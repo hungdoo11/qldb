@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import "./Register.css";
 
 function Register() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
-    email: "",
-    password: ""
+    phone: "",
+    email: ""
   });
 
   const handleChange = (e) => {
@@ -30,18 +31,48 @@ function Register() {
   };
 
   return (
-    <div>
-      <h2>Đăng ký</h2>
-      <form onSubmit={handleSubmit}>
-        <input type="text" placeholder="Tên đăng nhập" name="name"
-          value={formData.name} onChange={handleChange} required /><br />
-        <input type="email" placeholder="Email" name="email"
-          value={formData.email} onChange={handleChange} required /><br />
-        <input type="password" placeholder="Mật khẩu" name="password"
-          value={formData.password} onChange={handleChange} required /><br />
-        <button type="submit">Đăng ký</button>
-      </form>
-      <p>Bạn đã có tài khoản? <Link to="/login">Đăng nhập</Link></p>
+    <div className="register-container">
+      <div className="register-card">
+        <h2 className="register-title">🍴 Đăng ký thành viên</h2>
+        <p className="register-subtitle">Đặt món nhanh hơn khi có tài khoản</p>
+
+        <form onSubmit={handleSubmit} className="register-form">
+          <input
+            type="text"
+            placeholder="Họ và tên"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+          />
+
+          <input
+            type="text"
+            placeholder="Số điện thoại"
+            name="phone"
+            value={formData.phone}
+            onChange={handleChange}
+            required
+          />
+
+          <input
+            type="email"
+            placeholder="Email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
+
+          <button type="submit" className="register-btn">
+            Đăng ký
+          </button>
+        </form>
+
+        <p className="register-footer">
+          Bạn đã có tài khoản? <Link to="/login">Đăng nhập</Link>
+        </p>
+      </div>
     </div>
   );
 }
