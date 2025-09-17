@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminTableController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DishController;
@@ -8,10 +9,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OrderController;
 
 
-// Route::apiResource('dishes', DishController::class);
 Route::apiResource('users', UserController::class);
 
-// routes/api.php
 
 Route::post('/orders', [OrderController::class, 'store']);
 Route::get('/orders', [OrderController::class, 'index']);
@@ -30,7 +29,6 @@ Route::get('/hello', function () {
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
-Route::post('/admin/login', [AuthController::class, 'loginAdmin']);
 
 
 Route::get('/dishes', [DishController::class, 'index']);
@@ -39,4 +37,6 @@ Route::post('/dishes', [DishController::class, 'store']);
 
 Route::get('/categories', [CategoryController::class, 'index']);
 
-// Route::get('/users', [UserController::class, 'index']);
+Route::prefix('admin')->group(function(){
+    Route::get('/tables', [AdminTableController::class, 'index']);
+});
