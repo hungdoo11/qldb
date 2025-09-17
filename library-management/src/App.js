@@ -18,8 +18,8 @@ import Heo from "./components/Thucdon/Heo";
 import Com from "./components/Thucdon/Com";
 import Nuoc from "./components/Thucdon/Nuoc";
 import Sinhnhat from "./components/Servicefood/Sinhnhat";
-import Snmenu from "./components/Servicefood/Snmenu";
-import Tv from "./components/Servicefood/Tv";
+import SinhNhatMenu from "./components/Servicefood/SinhNhatMenu";
+import ThanhVien from "./components/Servicefood/ThanhVien";
 import Vip from "./components/Servicefood/Vip";
 
 // Admin pages
@@ -68,8 +68,8 @@ function App() {
           <Route path="/com" element={<Com />} />
           <Route path="/nuoc" element={<Nuoc />} />
           <Route path="/sn" element={<Sinhnhat />} />
-          <Route path="/snmn" element={<Snmenu />} />
-          <Route path="/tv" element={<Tv />} />
+          <Route path="/snmn" element={<SinhNhatMenu />} />
+          <Route path="/tv" element={<ThanhVien />} />
           <Route path="/vip" element={<Vip />} />
         </Route>
 

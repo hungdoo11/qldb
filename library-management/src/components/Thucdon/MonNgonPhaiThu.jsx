@@ -3,7 +3,7 @@ import api from "../api/Api";
   import { useOutletContext } from "react-router-dom";
   import './menu.css';
 
-  class Mnpt extends Component {
+  class MonNgonPhaiThu extends Component {
     constructor(props) {
       super(props);
       this.state = { foods: [] };
@@ -63,7 +63,7 @@ import api from "../api/Api";
   }
 
   // Wrapper để dùng hook trong class
-  export default function MnptWithContext(props) {
+  export default function MonNgonPhaiThuWithContext(props) {
     const { addToCart } = useOutletContext();
-    return <Mnpt {...props} addToCart={addToCart} />;
+    return <MonNgonPhaiThu {...props} addToCart={addToCart} />;
   }

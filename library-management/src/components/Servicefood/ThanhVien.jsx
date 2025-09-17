@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
-class Tv extends Component {
+class ThanhVien extends Component {
     render() {
         return (
               <div>
@@ -39,4 +39,4 @@ class Tv extends Component {
     }
 }
 
-export default Tv;
+export default ThanhVien;

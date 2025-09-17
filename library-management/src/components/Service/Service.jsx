@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import Baner from './Baner';
-import Svmenu from './Svmenu';
+import ServiceMenu from './ServiceMenu';
 class Service extends Component {
     render() {
         return (
             <div>
                 <Baner/>
-                <Svmenu/>
+                <ServiceMenu/>
             </div>
         );
     }

@@ -1,6 +1,6 @@
 import React from "react";
 import { useOutletContext } from "react-router-dom";
-import Mnpt from "./Mnpt";
+import MonNgonPhaiThu from "./MonNgonPhaiThu";
 
 function Thucdon() {
   const { addToCart } = useOutletContext(); // lấy từ MainLayout
@@ -8,7 +8,7 @@ function Thucdon() {
   return (
     <div>
       
-      <Mnpt addToCart={addToCart} />
+      <MonNgonPhaiThu addToCart={addToCart} />
     </div>
   );
 }
