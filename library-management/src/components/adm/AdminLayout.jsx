@@ -6,7 +6,7 @@ export default function AdminLayout() {
   return (
     <div className="admin-layout">
       <aside className="admin-sidebar">
-        <h2>FOOD</h2>
+        <h2></h2>
         {/* <ul>
           <li><Link to="/admin">Dashboard</Link></li>
           <li><Link to="/admin/menuitems">Quản lý Món ăn</Link></li>
