@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Title from './Title'
-import Aboutmn from './Aboutmn';
+import AboutMenu from './AboutMenu';
 import Noidung from './Noidung';
 import GiaTri from './Giatri';
 class About extends Component {
@@ -8,7 +8,7 @@ class About extends Component {
         return (
             <div>
                 <Title/>
-                <Aboutmn/>
+                <AboutMenu/>
                 <Noidung/>
                 <GiaTri/>
             </div>
