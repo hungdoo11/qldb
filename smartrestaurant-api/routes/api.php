@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminOrderController;
 use App\Http\Controllers\Admin\AdminTableController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
@@ -39,4 +40,5 @@ Route::get('/categories', [CategoryController::class, 'index']);
 
 Route::prefix('admin')->group(function(){
     Route::get('/tables', [AdminTableController::class, 'index']);
+    Route::get('/statistical-renuve', [AdminOrderController::class, 'renuve']);
 });
