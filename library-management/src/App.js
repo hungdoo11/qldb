@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 // Layouts
 import MainLayout from "./components/layout/MainLayout";
-import AdminLayout from "./components/adm/AdminLayout";
+import AdminLayout from "./components/layout/AdminLayout";
 
 // FE pages
 import Login from "./components/formlogin/Login";
@@ -32,6 +32,11 @@ import Revenue from "./components/adm/Revenue";
 import Categories from "./components/adm/Categories";
 import Customers from "./components/adm/Customers";
 import Tables from "./components/adm/Tables";
+
+//add form
+import MenuItemFormPage from "./components/addform/MenuItemFormPage";
+import TableFormPage from "./components/addform/TableFormPage";
+
 
 // shield
 import ProtectedRoute from "./components/shield/ProtectedRoute";
@@ -77,7 +82,7 @@ function App() {
         <Route
           path="/admin"
           element={
-            <ProtectedRoute allowedRoles={[1]}>
+            <ProtectedRoute allowedRoles={["admin"]}>
               <AdminLayout />
             </ProtectedRoute>
           }
@@ -92,6 +97,17 @@ function App() {
           <Route path="customers" element={<Customers />} />
           <Route path="tables" element={<Tables />} />
         </Route>
+
+        {/* addform */}
+
+        {/* tables */}
+
+        <Route path="/admin/tables/add" element={<TableFormPage />} />
+        <Route path="/admin/tables/edit/:id" element={<TableFormPage />} />
+        {/* menuiteam */}
+        <Route path="/admin/menuitems/creat" element={<MenuItemFormPage />} />
+        <Route path="/admin/menuitems/edit/:id" element={<MenuItemFormPage />} />
+
       </Routes>
     </BrowserRouter>
   );
