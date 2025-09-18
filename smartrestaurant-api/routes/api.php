@@ -34,6 +34,10 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::get('/dishes', [DishController::class, 'index']);
 Route::post('/dishes', [DishController::class, 'store']);
+Route::put('dishes/{dish}', [DishController::class, 'update']);
+Route::delete('/dishes/{id}', [DishController::class, 'destroy']);
+
+
 
 
 Route::get('/categories', [CategoryController::class, 'index']);
