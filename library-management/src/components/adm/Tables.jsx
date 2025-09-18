@@ -85,13 +85,15 @@ const closeDetail = () => {
   if (error) return <p style={{ color: "red" }}>{error}</p>;
 
   return (
-    <div className="admin-container">
+    <div className="">
+
       <h2 className="admin-title">Danh sách bàn</h2>
+    <div className="admin-container">
 
       {/* nút thêm bàn */}
-      <button className="btn-confirm" onClick={() => navigate("/admin/tables/add")}>
+      {/* <button className="btn-confirm" onClick={() => navigate("/admin/tables/add")}>
         + Thêm bàn
-      </button>
+      </button> */}
 
       <div className="tables-grid">
         {tables.length > 0 ? (
@@ -175,6 +177,7 @@ const closeDetail = () => {
           <p>Không có bàn nào</p>
         )}
       </div>
+    </div>
     </div>
   );
 }

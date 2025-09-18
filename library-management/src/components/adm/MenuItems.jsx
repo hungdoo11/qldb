@@ -43,9 +43,9 @@ function MenuItems() {
     <div className="menu-container">
       <div className="menu-header">
         <h2>Danh Sách Món Ăn</h2>
-        <button className="btn-add" onClick={() => navigate("/admin/menuitems/creat")}>
+        {/* <button className="btn-add" onClick={() => navigate("/admin/menuitems/creat")}>
           + Thêm Món Ăn
-        </button>
+        </button> */}
       </div>
 
       <table className="menu-table">
