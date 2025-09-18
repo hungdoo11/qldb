@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import './discount.css'
+
 class Menu extends Component {
     render() {
         return (

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './discount.css'
 class Banner extends Component {
     render() {
         return (
