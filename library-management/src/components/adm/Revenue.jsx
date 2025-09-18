@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   BarChart,
   Bar,
@@ -8,17 +8,28 @@ import {
   CartesianGrid,
   ResponsiveContainer,
 } from "recharts";
+import axios from "axios";
 import "./admin.css";
 
 export default function Revenue() {
-  const data = [
-    { month: "Tháng 1", revenue: 12000000, orders: 150 },
-    { month: "Tháng 2", revenue: 15000000, orders: 180 },
-    { month: "Tháng 3", revenue: 17000000, orders: 200 },
-    { month: "Tháng 4", revenue: 14000000, orders: 170 },
-    { month: "Tháng 5", revenue: 20000000, orders: 220 },
-    { month: "Tháng 6", revenue: 22000000, orders: 250 },
-  ];
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://127.0.0.1:8000/api/admin/statistical-renuve")
+      .then((response) => {
+        // Chuyển đổi dữ liệu từ API
+        const formatted = response.data.map((item) => ({
+          month: item.month,
+          revenue: parseInt(item.renuve, 10), // đổi "renuve" -> "revenue"
+          orders: item.orders,
+        }));
+        setData(formatted);
+      })
+      .catch((error) => {
+        console.error("Lỗi khi fetch dữ liệu:", error);
+      });
+  }, []);
 
   return (
     <div className="admin-container">

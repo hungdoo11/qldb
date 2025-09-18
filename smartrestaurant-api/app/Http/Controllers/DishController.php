@@ -23,11 +23,11 @@ class DishController extends Controller
             ->get();
         return response()->json($dishes);
     }
-
-
+    
+    
     public function store(Request $request)
     {
-
+        
         $request->validate([
             'name' => 'required|string',
             'price' => 'required|numeric',
@@ -36,7 +36,6 @@ class DishController extends Controller
             'status' => 'required|string',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
-
 
         $imageName = null;
         if ($request->hasFile('image')) {

@@ -32,12 +32,15 @@ function MenuItemFormPage() {
         ...prev,
         [name]: value,
       }));
+      console.log(formData.image)
     }
   };
   const fetchCategories = async () => {
     try {
+
       const res = await api.get("/categories");
       setCategories(res);
+
     } catch (err) {
       console.error("Fetch categories error:", err);
     }

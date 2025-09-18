@@ -33,6 +33,7 @@ Route::post('/login', [AuthController::class, 'login']);
 
 
 Route::get('/dishes', [DishController::class, 'index']);
+
 Route::post('/dishes', [DishController::class, 'store']);
 Route::put('dishes/{dish}', [DishController::class, 'update']);
 Route::delete('/dishes/{id}', [DishController::class, 'destroy']);
@@ -40,9 +41,12 @@ Route::delete('/dishes/{id}', [DishController::class, 'destroy']);
 
 
 
+
 Route::get('/categories', [CategoryController::class, 'index']);
 
 Route::prefix('admin')->group(function () {
+    //dishes
+    Route::post('/dishes', [DishController::class, 'store']);
     Route::get('/tables', [AdminTableController::class, 'index']);
     Route::apiResource('tables', AdminTableController::class);
     Route::get('/statistical-renuve', [AdminOrderController::class, 'renuve']);
