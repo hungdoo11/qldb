@@ -33,12 +33,13 @@ Route::post('/login', [AuthController::class, 'login']);
 
 
 Route::get('/dishes', [DishController::class, 'index']);
-Route::post('/dishes', [DishController::class, 'store']);
 
 
 Route::get('/categories', [CategoryController::class, 'index']);
 
 Route::prefix('admin')->group(function () {
+    //dishes
+    Route::post('/dishes', [DishController::class, 'store']);
     Route::get('/tables', [AdminTableController::class, 'index']);
     Route::apiResource('tables', AdminTableController::class);
     Route::get('/statistical-renuve', [AdminOrderController::class, 'renuve']);

@@ -63,6 +63,7 @@ function MenuItemFormPage() {
         ...prev,
         [name]: value,
       }));
+      console.log(formData.image)
     }
   };
 
@@ -81,9 +82,14 @@ function MenuItemFormPage() {
         fd.append("_method", "PUT");
         await api.post(`/dishes/${id}`, fd);
       } else {
-        await api.post("/dishes", fd);
+        await api.post("/admin/dishes", fd, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        
       }
-      navigate("/admin/menuitems"); // quay lại danh sách sau khi lưu
+      navigate("/admin/menuitems"); 
     } catch (err) {
       console.error("Lỗi khi lưu:", err);
     }
