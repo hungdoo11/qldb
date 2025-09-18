@@ -384,24 +384,188 @@ body {
 }
 
 /* Box hiển thị */
-.popup-box {
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  width: 350px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+.tables-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* luôn 3 cột */
+  gap: 20px; /* khoảng cách giữa các bàn */
+  margin-top: 20px;
 }
 
-.popup-box input {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+.table-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  min-height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
+
 
 .popup-actions {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
+}
+/* menuiteam */
+
+.menu-container {
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.menu-header h2 {
+  margin: 0;
+  font-size: 22px;
+  color: #333;
+}
+
+.btn-add {
+  background: #28a745;
+  color: white;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.3s;
+}
+.btn-add:hover {
+  background: #218838;
+}
+
+.menu-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: rgb(228, 221, 228);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.menu-table th, .menu-table td {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+}
+
+.menu-table th {
+  background: #007bff;
+  color: white;
+  font-weight: 600;
+}
+
+.menu-table tr:hover {
+  background: #f1f1f1;
+}
+
+.menu-img {
+  width: 70px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+
+.btn-edit, .btn-delete {
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin: 0 4px;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.btn-edit {
+  background: #ffc107;
+  color: #333;
+}
+.btn-edit:hover {
+  background: #e0a800;
+}
+
+.btn-delete {
+  background: #dc3545;
+  color: white;
+}
+.btn-delete:hover {
+  background: #c82333;
+}
+
+.status {
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.status-available {
+  background: #d4edda;
+  color: #155724;
+}
+.status-unavailable {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+
+.admin-home-link {
+      /* giữ màu trắng */
+  text-decoration: none; /* bỏ gạch chân */
+}
+
+.admin-home-link:hover {
+  text-decoration: none; /* có thể thêm hiệu ứng hover */
+}
+/* tb model */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* background: rgba(245, 243, 243, 0.5); */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-box {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 600px;
+  max-width: 95%;
+  max-height: 90%;
+  overflow-y: auto;
+}
+
+.order-info table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.order-info th, .order-info td {
+  border: 1px solid #ccc;
+  padding: 5px;
+  text-align: center;
+}
+
+.total {
+  margin-top: 15px;
+  text-align: right;
+  font-weight: bold;
 }

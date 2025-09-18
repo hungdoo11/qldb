@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../api/Api"; // dùng api thay vì axios
 import "./Register.css";
 
 function Register() {
@@ -26,8 +26,8 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://127.0.0.1:8000/api/register", formData);
-      alert(res.data.message || "Đăng ký thành công 🎉");
+      const res = await api.post("/register", formData); 
+      alert(res.message || "Đăng ký thành công 🎉");
       navigate("/login");
     } catch (err) {
       if (err.response?.status === 422) {

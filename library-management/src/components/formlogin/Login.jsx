@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import "./Login.css"; // 
+import "./Login.css"; 
 
 function Login() {
   const navigate = useNavigate();
@@ -22,19 +22,25 @@ function Login() {
 
     try {
       const res = await axios.post("http://127.0.0.1:8000/api/login", formData);
-      console.log(res)
-      // alert(res.data.message);
 
-      // localStorage.setItem("user", JSON.stringify(res.data.user));
+      console.log("Full login response:", res.data);
 
-      // if (res.data.user.level === 1) {
-      //   navigate("/admin"); 
-      // } else {
-      //   navigate("/"); 
-      // }
+      // ✅ Lưu thông tin user vào localStorage
+      if (res.data.role === "admin") {
+        localStorage.setItem("user", JSON.stringify(res.data.user));
+        localStorage.setItem("role", "admin");
+        navigate("/admin"); // điều hướng admin
+      } else if (res.data.role === "customer") {
+        localStorage.setItem("user", JSON.stringify(res.data.customer));
+        localStorage.setItem("role", "customer");
+        navigate("/"); // điều hướng user thường
+      } else {
+        alert("Sai tài khoản hoặc mật khẩu ❌");
+      }
+
     } catch (err) {
-      console.log(err)
-      // alert(err.response?.data?.message || "Đăng nhập thất bại");
+      console.error("Login error:", err);
+      alert(err.response?.data?.message || "Đăng nhập thất bại ❌");
     }
   };
 

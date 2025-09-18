@@ -30,8 +30,16 @@ class AdminTableController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'table_number' => 'required|string|max:255',
+            'status' => 'required|string',
+        ]);
+
+        $table = Table::create($validated);
+
+        return response()->json($table, 201);
     }
+
 
     /**
      * Display the specified resource.
@@ -52,16 +60,24 @@ class AdminTableController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $validated = $request->validate([
+            'table_number' => 'required|string|max:255',
+            'status' => 'required|string',
+        ]);
+
+        $table = Table::findOrFail($id);
+        $table->update($validated);
+
+        return response()->json($table);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $table = Table::findOrFail($id);
+        $table->delete();
+
+        return response()->json(null, 204);
     }
 }
