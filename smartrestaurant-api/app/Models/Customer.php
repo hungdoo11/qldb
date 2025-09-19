@@ -12,5 +12,8 @@ class Customer extends Model
         'email',
         'password',
         'birthday',
+        'points',
+        'type',
+        'note',
     ];
 }

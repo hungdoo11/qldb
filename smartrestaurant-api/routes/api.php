@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ADMIN\AdminCustomerController;
+use App\Http\Controllers\ADMIN\AdminDishesController;
 use App\Http\Controllers\Admin\AdminOrderController;
 use App\Http\Controllers\Admin\AdminTableController;
 use Illuminate\Support\Facades\Route;
@@ -40,6 +42,12 @@ Route::get('/categories', [CategoryController::class, 'index']);
 Route::prefix('admin')->group(function () {
     //dishes
     Route::post('/dishes', [DishController::class, 'store']);
+    Route::post('/dishes/{id}', [AdminDishesController::class, 'update']);
+
+    //customer
+    Route::get('/customer', [AdminCustomerController::class, 'index']);
+    Route::put('/customer/{id}', [AdminCustomerController::class, 'update']);
+    
     Route::get('/tables', [AdminTableController::class, 'index']);
     Route::apiResource('tables', AdminTableController::class);
     Route::get('/statistical-renuve', [AdminOrderController::class, 'renuve']);
