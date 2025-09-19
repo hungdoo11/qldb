@@ -32,7 +32,7 @@ function MenuItems() {
   const handleDelete = async (id) => {
     if (!window.confirm("Bạn có chắc muốn xóa món này?")) return;
     try {
-      await api.delete(`/dishes/${id}`);
+      await api.delete(`/admin/dishes/${id}`);
       fetchMenuItems();
     } catch (err) {
       console.error("Delete error:", err);

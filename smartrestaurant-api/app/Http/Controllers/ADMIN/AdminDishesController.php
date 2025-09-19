@@ -18,7 +18,7 @@ class AdminDishesController extends Controller
             'quantity' => 'sometimes|required|integer',
             'category_id' => 'sometimes|required|integer',
             'status' => 'sometimes|required|string',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
         
         $data = $request->only(['name', 'price', 'quantity', 'category_id', 'status', 'description']);
@@ -81,6 +81,10 @@ class AdminDishesController extends Controller
         ]);
 
 
+        return response()->json($dish);
+    }
+    public function show($id){
+        $dish = Dishes::find($id);
         return response()->json($dish);
     }
 }

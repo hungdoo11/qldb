@@ -91,12 +91,12 @@ const handleSubmit = async (e) => {
     if (id) {
       // Sửa món ăn: dùng POST + _method=PUT để Laravel nhận đúng
       fd.append("_method", "PUT");
-      await api.post(`/dishes/${id}`, fd, {
+      await api.post(`/admin/dishes/${id}`, fd, {
         headers: { "Content-Type": "multipart/form-data" },
       });
     } else {
       // Thêm mới món ăn
-      await api.post("/dishes", fd, {
+      await api.post("/admin/dishes", fd, {
         headers: { "Content-Type": "multipart/form-data" },
       });
     }

@@ -48,6 +48,7 @@ Route::prefix('admin')->group(function () {
     Route::post('/dishes', [AdminDishesController::class, 'store']);
     Route::post('/dishes/{id}', [AdminDishesController::class, 'update']);
     Route::delete('/dishes/{id}', [AdminDishesController::class, 'destroy']);
+    Route::get('/dishes/{id}', [AdminDishesController::class, 'show']);
 
     //customer
     Route::get('/customer', [AdminCustomerController::class, 'index']);
