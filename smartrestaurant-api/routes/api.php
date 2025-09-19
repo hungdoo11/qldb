@@ -45,7 +45,7 @@ Route::get('/categories', [CategoryController::class, 'index']);
 
 Route::prefix('admin')->group(function () {
     //dishes
-    Route::post('/dishes', [DishController::class, 'store']);
+    Route::post('/dishes', [AdminDishesController::class, 'store']);
     Route::post('/dishes/{id}', [AdminDishesController::class, 'update']);
     Route::delete('/dishes/{id}', [AdminDishesController::class, 'destroy']);
 
