@@ -4,44 +4,52 @@ body {
 }
 
 .admin-dashboard {
-  padding: 20px;
+  padding: 30px;
 }
 
 .dashboard-title {
+  font-size: 28px;
+  margin-bottom: 25px;
+  color: #2c3e50;
   text-align: center;
-  margin-bottom: 20px;
-  font-size: 24px;
-  font-weight: bold;
-  color: #ff6600;
 }
 
 .card-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 20px;
+  margin-bottom: 40px;
 }
 
 .dashboard-card {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 120px;
-  background: #fff3e0;
-  border: 1px solid #ffd1a1;
-  border-radius: 10px;
-  font-size: 18px;
-  font-weight: 500;
-  text-align: center;
-  color: #ff6600;
+  background: #fff;
+  padding: 20px;
+  border-radius: 15px;
   text-decoration: none;
-  transition: 0.3s;
+  color: #2c3e50;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  text-align: center;
+  transition: all 0.3s ease;
 }
 
 .dashboard-card:hover {
-  background: #ff6600;
-  color: #fff;
-  transform: scale(1.05);
+  transform: translateY(-5px);
+  background: #f1f9ff;
 }
+
+.charts-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+
+.chart-box {
+  background: #fff;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
 
 
 .modal {
@@ -176,38 +184,129 @@ body {
 
 /* {OrderDT} */
 
-.order-detail-box {
-  background: #f9f9f9;
+.order-card {
+  border: 2px solid #ff6600;
+  border-radius: 12px;
   padding: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+  background: #fff;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  height: 140px;
+}
+.order-card:hover {
+  background: #fff4ec;
+}
+
+/* Card danh sách */
+
+.orders-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* 5 card mỗi hàng */
+  gap: 20px; /* khoảng cách giữa các card */
+  margin-top: 20px;
+}
+
+.order-card:hover {
+  background: #fff4ec;
+}
+
+/* Modal overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* Modal box */
+.modal-box {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  width: 600px;
+  max-width: 95%;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+
+.toggle-icon {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 14px;
+  color: #ff6600;
+}
+
+.order-detail-box {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, padding 0.3s ease;
+  background: #fafafa;
+  /* border: 1px solid #ddd; */
   border-radius: 8px;
-  margin-bottom: 20px;
+  margin-top: 5px;
+  padding: 0 15px;
+}
+.order-detail-box.show {
+  max-height: 500px; /* đủ để chứa table */
+  padding: 15px;
 }
 
-.admin-subtitle {
-  font-size: 20px;
-  margin: 15px 0;
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
 }
-
-.order-total {
-  text-align: right;
-  font-size: 18px;
-  font-weight: bold;
-  margin-top: 15px;
+.admin-table th,
+.admin-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+.admin-table th {
+  background: #ff6600;
+  color: white;
 }
 
 .order-actions {
-  margin-top: 20px;
-  display: flex;
-  gap: 10px;
+  margin-top: 15px;
+  text-align: right;
 }
-
-.btn-back {
-  background-color: #7f8c8d;
-  color: white;
-  padding: 8px 15px;
+.btn-confirm {
+  background: #28a745;
   border: none;
-  border-radius: 5px;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 6px;
+  margin-right: 10px;
   cursor: pointer;
+}
+.btn-back {
+  background: #6c757d;
+  border: none;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.btn-confirm:hover {
+  background: #218838;
+}
+.btn-back:hover {
+  background: #5a6268;
 }
 
 /* {Table} */
@@ -225,11 +324,13 @@ body {
   padding: 15px;
   text-align: center;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  height: 246px
 }
 
 .table-card h3 {
   font-size: 18px;
   margin-bottom: 10px;
+  
 }
 
 .table-status {
@@ -386,7 +487,7 @@ body {
 /* Box hiển thị */
 .tables-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* luôn 3 cột */
+  grid-template-columns: repeat(5, 1fr); /* luôn 3 cột */
   gap: 20px; /* khoảng cách giữa các bàn */
   margin-top: 20px;
 }
@@ -569,3 +670,109 @@ body {
   text-align: right;
   font-weight: bold;
 }
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.admin-container {
+  display: flex;
+  height: 100vh;
+  
+  font-family: Arial, sans-serif;
+}
+
+/* Sidebar */
+.admin-sidebar {
+  width: 220px;
+  background: #2c3e50;
+  color: white;
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-sidebar h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.admin-sidebar nav a {
+  padding: 12px 20px;
+  text-decoration: none;
+  color: white;
+  display: block;
+  transition: background 0.3s;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.admin-sidebar nav a:hover {
+  background: #34495e;
+}
+
+
+/* Main */
+.admin-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.admin-header {
+  height: 60px;
+  background: #ecf0f1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+.logout-btn {
+  background: #e74c3c;
+  border: none;
+  color: white;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.logout-btn:hover {
+  background: #c0392b;
+}
+
+/* Content */
+.admin-content {
+  flex: 1;
+  padding: 20px;
+  background: #f8f9fa;
+}
+
+
+/* .sidebar-parent {
+  cursor: pointer;
+  padding: 12px 20px;
+  font-weight: bold;
+} */
+
+.sidebar-submenu {
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.submenu-item {
+  padding: 6px 0;
+  font-size: 14px;
+  color: #444;
+  text-decoration: none;
+}
+
+.submenu-item:hover {
+  color: orange;
+}
+

@@ -65,33 +65,62 @@ class DishController extends Controller
     {
         $dish = Dishes::findOrFail($id);
 
+        // Validate
         $request->validate([
-            'name' => 'sometimes|required|string',
-            'price' => 'sometimes|required|numeric',
-            'quantity' => 'sometimes|required|integer',
-            'category_id' => 'sometimes|required|integer',
-            'status' => 'sometimes|required|string',
+            'name' => 'required|string',
+            'price' => 'required|numeric',
+            'quantity' => 'required|integer',
+            'category_id' => 'required|integer',
+            'status' => 'required|string',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        $data = $request->only(['name', 'price', 'quantity', 'category_id', 'status']);
+        // Cập nhật các trường text/number
+        $dish->name = $request->name;
+        $dish->price = $request->price;
+        $dish->quantity = $request->quantity;
+        $dish->category_id = $request->category_id;
+        $dish->status = $request->status;
 
+        // Nếu có upload ảnh mới
         if ($request->hasFile('image')) {
+            // Xóa ảnh cũ nếu có
+            if ($dish->image && file_exists(public_path($dish->image))) {
+                unlink(public_path($dish->image));
+            }
+
             $imageName = time() . '.' . $request->image->getClientOriginalName();
             $request->file('image')->storeAs('images', $imageName, 'public');
-            $data['image'] = 'storage/images/' . $imageName;
+            $dish->image = 'storage/images/' . $imageName;
         }
 
-        $dish->update($data);
+        $dish->save();
 
         return response()->json($dish);
     }
 
 
+    // Xóa món ăn theo id
     public function destroy($id)
     {
-        $dish = Dishes::findOrFail($id);
-        $dish->delete();
-        return response()->json(['message' => 'Deleted successfully']);
+        try {
+            $dish = Dishes::findOrFail($id);
+
+            // Nếu món ăn có ảnh, xóa file ảnh trên storage
+            if ($dish->image && Storage::disk('public')->exists(str_replace('storage/', '', $dish->image))) {
+                Storage::disk('public')->delete(str_replace('storage/', '', $dish->image));
+            }
+
+            $dish->delete(); // xóa bản ghi trong database
+
+            return response()->json([
+                'message' => 'Món ăn đã được xóa thành công'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Xóa món ăn thất bại',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 }

@@ -32,10 +32,9 @@ export default function Revenue() {
   }, []);
 
   return (
-    <div className="admin-container">
-      <h2 className="admin-title">Thống kê doanh thu</h2>
+    <div className="">
 
-      {/* Biểu đồ */}
+      <h2 className="admin-title">Thống kê doanh thu</h2>
       <div className="chart-container">
         <ResponsiveContainer width="100%" height={300}>
           <BarChart data={data} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
@@ -47,6 +46,9 @@ export default function Revenue() {
           </BarChart>
         </ResponsiveContainer>
       </div>
+    <div className="admin-container">
+
+      {/* Biểu đồ */}
 
       {/* Bảng thống kê */}
       <table className="admin-table">
@@ -67,6 +69,7 @@ export default function Revenue() {
           ))}
         </tbody>
       </table>
+    </div>
     </div>
   );
 }
