@@ -49,12 +49,15 @@ Route::prefix('admin')->group(function () {
     Route::post('/dishes/{id}', [AdminDishesController::class, 'update']);
     Route::delete('/dishes/{id}', [AdminDishesController::class, 'destroy']);
     Route::get('/dishes/{id}', [AdminDishesController::class, 'show']);
-
     //customer
     Route::get('/customer', [AdminCustomerController::class, 'index']);
     Route::put('/customer/{id}', [AdminCustomerController::class, 'update']);
-    
+    //table
     Route::get('/tables', [AdminTableController::class, 'index']);
-    Route::apiResource('tables', AdminTableController::class);
+    Route::get('/tables/{id}', [AdminTableController::class, 'show']);
+    Route::post('/tables', [AdminTableController::class, 'store']);
+    Route::put('/tables/{id}', [AdminTableController::class, 'update']);
+    //statictical
     Route::get('/statistical-renuve', [AdminOrderController::class, 'renuve']);
+    Route::get('/statistical-order-by-day', [AdminOrderController::class, 'orderByDay']);
 });

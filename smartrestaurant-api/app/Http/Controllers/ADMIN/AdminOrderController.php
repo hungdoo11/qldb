@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use BcMath\Number;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -16,10 +17,12 @@ class AdminOrderController extends Controller
      */
     public $year;
     public $month;
+    public $day;
     public function __construct()
     {
         $this->year = Now()->format('Y');
         $this->month = Now()->format('m');
+        $this->day = Now()->format('d');
     }
     public function Renuve()
     {
@@ -52,9 +55,33 @@ class AdminOrderController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function orderByDay()
     {
-        //
+        $date = Now()->format('Y-m-d');
+        $dayOfWeek = date('N', strtotime($date));
+        $data = [];
+        $today = $this->day;
+        for($i = 2; $i <= (int)$dayOfWeek + 1; $i++){
+            $day = $today - ((int)$dayOfWeek + 1 - $i);
+            $orderByDay = Order::select(
+                DB::raw('DAY(created_at) as day'),
+                DB::raw('ROUND(SUM(total_amount), 0) as total_amount'),
+                )
+                ->whereDay('created_at',  $day)
+                ->whereMonth('created_at',  $this->month)
+                ->groupBy('day')
+                ->first();
+                if(!$orderByDay){
+                    $value = 0;
+                }else{
+                    $value = $orderByDay->total_amount;
+                }
+                $data[$i-2] = [
+                    'day_name' => $i != 8 ?'Thứ '. $i : 'Chủ nhật',
+                    'value' => $value
+                ];
+            }
+            return response()->json($data);
     }
 
     /**
