@@ -65,7 +65,7 @@ class AdminOrderController extends Controller
             $day = $today - ((int)$dayOfWeek + 1 - $i);
             $orderByDay = Order::select(
                 DB::raw('DAY(created_at) as day'),
-                DB::raw('ROUND(SUM(total_amount), 0) as total_amount'),
+                DB::raw('ROUND(COUNT(*), 0) as total_order'),
                 )
                 ->whereDay('created_at',  $day)
                 ->whereMonth('created_at',  $this->month)
@@ -74,7 +74,7 @@ class AdminOrderController extends Controller
                 if(!$orderByDay){
                     $value = 0;
                 }else{
-                    $value = $orderByDay->total_amount;
+                    $value = $orderByDay->total_order;
                 }
                 $data[$i-2] = [
                     'day_name' => $i != 8 ?'Thứ '. $i : 'Chủ nhật',
