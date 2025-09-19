@@ -36,9 +36,6 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::get('/dishes', [DishController::class, 'index']);
 
-Route::post('/dishes', [DishController::class, 'store']);
-Route::put('dishes/{dish}', [DishController::class, 'update']);
-Route::delete('/dishes/{id}', [DishController::class, 'destroy']);
 
 
 
@@ -50,6 +47,7 @@ Route::prefix('admin')->group(function () {
     //dishes
     Route::post('/dishes', [DishController::class, 'store']);
     Route::post('/dishes/{id}', [AdminDishesController::class, 'update']);
+    Route::delete('/dishes/{id}', [AdminDishesController::class, 'destroy']);
 
     //customer
     Route::get('/customer', [AdminCustomerController::class, 'index']);

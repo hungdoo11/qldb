@@ -5,6 +5,7 @@ namespace App\Http\Controllers\ADMIN;
 use App\Http\Controllers\Controller;
 use App\Models\Dishes;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class AdminDishesController extends Controller
 {
@@ -31,5 +32,26 @@ class AdminDishesController extends Controller
         $dish->update($data);
 
         return response()->json($dish);
+    }
+      public function destroy($id)
+    {
+        try {
+            $dish = Dishes::findOrFail($id);
+
+            if ($dish->image && Storage::disk('public')->exists(str_replace('storage/', '', $dish->image))) {
+                Storage::disk('public')->delete(str_replace('storage/', '', $dish->image));
+            }
+
+            $dish->delete();
+
+            return response()->json([
+                'message' => 'Món ăn đã được xóa thành công'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Xóa món ăn thất bại',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 }
