@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import "./home.css"
+import { Link } from "react-router-dom";
 class Svmenu extends Component {
     render() {
         return (
@@ -19,10 +20,12 @@ class Svmenu extends Component {
                             </div>
                              <div className="service-men-info">
                                 <h3>
-                                Tham gia ngay
+                               Tại cửa hàng
                                 </h3>
                                
-                                <button type='submit'>Xem thêm</button>
+                                 <Link to="/thucdon">
+                                <button type="submit">Xem thêm</button>
+                                  </Link>
                             </div>
                         </div>
                         <div className="service-menu-content_item">
@@ -30,11 +33,10 @@ class Svmenu extends Component {
                                 <img src="./images/food1.png" alt="" />
                             </div>
                             <div className="service-menu-info">
-                                <h3>
-                                Tham gia ngay
-                                </h3>
-                               
-                                <button type='submit'>Xem thêm</button>
+                               <h3>Tiệc sinh nhật</h3>
+                                           <Link to="/sn">
+                                             <button type="submit">Xem thêm</button>
+                                           </Link>
                             </div>
                         </div>
                         <div className="service-menu-content_item">
@@ -42,11 +44,10 @@ class Svmenu extends Component {
                                 <img src="./images/food1.png" alt="" />
                             </div>
                              <div className="service-men-info">
-                                <h3>
-                                Tham gia ngay
-                                </h3>
-                               
-                                <button type='submit'>Xem thêm</button>
+                               <h3>Thành viên</h3>
+                                         <Link to="/tv">
+                                           <button type="submit">Xem thêm</button>
+                                         </Link>
                             </div>
                         </div>
                         <div className="service-menu-content_item">
@@ -54,11 +55,10 @@ class Svmenu extends Component {
                                 <img src="./images/food1.png" alt="" />
                             </div>
                              <div className="service-men-info">
-                                <h3>
-                                Tham gia ngay
-                                </h3>
-                               
-                                <button type='submit'>Xem thêm</button>
+                                <h3>Thành viên VIP</h3>
+                                           <Link to="/vip">
+                                             <button type="submit">Xem thêm</button>
+                                           </Link>
                             </div>
                         </div>
                        

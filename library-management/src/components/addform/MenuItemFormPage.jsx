@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../api/Api";
-import "./form.css"
+import "./form.css";
 
 function MenuItemFormPage() {
-  const { id } = useParams(); // lấy id từ url (nếu có)
+  const { id } = useParams();
   const navigate = useNavigate();
   const [categories, setCategories] = useState([]);
   const [formData, setFormData] = useState({
@@ -17,8 +17,66 @@ function MenuItemFormPage() {
     preview: "",
   });
 
- 
-  
+  // Lấy danh mục
+  const fetchCategories = async () => {
+    try {
+      const res = await api.get("/categories");
+      setCategories(res.data || res); // tuỳ API trả về
+    } catch (err) {
+      console.error("Fetch categories error:", err);
+    }
+  };
+
+  // Lấy dữ liệu món ăn theo id
+const fetchMenuItem = async (id) => {
+  try {
+    const res = await api.get(`/admin/dishes/${id}`);
+    console.log("Raw response:", res);
+
+    // lấy dữ liệu, nếu res.data tồn tại thì dùng res.data, không thì dùng res
+    const item = res?.data ?? res;
+
+    console.log("Item lấy ra:", item);
+
+    if (!item) return;
+
+    setFormData({
+      name: item.name || "",
+      price: item.price || "",
+      quantity: item.quantity || "",
+      category_id: item.category_id || "",
+      status: item.status || "Available",
+      image: null, // chưa thay đổi ảnh thì null
+      preview: item.image ? `/uploads/${item.image}` : "",
+    });
+  } catch (err) {
+    console.error("Fetch menu item error:", err);
+  }
+};
+
+
+
+
+
+useEffect(() => {
+  fetchCategories();
+  if (id) {
+    fetchMenuItem(id); // sửa
+  } else {
+    // thêm mới thì reset form
+    setFormData({
+      name: "",
+      price: "",
+      quantity: "",
+      category_id: "",
+      status: "Available",
+      image: null,
+      preview: "",
+    });
+  }
+}, [id]);
+
+
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     if (name === "image" && files.length > 0) {
@@ -32,161 +90,116 @@ function MenuItemFormPage() {
         ...prev,
         [name]: value,
       }));
-      console.log(formData.image)
     }
   };
-  const fetchCategories = async () => {
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!formData.name || !formData.price || !formData.quantity || !formData.category_id) {
+      alert("Vui lòng điền đầy đủ thông tin bắt buộc");
+      return;
+    }
+
+    const fd = new FormData();
+    fd.append("name", formData.name);
+    fd.append("price", formData.price);
+    fd.append("quantity", formData.quantity);
+    fd.append("category_id", formData.category_id);
+    fd.append("status", formData.status);
+    if (formData.image) fd.append("image", formData.image);
+
     try {
-
-      const res = await api.get("/categories");
-      setCategories(res);
-
+      if (id) {
+        fd.append("_method", "PUT");
+        await api.post(`/admin/dishes/${id}`, fd, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+      } else {
+        await api.post("/admin/dishes", fd, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+      }
+      navigate("/admin/menuitems");
     } catch (err) {
-      console.error("Fetch categories error:", err);
+      console.error("Lỗi khi lưu:", err.response?.data || err.message);
+      alert("Có lỗi khi lưu món ăn");
     }
   };
 
-  const fetchMenuItem = async (id) => {
-  try {
-    const res = await api.get(`/dishes/${id}`);
-    const item = res.data; // Lấy từ res.data
-    setFormData({
-      name: item.name,
-      price: item.price,
-      quantity: item.quantity,
-      category_id: item.category_id,
-      status: item.status,
-      image: null,
-      preview: item.image_path || "",
-    });
-  } catch (err) {
-    console.error("Fetch menu item error:", err);
-  }
-};
- useEffect(() => {
-    fetchCategories();
-    if (id) {
-      fetchMenuItem(id); // nếu có id thì đang sửa
-    }
-  }, [id]);
+  return (
+    <div className="form-container">
+      <h2>{id ? "Sửa món ăn" : "Thêm món ăn"}</h2>
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          name="name"
+          placeholder="Tên món ăn"
+          value={formData.name}
+          onChange={handleChange}
+          required
+        />
 
-  // Kiểm tra formData
-  if (!formData.name || !formData.price || !formData.quantity || !formData.category_id) {
-    alert("Vui lòng điền đầy đủ thông tin bắt buộc");
-    return;
-  }
+        <input
+          type="number"
+          name="price"
+          placeholder="Giá"
+          value={formData.price}
+          onChange={handleChange}
+          required
+        />
 
-  const fd = new FormData();
-  fd.append("name", formData.name);
-  fd.append("price", formData.price);
-  fd.append("quantity", formData.quantity);
-  fd.append("category_id", formData.category_id);
-  fd.append("status", formData.status);
-  if (formData.image) fd.append("image", formData.image);
+        <input
+          type="number"
+          name="quantity"
+          placeholder="Số lượng"
+          value={formData.quantity}
+          onChange={handleChange}
+          required
+        />
 
-  try {
-    if (id) {
-      // Sửa món ăn: dùng POST + _method=PUT để Laravel nhận đúng
-      fd.append("_method", "PUT");
-      await api.post(`/admin/dishes/${id}`, fd, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-    } else {
-      // Thêm mới món ăn
-      await api.post("/admin/dishes", fd, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-    }
-
-    navigate("/admin/menuitems");
-  } catch (err) {
-    console.error("Lỗi khi lưu:", err.response?.data || err.message);
-    alert(
-      "Có lỗi khi lưu món ăn. Chi tiết: " +
-        (err.response?.data?.message || err.message)
-    );
-  }
-};
-
-
- return (
-  <div className="form-container">
-    <h2>{id ? "Sửa món ăn" : "Thêm món ăn"}</h2>
-
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        name="name"
-        placeholder="Tên món ăn"
-        value={formData.name}
-        onChange={handleChange}
-        required
-      />
-
-      <input
-        type="number"
-        name="price"
-        placeholder="Giá"
-        value={formData.price}
-        onChange={handleChange}
-        required
-      />
-
-      <input
-        type="number"
-        name="quantity"
-        placeholder="Số lượng"
-        value={formData.quantity}
-        onChange={handleChange}
-        required
-      />
-
-      <select
-        name="category_id"
-        value={formData.category_id}
-        onChange={handleChange}
-        required
-      >
-        <option value="">Chọn danh mục</option>
-        {categories.map((cate) => (
-          <option key={cate.id} value={cate.id}>
-            {cate.name}
-          </option>
-        ))}
-      </select>
-
-      <select name="status" value={formData.status} onChange={handleChange}>
-        <option value="Available">Có sẵn</option>
-        <option value="Unavailable">Hết hàng</option>
-      </select>
-
-      <input type="file" name="image" onChange={handleChange} />
-
-      {formData.preview && (
-        <div className="preview-container">
-          <img src={formData.preview} alt="preview" />
-        </div>
-      )}
-
-      <div className="button-group">
-        <button type="submit" className="btn-submit">
-          {id ? "Cập nhật" : "Lưu"}
-        </button>
-        <button
-          type="button"
-          className="btn-cancel"
-          onClick={() => navigate("/admin/menuitems")}
+        <select
+          name="category_id"
+          value={formData.category_id}
+          onChange={handleChange}
+          required
         >
-          Hủy
-        </button>
-      </div>
-    </form>
-  </div>
-);
+          <option value="">Chọn danh mục</option>
+          {categories.map((cate) => (
+            <option key={cate.id} value={cate.id}>
+              {cate.name}
+            </option>
+          ))}
+        </select>
 
+        <select name="status" value={formData.status} onChange={handleChange}>
+          <option value="Available">Có sẵn</option>
+          <option value="Unavailable">Hết hàng</option>
+        </select>
+
+        <input type="file" name="image" onChange={handleChange} />
+
+        {formData.preview && (
+          <div className="preview-container">
+            <img src={formData.preview} alt="preview" />
+          </div>
+        )}
+
+        <div className="button-group">
+          <button type="submit" className="btn-submit">
+            {id ? "Cập nhật" : "Lưu"}
+          </button>
+          <button
+            type="button"
+            className="btn-cancel"
+            onClick={() => navigate("/admin/menuitems")}
+          >
+            Hủy
+          </button>
+        </div>
+      </form>
+    </div>
+  );
 }
 
 export default MenuItemFormPage;

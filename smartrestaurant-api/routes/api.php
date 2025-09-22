@@ -36,13 +36,11 @@ Route::post('/login', [AuthController::class, 'login']);
 
 
 Route::get('/dishes', [DishController::class, 'index']);
-
-
-
-
-
+Route::get('/dishes/{id}', [DishController::class, 'show']);
 
 Route::get('/categories', [CategoryController::class, 'index']);
+Route::post('/categories', [CategoryController::class, 'store']);
+
 
 Route::prefix('admin')->group(function () {
     //dishes
@@ -65,3 +63,7 @@ Route::prefix('admin')->group(function () {
     Route::get('/statistical-order-by-day', [AdminOrderController::class, 'orderByDay']);
     Route::get('/statistical-revenue-by-day', [AdminOrderController::class, 'revenueByDay']);
 });
+
+// test
+
+Route::get('/users/{id}/orders', [OrderController::class, 'getOrdersByUser']);

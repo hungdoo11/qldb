@@ -105,7 +105,7 @@ const closeDetail = () => {
               </p>
               <div className="table-actions">
                 {table.status === "available" && (
-                  <button className="btn-confirm">Đặt bàn</button>
+                  <button className="btn-confirm">Thanh toán</button>
                 )}
                 {table.status === "occupied" && (
                   <button className="btn-confirm">Thanh toán</button>

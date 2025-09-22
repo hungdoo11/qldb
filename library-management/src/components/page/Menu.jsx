@@ -21,7 +21,7 @@ class Menu extends Component {
           <div className="menu-item" data-aos="zoom-in">
             <div className="menu-wrapper">
               <img src="/images/bgr1.jpg" alt="" className="bg" />
-              <img src="/images/food1.png" alt="" className="ct" />
+              <img src="/images/a1.png" alt="" className="ct" />
               <Link to="thucdon" className="menu-text">Bánh giòn ngon</Link>
             </div>
           </div>
@@ -29,7 +29,7 @@ class Menu extends Component {
           <div className="menu-item" data-aos="zoom-in" data-aos-delay="100">
             <div className="menu-wrapper">
               <img src="/images/bgr1.jpg" alt="" className="bg" />
-              <img src="/images/food1.png" alt="" className="ct" />
+              <img src="/images/a2.png" alt="" className="ct" />
               <Link to="thucdon" className="menu-text">Bánh giòn ngon</Link>
             </div>
           </div>
@@ -37,7 +37,7 @@ class Menu extends Component {
           <div className="menu-item" data-aos="zoom-in" data-aos-delay="200">
             <div className="menu-wrapper">
               <img src="/images/bgr1.jpg" alt="" className="bg" />
-              <img src="/images/food1.png" alt="" className="ct" />
+              <img src="/images/a3.png" alt="" className="ct" />
               <Link to="thucdon" className="menu-text">Bánh giòn ngon</Link>
             </div>
           </div>
@@ -45,7 +45,7 @@ class Menu extends Component {
           <div className="menu-item" data-aos="zoom-in" data-aos-delay="300">
             <div className="menu-wrapper">
               <img src="/images/bgr1.jpg" alt="" className="bg" />
-              <img src="/images/food1.png" alt="" className="ct" />
+              <img src="/images/a4.png" alt="" className="ct" />
               <Link to="thucdon" className="menu-text">Bánh giòn ngon</Link>
             </div>
           </div>

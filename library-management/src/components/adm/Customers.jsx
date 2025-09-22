@@ -79,8 +79,8 @@ export default function Customers() {
               <td>{c.email}</td>
               <td>{c.phone ?? "Chưa có"}</td>
               <td>
-                <button onClick={() => handleEdit(c)}>Sửa</button>{" "}
-                <button onClick={() => handleDelete(c.id)}>Xóa</button>
+                <button className="btn-edit" onClick={() => handleEdit(c)}>Sửa</button>{" "}
+                <button className="btn-delete" onClick={() => handleDelete(c.id)}>Xóa</button>
               </td>
             </tr>
           ))}

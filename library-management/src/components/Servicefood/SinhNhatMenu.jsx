@@ -11,7 +11,7 @@ class Snmenu extends Component {
   <div className="party-combos">
     {/* Combo A */}
     <div className="combo-card">
-      <img src="/images/combo1.jpg" alt="Combo A" />
+      <img src="/images/combo1.png" alt="Combo A" />
       <h3>PHẦN A POPO (10 NGƯỜI)</h3>
       <p className="price">750,000 đ</p>
       <button className="btn-order">ĐẶT HÀNG</button>
@@ -27,7 +27,7 @@ class Snmenu extends Component {
 
     {/* Combo C */}
     <div className="combo-card">
-      <img src="/images/combo3.jpg" alt="Combo C" />
+      <img src="/images/combo3.webp" alt="Combo C" />
       <h3>PHẦN C JOLLIBEE (10 NGƯỜI)</h3>
       <p className="price">1,150,000 đ</p>
       <button className="btn-order">ĐẶT HÀNG</button>

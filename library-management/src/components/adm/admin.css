@@ -833,3 +833,92 @@ body {
   color: orange;
 }
 
+/* cate */
+.categories {
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 16px;
+  background: #fff8f0;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  font-family: sans-serif;
+}
+
+.categories h2 {
+  text-align: center;
+  color: #ff6600;
+  margin-bottom: 16px;
+}
+
+.cate-form {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.cate-form input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+.cate-form button {
+  background: #ff6600;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.cate-form button:hover {
+  background: #e05500;
+}
+
+.cate-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.cate-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 8px;
+}
+
+.cate-item input {
+  flex: 1;
+  margin-right: 8px;
+  padding: 6px;
+}
+
+.actions button {
+  margin-left: 6px;
+  background: #f2f2f2;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.actions button:hover {
+  background: #ddd;
+}
+
+.actions button:last-child {
+  background: #ff4d4d;
+  color: white;
+}
+
+.actions button:last-child:hover {
+  background: #e60000;
+}

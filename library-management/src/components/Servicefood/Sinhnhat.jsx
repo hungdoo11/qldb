@@ -38,7 +38,7 @@ class Sinhnhat extends Component {
         <div className="combo-section">
           <div className="combo-box">
             <div className="combo-left">
-              <img src="/images/food1.png" alt="Combo Jollibee" />
+              <img src="/images/heo1.png" alt="Combo Jollibee" />
             </div>
 
             <div className="combo-right">
