@@ -60,4 +60,5 @@ Route::prefix('admin')->group(function () {
     //statictical
     Route::get('/statistical-renuve', [AdminOrderController::class, 'renuve']);
     Route::get('/statistical-order-by-day', [AdminOrderController::class, 'orderByDay']);
+    Route::get('/statistical-revenue-by-day', [AdminOrderController::class, 'revenueByDay']);
 });

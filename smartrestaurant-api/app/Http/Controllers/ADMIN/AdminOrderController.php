@@ -83,7 +83,34 @@ class AdminOrderController extends Controller
             }
             return response()->json($data);
     }
-
+    public function revenueByDay()
+    {
+        $date = Now()->format('Y-m-d');
+        $dayOfWeek = date('N', strtotime($date));
+        $data = [];
+        $today = $this->day;
+        for($i = 2; $i <= (int)$dayOfWeek + 1; $i++){
+            $day = $today - ((int)$dayOfWeek + 1 - $i);
+            $orderByDay = Order::select(
+                DB::raw('DAY(created_at) as day'),
+                DB::raw('ROUND(SUM(total_amount), 0) as total_amount'),
+                )
+                ->whereDay('created_at',  $day)
+                ->whereMonth('created_at',  $this->month)
+                ->groupBy('day')
+                ->first();
+                if(!$orderByDay){
+                    $value = 0;
+                }else{
+                    $value = $orderByDay->total_amount;
+                }
+                $data[$i-2] = [
+                    'day_name' => $i != 8 ?'Thứ '. $i : 'Chủ nhật',
+                    'value' => $value
+                ];
+            }
+            return response()->json($data);
+    }
     /**
      * Store a newly created resource in storage.
      */

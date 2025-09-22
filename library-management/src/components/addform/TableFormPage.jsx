@@ -8,6 +8,7 @@ export default function TableFormPage() {
   const navigate = useNavigate();
   const [table, setTable] = useState({
     table_number: "",
+    capacity: "",
     status: "available",
   });
   const [loading, setLoading] = useState(false);
@@ -71,6 +72,16 @@ export default function TableFormPage() {
             type="text"
             name="table_number"
             value={table.table_number}
+            onChange={handleChange}
+            required
+          />
+        </div>
+         <div className="table-form-group">
+          <label>Số chỗ ngồi</label>
+          <input
+            type="text"
+            name="capacity"
+            value={table.capacity}
             onChange={handleChange}
             required
           />
