@@ -11,6 +11,7 @@ class Dishes extends Model
         'image',
         'category_id',
         'price',
+        'description',
         'quantity',
         'status'
     ];

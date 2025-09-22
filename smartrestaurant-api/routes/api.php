@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ADMIN\AdminCustomerController;
+use App\Http\Controllers\ADMIN\AdminDishesController;
 use App\Http\Controllers\Admin\AdminOrderController;
 use App\Http\Controllers\Admin\AdminTableController;
 use Illuminate\Support\Facades\Route;
@@ -34,9 +36,6 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::get('/dishes', [DishController::class, 'index']);
 
-Route::post('/dishes', [DishController::class, 'store']);
-Route::put('dishes/{dish}', [DishController::class, 'update']);
-Route::delete('/dishes/{id}', [DishController::class, 'destroy']);
 
 
 
@@ -46,8 +45,19 @@ Route::get('/categories', [CategoryController::class, 'index']);
 
 Route::prefix('admin')->group(function () {
     //dishes
-    Route::post('/dishes', [DishController::class, 'store']);
+    Route::post('/dishes', [AdminDishesController::class, 'store']);
+    Route::post('/dishes/{id}', [AdminDishesController::class, 'update']);
+    Route::delete('/dishes/{id}', [AdminDishesController::class, 'destroy']);
+    Route::get('/dishes/{id}', [AdminDishesController::class, 'show']);
+    //customer
+    Route::get('/customer', [AdminCustomerController::class, 'index']);
+    Route::put('/customer/{id}', [AdminCustomerController::class, 'update']);
+    //table
     Route::get('/tables', [AdminTableController::class, 'index']);
-    Route::apiResource('tables', AdminTableController::class);
+    Route::get('/tables/{id}', [AdminTableController::class, 'show']);
+    Route::post('/tables', [AdminTableController::class, 'store']);
+    Route::put('/tables/{id}', [AdminTableController::class, 'update']);
+    //statictical
     Route::get('/statistical-renuve', [AdminOrderController::class, 'renuve']);
+    Route::get('/statistical-order-by-day', [AdminOrderController::class, 'orderByDay']);
 });

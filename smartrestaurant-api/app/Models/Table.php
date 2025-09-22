@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Table extends Model
 {
-    protected $fillable = ['table_number', 'status'];
+    protected $fillable = ['table_number', 'capacity', 'status'];
 }
