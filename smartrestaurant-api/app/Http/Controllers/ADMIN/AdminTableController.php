@@ -32,7 +32,7 @@ class AdminTableController extends Controller
     {
         $validated = $request->validate([
             'table_number' => 'required|string|max:255',
-            'capacity' => 'required|string|max:255',
+            'capacity' => 'required|integer', // đổi thành integer
             'status' => 'required|string',
         ]);
 
@@ -47,7 +47,7 @@ class AdminTableController extends Controller
      */
     public function show($id)
     {
-         $table = Table::find($id);
+        $table = Table::find($id);
         return response()->json($table);
     }
 
@@ -66,7 +66,7 @@ class AdminTableController extends Controller
     {
         $validated = $request->validate([
             'table_number' => 'required|string|max:255',
-            'capacity' => 'required|string|max:255',
+            'capacity' => 'required|integer', // đổi thành integer
             'status' => 'required|string',
         ]);
 
