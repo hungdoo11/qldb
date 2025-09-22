@@ -13,14 +13,15 @@ use App\Http\Controllers\OrderController;
 
 
 Route::apiResource('users', UserController::class);
+Route::apiResource('admin/dishes', AdminDishesController::class);
 
 
-Route::post('/orders', [OrderController::class, 'store']);
-Route::get('/orders', [OrderController::class, 'index']);
-Route::get('/orders/{id}', [OrderController::class, 'show']);
-Route::put('/orders/{id}/confirm', [OrderController::class, 'confirm']);
-Route::put('/orders/{id}/complete', [OrderController::class, 'complete']);
-Route::put('/orders/{id}/cancel', [OrderController::class, 'cancel']);
+// Route::post('/orders', [OrderController::class, 'store']);
+// Route::get('/orders', [OrderController::class, 'index']);
+// Route::get('/orders/{id}', [OrderController::class, 'show']);
+// Route::put('/orders/{id}/confirm', [OrderController::class, 'confirm']);
+// Route::put('/orders/{id}/complete', [OrderController::class, 'complete']);
+// Route::put('/orders/{id}/cancel', [OrderController::class, 'cancel']);
 
 
 
@@ -53,10 +54,12 @@ Route::prefix('admin')->group(function () {
     Route::get('/customer', [AdminCustomerController::class, 'index']);
     Route::put('/customer/{id}', [AdminCustomerController::class, 'update']);
     //table
-    Route::get('/tables', [AdminTableController::class, 'index']);
-    Route::get('/tables/{id}', [AdminTableController::class, 'show']);
-    Route::post('/tables', [AdminTableController::class, 'store']);
-    Route::put('/tables/{id}', [AdminTableController::class, 'update']);
+    Route::apiResource('tables', AdminTableController::class);
+
+    // Route::get('/tables', [AdminTableController::class, 'index']);
+    // Route::get('/tables/{id}', [AdminTableController::class, 'show']);
+    // Route::post('/tables', [AdminTableController::class, 'store']);
+    // Route::put('/tables/{id}', [AdminTableController::class, 'update']);
     //statictical
     Route::get('/statistical-renuve', [AdminOrderController::class, 'renuve']);
     Route::get('/statistical-order-by-day', [AdminOrderController::class, 'orderByDay']);

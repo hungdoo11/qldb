@@ -6,10 +6,12 @@ import "./form.css";
 export default function TableFormPage() {
   const { id } = useParams(); 
   const navigate = useNavigate();
-  const [table, setTable] = useState({
-    table_number: "",
-    status: "available",
-  });
+const [table, setTable] = useState({
+  table_number: "",
+  capacity: "",   
+  status: "available",
+});
+
   const [loading, setLoading] = useState(false);
 
   // Nếu có id -> fetch dữ liệu bàn để sửa
@@ -44,18 +46,20 @@ export default function TableFormPage() {
         return;
       }
 
-      if (id) {
+          if (id) {
         await axios.put(`http://127.0.0.1:8000/api/admin/tables/${id}`, table);
         alert("Cập nhật bàn thành công!");
       } else {
         await axios.post("http://127.0.0.1:8000/api/admin/tables", table);
         alert("Thêm bàn thành công!");
       }
+
       navigate("/admin/tables");
-    } catch (error) {
-      console.error(error.response?.data || error.message);
-      alert("Có lỗi xảy ra, vui lòng thử lại!");
-    } finally {
+        } catch (error) {
+        console.error("Chi tiết lỗi:", error.response?.data || error.message);
+        alert("Có lỗi xảy ra: " + (error.response?.data?.message || "vui lòng thử lại!"));
+      }
+      finally {
       setLoading(false);
     }
   };
@@ -75,6 +79,18 @@ export default function TableFormPage() {
             required
           />
         </div>
+
+        <div className="table-form-group">
+          <label>Sức chứa</label>
+          <input
+            type="number"
+            name="capacity"
+            value={table.capacity}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
 
         <div className="table-form-group">
           <label>Trạng thái</label>
