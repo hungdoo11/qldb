@@ -472,18 +472,79 @@ body {
 /*  */
 
 /* Popup overlay */
+/* Popup sửa khách hàng */
 .popup {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  z-index: 999;
 }
 
+.popup-box {
+  background-color: white;
+  padding: 25px 30px;
+  border-radius: 10px;
+  width: 350px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  animation: popupShow 0.2s ease-in-out;
+}
+
+@keyframes popupShow {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.popup-box h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 20px;
+  text-align: center;
+  color: #333;
+}
+
+.popup-box input {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.popup-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.popup-actions button {
+  padding: 8px 15px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+
+.popup-actions button:first-child {
+  background-color: #4caf50; /* Lưu */
+  color: white;
+}
+
+.popup-actions button:last-child {
+  background-color: #f44336; /* Hủy */
+  color: white;
+}
+
+.popup-actions button:hover {
+  opacity: 0.9;
+}
 /* Box hiển thị */
 .tables-grid {
   display: grid;
@@ -506,11 +567,7 @@ body {
 }
 
 
-.popup-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-}
+
 /* menuiteam */
 
 .menu-container {

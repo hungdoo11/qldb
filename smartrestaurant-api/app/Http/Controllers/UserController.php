@@ -4,13 +4,35 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Customer;
 
 class UserController extends Controller
 {
     // GET /api/users
     public function index()
     {
-        return User::all();
+        $admins = User::all();          // bảng admin
+        $customers = Customer::all();   // bảng khách
+
+        // Gộp vào 1 array, thêm role để React biết
+        $allUsers = $admins->map(fn($u) => [
+            'id' => $u->id,
+            'name' => $u->name,
+            'email' => $u->email,
+            'phone' => $u->phone ?? '',
+            'role' => 'admin'
+        ])->concat(
+            $customers->map(fn($c) => [
+                'id' => $c->id,
+                'name' => $c->name,
+                'email' => $c->email,
+                'phone' => $c->phone ?? '',
+                'role' => 'customer'
+            ])
+        );
+
+        return response()->json($allUsers->values()); // ->values() đảm bảo array index liên tiếp
+
     }
 
     // PUT /api/users/{id}
