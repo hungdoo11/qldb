@@ -902,7 +902,7 @@ body {
 
 .actions button {
   margin-left: 6px;
-  background: #f2f2f2;
+  /* background: #f2f2f2; */
   border: none;
   padding: 6px 10px;
   border-radius: 6px;
@@ -914,11 +914,11 @@ body {
   background: #ddd;
 }
 
-.actions button:last-child {
+/* .actions button:last-child {
   background: #ff4d4d;
   color: white;
 }
 
 .actions button:last-child:hover {
   background: #e60000;
-}
+} */

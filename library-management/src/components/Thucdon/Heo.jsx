@@ -71,7 +71,7 @@ class Heo extends Component {
               }
             >
               <div className="menu-td-wrapper">
-                <img src="/images/bgr1.jpg" alt="Background" className="bg" />
+                {/* <img src="/images/bgr1.jpg" alt="Background" className="bg" /> */}
                 <img
                   src={`http://127.0.0.1:8000/storage/images/${food.image}`}
                   alt={food.name}

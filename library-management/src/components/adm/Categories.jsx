@@ -71,8 +71,8 @@ export default function Categories() {
                     value={editValue}
                     onChange={(e) => setEditValue(e.target.value)}
                   />
-                  <button onClick={() => handleEdit(c.id)}>Lưu</button>
-                  <button onClick={() => setEditing(null)}>Hủy</button>
+                  <button className="btn-submit" onClick={() => handleEdit(c.id)}>Lưu</button>
+                  <button className="btn-cancel" onClick={() => setEditing(null)}>Hủy</button>
                 </>
               ) : (
                 <>
@@ -86,7 +86,7 @@ export default function Categories() {
                     >
                       Sửa
                     </button>
-                    <button onClick={() => handleDelete(c.id)}>Xóa</button>
+                    <button className="btn-delete" onClick={() => handleDelete(c.id)}>Xóa</button>
                   </div>
                 </>
               )}

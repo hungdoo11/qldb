@@ -40,6 +40,8 @@ Route::get('/dishes/{id}', [DishController::class, 'show']);
 
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::post('/categories', [CategoryController::class, 'store']);
+Route::put('/categories/{id}', [CategoryController::class, 'update']); // sửa
+Route::delete('/categories/{id}', [CategoryController::class, 'destroy']); // xóa
 
 
 Route::prefix('admin')->group(function () {
