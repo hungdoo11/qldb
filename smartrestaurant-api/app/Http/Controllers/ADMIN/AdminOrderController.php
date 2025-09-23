@@ -111,9 +111,15 @@ class AdminOrderController extends Controller
             }
             return response()->json($data);
     }
-    /**
-     * Store a newly created resource in storage.
-     */
+     public function index(Request $request)
+    {
+        $orders = Order::where('status', 'paid')
+        ->join('customers as c', 'orders.customer_id', 'c.id')
+        ->join('users as u', 'orders.user_id', 'u.id')
+        ->select('c.name as cus_name', 'u.name as u_name', 'orders.*')
+        ->get();
+        return response()->json( $orders);
+    }
     public function store(Request $request)
     {
         //

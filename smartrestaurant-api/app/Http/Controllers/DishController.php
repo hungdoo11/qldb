@@ -22,15 +22,17 @@ class DishController extends Controller
             ->get();
         return response()->json($dishes);
     }
-
-
-    
-
-
-    public function show($id)
-    {
-        $dish = Dishes::findOrFail($id);
-        return response()->json($dish);
+    public function dishesCategory(Request $request, $id){
+        $url = config('app.url');
+        $dishes = Dishes::join('categories as c', 'dishes.category_id', 'c.id')
+            ->select(
+                'dishes.*',
+                'c.name as category_name',
+                DB::raw("CONCAT('$url/',dishes.image) as image_path")
+            )
+            ->where('category_id', $id)
+            ->get();
+        return response()->json($dishes);
     }
 
 
