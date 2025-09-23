@@ -155,6 +155,9 @@
     .values-section { padding: 40px 15px; }
     .values-section h2 { font-size: 28px; }
     .values-grid { max-width: 800px; }
+     .menu-item {
+        flex: 1 1 45%; /* 2 ảnh trên 1 hàng (~45% mỗi ảnh) */
+    }
 }
 
 @media (max-width: 480px) {
@@ -172,5 +175,8 @@
     .values-grid {
         max-width: 100%;
         grid-template-columns: 1fr;
+    }
+     .menu-item {
+        flex: 1 1 90%; /* 1 ảnh trên 1 hàng trên điện thoại */
     }
 }

@@ -13,7 +13,7 @@ class Baner extends Component {
     <div className="service-content">
         <h2>DỊCH VỤ</h2>
         <p>
-           TẬN HƯỞNG NHỮNG KHOẢNH KHẮC TRỌN VẸN CÙNG JOLLIBEE
+           TẬN HƯỞNG NHỮNG KHOẢNH KHẮC TRỌN VẸN CÙNG FOOD
         </p>
         <button>ĐẶT HÀNG</button>
     </div>

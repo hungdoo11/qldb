@@ -22,7 +22,7 @@ function Service() {
       <div className="service-page-content">
         <div className="service-page-content_item" data-aos="zoom-in">
           <div className="service-page-logo">
-            <img src="./images/food1.png" alt="" />
+            <img src="./images/tch.jpg" alt="" />
           </div>
           <div className="service-page-info">
             <h3>Tại cửa hàng</h3>
@@ -34,7 +34,7 @@ function Service() {
 
         <div className="service-page-content_item" data-aos="zoom-in">
           <div className="service-page-logo">
-            <img src="./images/food1.png" alt="" />
+            <img src="./images/sn.jpg" alt="" />
           </div>
           <div className="service-page-info">
             <h3>Tiệc sinh nhật</h3>
@@ -46,7 +46,7 @@ function Service() {
 
         <div className="service-page-content_item" data-aos="zoom-in">
           <div className="service-page-logo">
-            <img src="./images/food1.png" alt="" />
+            <img src="./images/tv.jpg" alt="" />
           </div>
           <div className="service-page-info">
             <h3>Thành viên</h3>
@@ -58,7 +58,7 @@ function Service() {
 
         <div className="service-page-content_item" data-aos="zoom-in">
           <div className="service-page-logo">
-            <img src="./images/food1.png" alt="" />
+            <img src="./images/vip.jpg" alt="" />
           </div>
           <div className="service-page-info">
             <h3>Thành viên VIP</h3>

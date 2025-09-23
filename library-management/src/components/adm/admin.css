@@ -922,3 +922,162 @@ body {
 .actions button:last-child:hover {
   background: #e60000;
 } */
+
+/* slider-bar */
+@media (max-width: 992px) {
+  .admin-sidebar {
+    position: fixed;
+    left: -250px; /* ẩn sang trái */
+    top: 0;
+    height: 100%;
+    width: 220px;
+    z-index: 1000;
+    transition: left 0.3s ease;
+  }
+
+  .admin-sidebar.active {
+    left: 0;
+  }
+
+  .admin-main {
+    flex: 1;
+    margin-left: 0;
+  }
+
+  .sidebar-toggle-btn {
+    display: block;
+    cursor: pointer;
+  }
+}
+
+/* header */
+.admin-header {
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+
+@media (max-width: 768px) {
+  .admin-header {
+    padding: 0 10px;
+  }
+
+  .logout-btn {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+}
+
+/* card */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .card-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* sesion */
+.charts-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+
+@media (max-width: 992px) {
+  .charts-section {
+    grid-template-columns: 1fr;
+  }
+}
+/* table */
+/* .admin-table {
+  width: 100%;
+  overflow-x: auto;
+  display: block; 
+} */
+
+/* .admin-table th, .admin-table td {
+  white-space: nowrap;
+} */
+
+@media (max-width: 768px) {
+  .admin-table th, .admin-table td {
+    font-size: 12px;
+    padding: 6px;
+  }
+}
+
+/* grid */
+.tables-grid, .orders-grid {
+  /* display: grid;
+  gap: 20px; */
+  /* grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); */
+}
+
+@media (max-width: 768px) {
+  .tables-grid, .orders-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .tables-grid, .orders-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* modal */
+.modal-box, .popup-box {
+  width: 600px;
+  max-width: 95%;
+  max-height: 90%;
+  overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+  .modal-box, .popup-box {
+    width: 90%;
+    padding: 15px;
+  }
+}
+
+/* tt */
+.payment-container {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+  padding: 20px;
+}
+
+@media (max-width: 992px) {
+  .payment-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+.payment-method, .order-info {
+  width: 100%;
+}
+
+/* form */
+.cate-form, .method-options {
+  flex-direction: column;
+}
+
+@media (max-width: 480px) {
+  .cate-form input, .cate-form button {
+    width: 100%;
+  }
+}

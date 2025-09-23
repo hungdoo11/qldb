@@ -16,7 +16,7 @@ class Svmenu extends Component {
                     <div className="service-menu-content">
                         <div className="service-menu-content_item">
                             <div className="service-menu-logo">
-                                <img src="./images/food1.png" alt="" />
+                                <img src="./images/tch.jpg" alt="" />
                             </div>
                              <div className="service-men-info">
                                 <h3>
@@ -30,7 +30,7 @@ class Svmenu extends Component {
                         </div>
                         <div className="service-menu-content_item">
                             <div className="service-menu-logo">
-                                <img src="./images/food1.png" alt="" />
+                                <img src="./images/sn.jpg" alt="" />
                             </div>
                             <div className="service-menu-info">
                                <h3>Tiệc sinh nhật</h3>
@@ -41,7 +41,7 @@ class Svmenu extends Component {
                         </div>
                         <div className="service-menu-content_item">
                             <div className="service-menu-logo">
-                                <img src="./images/food1.png" alt="" />
+                                <img src="./images/tv.jpg" alt="" />
                             </div>
                              <div className="service-men-info">
                                <h3>Thành viên</h3>
@@ -52,7 +52,7 @@ class Svmenu extends Component {
                         </div>
                         <div className="service-menu-content_item">
                             <div className="service-menu-logo">
-                                <img src="./images/food1.png" alt="" />
+                                <img src="./images/vip.jpg" alt="" />
                             </div>
                              <div className="service-men-info">
                                 <h3>Thành viên VIP</h3>

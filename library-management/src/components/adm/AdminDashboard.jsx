@@ -9,15 +9,6 @@ import "./admin.css";
 function AdminDashboard() {
   const [openTableMenu, setOpenTableMenu] = useState(false);
 
-  // const cards = [
-  //   { title: "Quản lý Đơn hàng", link: "/admin/orders" },
-  //   { title: "Chi tiết Đơn hàng", link: "/admin/orderdetail" },
-  //   { title: "Thanh toán", link: "/admin/payment" },
-  //   { title: "Doanh thu", link: "/admin/revenue" },
-  //   { title: "Quản lý Danh mục", link: "/admin/categories" },
-  //   { title: "Quản lý Món ăn", link: "/admin/menuitems" },
-  //   { title: "Quản lý Khách hàng", link: "/admin/customers" },
-  // ];
 
   const revenueData = [
     { month: "Th1", revenue: 4000 },

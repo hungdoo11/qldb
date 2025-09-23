@@ -124,17 +124,19 @@
 /* {Menu} */
 
 .menu-food {
-    width: 100%;
-    height: 405px;
-    display: flex;
-    gap: 20px;
-    margin: 20px 0;
+     display: flex;
+    flex-wrap: wrap; /* cho phép xuống hàng trên màn hình nhỏ */
     justify-content: center;
-    align-items: center;
+    gap: 20px; /* khoảng cách giữa các item */
+    width: 100%;
+    height: auto; /* tự co dãn */
 }
 
-.menu-item-title{
-
+.menu-item {
+    flex: 1 1 220px; /* tự co, min 220px */
+    display: flex;
+    justify-content: center;
+    /* khoảng cách khi xuống hàng */
 }
 
 .menu-item-title img {
@@ -207,7 +209,7 @@
 .service-page-logo {
     width: 350px;
     height: 350px;
-    background: green;
+    /* background: green; */
     border-radius: 50%;
     position: relative; /* gốc để căn ảnh */
     display: flex;
@@ -220,9 +222,9 @@
     /* position: absolute;*/
     /* top: -35px; 
     left: 50%;  */
-    transform: translateX(-50%);
-    width: 140%;
-    height: 140%;
+    transform: translateX(-69%);
+    width: 100%;
+    height: 100%;
     position: static;
     border-radius: 50%; /* nếu muốn ảnh bo tròn */
     margin:0 0 0 486px;
@@ -350,6 +352,7 @@
     margin: 0;
     width: 100%;
     height: 100%;
+            transform: translateX(10px);
   }
 
   /* About */
@@ -388,6 +391,10 @@
   .slide-right img {
     display: none;
   }
+
+   .menu-item {
+        flex: 1 1 45%; /* 2 ảnh trên 1 hàng (~45% mỗi ảnh) */
+    }
 
   /* Menu */
   .menu-food {
@@ -439,4 +446,10 @@
     font-size: 16px;
     padding: 10px 20px;
   }
+}
+
+@media (max-width: 480px) {
+   .menu-item {
+        flex: 1 1 90%; /* 1 ảnh trên 1 hàng trên điện thoại */
+    }
 }

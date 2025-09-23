@@ -21,6 +21,7 @@ import Sinhnhat from "./components/Servicefood/Sinhnhat";
 import SinhNhatMenu from "./components/Servicefood/SinhNhatMenu";
 import ThanhVien from "./components/Servicefood/ThanhVien";
 import Vip from "./components/Servicefood/Vip";
+import Oder from "./components/header/Oder";
 
 // Admin pages
 import AdminDashboard from "./components/adm/AdminDashboard";
@@ -62,6 +63,7 @@ function App() {
         {/* Public + FE Layout */}
         <Route element={<MainLayout cart={cart} addToCart={addToCart} />}>
           <Route path="/" element={<Home />} />
+          <Route path="/order" element={<Oder />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/about" element={<About />} />

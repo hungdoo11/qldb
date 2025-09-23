@@ -5,13 +5,15 @@ import {
   FaEnvelope,
   FaShoppingCart,
   FaSearch,
+  FaBars,
 } from "react-icons/fa";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import api from "../api/Api";
 
 function Header({ cart = [], addToCart }) {
   const location = useLocation();
+  const navigate = useNavigate();
   const [openMenu, setOpenMenu] = useState(false);
   const [openCart, setOpenCart] = useState(false);
   const [user, setUser] = useState(null);
@@ -48,7 +50,11 @@ function Header({ cart = [], addToCart }) {
   };
 
   const toggleMenu = () => setOpenMenu(!openMenu);
-  const toggleCart = () => setOpenCart(!openCart);
+  const toggleCart = () => {
+    if (cart.length > 0) {
+      navigate("/order", { state: { cart } }); // Chuyển đến trang đặt món với dữ liệu giỏ hàng
+    }
+  };
 
   // 👉 Đặt món
   const handleOrder = async () => {
@@ -103,8 +109,12 @@ function Header({ cart = [], addToCart }) {
           <span>FOOD</span>
         </div>
 
+        <div className="menu-toggle" onClick={() => setOpenMenu(!openMenu)}>
+          <FaBars />
+        </div>
+
         {/* Menu */}
-        <nav className="menu">
+        <nav className={`menu ${openMenu ? "show" : ""}`}>
           <Link to="/">Trang chủ</Link>
           <Link to="/about">Giới thiệu FOOD</Link>
           <div className="dropdown">
@@ -159,7 +169,12 @@ function Header({ cart = [], addToCart }) {
         {/* Actions */}
         <div className="actions">
           {/* Giỏ hàng */}
-          <div className="dropdown-icon cart-container" onClick={toggleCart}>
+          <div
+            className="dropdown-icon cart-container"
+            onClick={toggleCart}
+            onMouseEnter={() => setOpenCart(true)}
+            onMouseLeave={() => setOpenCart(false)}
+          >
             <FaShoppingCart className="icon" />
             {cart.length > 0 && (
               <span className="cart-badge">{cart.length}</span>
@@ -173,30 +188,12 @@ function Header({ cart = [], addToCart }) {
               {cart.length === 0 ? (
                 <p>Chưa có món nào</p>
               ) : (
-                <>
-                  {cart.map((item, idx) => (
-                    <div key={idx} className="cart-item">
-                      {item.name} x {item.quantity} ={" "}
-                      {(parseFloat(item.price) * item.quantity).toFixed(0)}đ
-                    </div>
-                  ))}
-
-                  <div className="cart-total">
-                    Tổng:{" "}
-                    {cart
-                      .reduce(
-                        (total, item) =>
-                          total + parseFloat(item.price) * item.quantity,
-                        0
-                      )
-                      .toFixed(0)}
-                    đ
+                cart.map((item, idx) => (
+                  <div key={idx} className="cart-item">
+                    {item.name} x {item.quantity} ={" "}
+                    {(parseFloat(item.price) * item.quantity).toFixed(0)}đ
                   </div>
-
-                  <button onClick={handleOrder} className="order-btn">
-                    Đặt món
-                  </button>
-                </>
+                ))
               )}
             </div>
           </div>

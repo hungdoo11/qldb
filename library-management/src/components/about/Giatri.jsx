@@ -1,5 +1,7 @@
-import React from "react";
-import "./about.css"; // import file css riêng
+import React, { useEffect } from "react";
+import "./about.css";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 export default function GiaTri() {
   const values = [
@@ -13,12 +15,21 @@ export default function GiaTri() {
     { icon: "fa-money-bill", text: "Tiết kiệm" },
   ];
 
+  useEffect(() => {
+    AOS.init({ duration: 1000, once: true });
+  }, []);
+
   return (
     <div className="values-section">
-      <h2>CÁC GIÁ TRỊ</h2>
+      <h2 data-aos="fade-up">CÁC GIÁ TRỊ</h2>
       <div className="values-grid">
         {values.map((item, index) => (
-          <div key={index} className="value-item">
+          <div
+            key={index}
+            className="value-item"
+            data-aos="zoom-in"
+            data-aos-delay={index * 100}
+          >
             <i className={`fas ${item.icon}`}></i>
             <p>{item.text}</p>
           </div>

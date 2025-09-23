@@ -22,13 +22,13 @@ export default function AdminLayout() {
           <Link to="/admin">Dashboard</Link>
           <Link to="/admin/orders">Quản lý Đơn hàng</Link>
           <Link to="/admin/orderdetail">Chi tiết Đơn hàng</Link>
-          <Link to="/admin/payment">Thanh toán</Link>
+          {/* <Link to="/admin/payment">Thanh toán</Link> */}
           <Link to="/admin/revenue">Doanh thu</Link>
           
           <Link to="/admin/categories">Quản lý Danh mục</Link>
-        <Link to="/admin/categories/add" className="submenu-item">
+        {/* <Link to="/admin/categories/add" className="submenu-item">
           ➕ Thêm Danh mục
-        </Link>
+        </Link> */}
 
 
           {/* Quản lý Món ăn */}
