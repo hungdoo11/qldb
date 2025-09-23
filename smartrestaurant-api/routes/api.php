@@ -67,6 +67,7 @@ Route::prefix('admin')->group(function () {
     Route::get('/statistical-revenue-by-day', [AdminOrderController::class, 'revenueByDay']);
     //order
     Route::get('/order', [AdminOrderController::class, 'index']);
+    Route::get('/order-by-table/{table_id}', [AdminOrderController::class, 'orderByTable']);
     //category
      Route::put('/category/{id}', [AdminCategoryController::class, 'update']);
      Route::get('/category/{id}', [AdminCategoryController::class, 'show']);
