@@ -10,7 +10,7 @@ class Vip extends Component {
   <div className="party-combos">
     {/* Combo A */}
     <div className="combo-card">
-      <img src="/images/combo1.jpg" alt="Combo A" />
+      <img src="/images/bo1.png" alt="Combo A" />
       <h3>Tặng 1 phần bò </h3>
       <p className="price">Từ 18h-20h</p>
       <button className="btn-order">ĐẶT HÀNG</button>
@@ -18,7 +18,7 @@ class Vip extends Component {
 
     {/* Combo B */}
     <div className="combo-card">
-      <img src="/images/combo2.jpg" alt="Combo B" />
+      <img src="/images/combo6.jpg" alt="Combo B" />
       <h3>Giảm 50%</h3>
       <p className="price">Áp dụng tất cả cửa hàng</p>
       <button className="btn-order">ĐẶT HÀNG</button>
@@ -26,7 +26,7 @@ class Vip extends Component {
 
     {/* Combo C */}
     <div className="combo-card">
-      <img src="/images/combo3.jpg" alt="Combo C" />
+      <img src="/images/combo5.jpg" alt="Combo C" />
       <h3>Đi 4 tính tiền 3</h3>
       <p className="price">Từ 14h-16h</p>
       <button className="btn-order">ĐẶT HÀNG</button>

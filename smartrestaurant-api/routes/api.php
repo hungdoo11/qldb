@@ -43,8 +43,11 @@ Route::get('/dishes/category/{id}', [DishController::class, 'dishesCategory']);
 
 
 
+Route::get('/dishes/{id}', [DishController::class, 'show']);
 
 Route::get('/categories', [CategoryController::class, 'index']);
+Route::post('/categories', [CategoryController::class, 'store']);
+
 
 Route::prefix('admin')->group(function () {
     //dishes
@@ -70,3 +73,7 @@ Route::prefix('admin')->group(function () {
      Route::delete('/category/{id}', [AdminCategoryController::class, 'destroy']);
 
 });
+
+// test
+
+Route::get('/users/{id}/orders', [OrderController::class, 'getOrdersByUser']);

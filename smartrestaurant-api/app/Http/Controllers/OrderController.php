@@ -69,4 +69,13 @@ class OrderController extends Controller
             ], 500);
         }
     }
+    public function getOrdersByUser($id)
+    {
+        $orders = Order::with('items.dish') // load cả món ăn
+            ->where('user_id', $id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return response()->json($orders);
+    }
 }

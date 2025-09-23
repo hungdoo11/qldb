@@ -13,10 +13,7 @@ import About from "./components/about/About";
 import Discount from "./components/discount/Discount";
 import Service from "./components/Service/Service";
 import Thucdon from "./components/Thucdon/Thucdon";
-import Bo from "./components/Thucdon/Bo";
-import Heo from "./components/Thucdon/Heo";
-import Com from "./components/Thucdon/Com";
-import Nuoc from "./components/Thucdon/Nuoc";
+import ProductDishes from "./components/Thucdon/product";
 import Sinhnhat from "./components/Servicefood/Sinhnhat";
 import SinhNhatMenu from "./components/Servicefood/SinhNhatMenu";
 import ThanhVien from "./components/Servicefood/ThanhVien";
@@ -68,10 +65,7 @@ function App() {
           <Route path="/discount" element={<Discount />} />
           <Route path="/service" element={<Service />} />
           <Route path="/thucdon" element={<Thucdon />} />
-          <Route path="/bo" element={<Bo />} />
-          <Route path="/heo" element={<Heo />} />
-          <Route path="/com" element={<Com />} />
-          <Route path="/nuoc" element={<Nuoc />} />
+          <Route path="/product/:id" element={<ProductDishes />} />
           <Route path="/sn" element={<Sinhnhat />} />
           <Route path="/snmn" element={<SinhNhatMenu />} />
           <Route path="/tv" element={<ThanhVien />} />

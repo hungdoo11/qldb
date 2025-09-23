@@ -8,8 +8,8 @@ class Aboutmn extends Component {
                  {/* <div className="menu-item">
                    
                         <div className="menu-wrapper">
-                            <img src="/images/bgr1.jpg" alt="" className='bg' />
-                            <img src="/images/food1.png" alt="" className='ct' />
+                            <img src="/images/ab1.jpg" alt="" className='bg' />
+                            <img src="/images/food1.jpg" alt="" className='ct' />
                             
                         </div>
                    
@@ -17,8 +17,8 @@ class Aboutmn extends Component {
                 <div className="menu-item">
                    
                         <div className="menu-wrapper">
-                            <img src="/images/bgr1.jpg" alt="" className='bg' />
-                            <img src="/images/food1.png" alt="" className='ct' />
+                            <img src="/images/ab1.jpg" alt="" className='bg' />
+                            {/* <img src="/images/ab1.jpg" alt="" className='ct' /> */}
                             
                         </div>
                    
@@ -26,8 +26,8 @@ class Aboutmn extends Component {
                 <div className="menu-item">
                    
                         <div className="menu-wrapper">
-                            <img src="/images/bgr1.jpg" alt="" className='bg' />
-                            <img src="/images/food1.png" alt="" className='ct' />
+                            <img src="/images/ab3.jpg" alt="" className='bg' />
+                            {/* <img src="/images/ab2.jpg" alt="" className='ct' /> */}
                             
                         </div>
                    
@@ -35,8 +35,8 @@ class Aboutmn extends Component {
                 <div className="menu-item">
                    
                         <div className="menu-wrapper">
-                            <img src="/images/bgr1.jpg" alt="" className='bg' />
-                            <img src="/images/food1.png" alt="" className='ct' />
+                            <img src="/images/ab2.jpg" alt="" className='bg' />
+                            {/* <img src="/images/ab3.jpg" alt="" className='ct' /> */}
                             
                         </div>
                    
@@ -44,8 +44,8 @@ class Aboutmn extends Component {
                 <div className="menu-item">
                    
                         <div className="menu-wrapper">
-                            <img src="/images/bgr1.jpg" alt="" className='bg' />
-                            <img src="/images/food1.png" alt="" className='ct' />
+                            <img src="/images/ab4.jpg" alt="" className='bg' />
+                            {/* <img src="/images/ab4.jpg" alt="" className='ct' />/ */}
                             
                         </div>
                    
