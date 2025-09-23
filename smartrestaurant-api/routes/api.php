@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ADMIN\AdminCategoryController;
 use App\Http\Controllers\ADMIN\AdminCustomerController;
 use App\Http\Controllers\ADMIN\AdminDishesController;
 use App\Http\Controllers\Admin\AdminOrderController;
@@ -36,6 +37,12 @@ Route::post('/login', [AuthController::class, 'login']);
 
 
 Route::get('/dishes', [DishController::class, 'index']);
+Route::get('/dishes/category/{id}', [DishController::class, 'dishesCategory']);
+
+
+
+
+
 Route::get('/dishes/{id}', [DishController::class, 'show']);
 
 Route::get('/categories', [CategoryController::class, 'index']);
@@ -56,14 +63,18 @@ Route::prefix('admin')->group(function () {
     //table
     Route::apiResource('tables', AdminTableController::class);
 
-    // Route::get('/tables', [AdminTableController::class, 'index']);
-    // Route::get('/tables/{id}', [AdminTableController::class, 'show']);
-    // Route::post('/tables', [AdminTableController::class, 'store']);
-    // Route::put('/tables/{id}', [AdminTableController::class, 'update']);
     //statictical
     Route::get('/statistical-renuve', [AdminOrderController::class, 'renuve']);
     Route::get('/statistical-order-by-day', [AdminOrderController::class, 'orderByDay']);
     Route::get('/statistical-revenue-by-day', [AdminOrderController::class, 'revenueByDay']);
+    //order
+    Route::get('/order', [AdminOrderController::class, 'index']);
+    Route::get('/order-by-table/{table_id}', [AdminOrderController::class, 'orderByTable']);
+    //category
+     Route::put('/category/{id}', [AdminCategoryController::class, 'update']);
+     Route::get('/category/{id}', [AdminCategoryController::class, 'show']);
+     Route::delete('/category/{id}', [AdminCategoryController::class, 'destroy']);
+
 });
 
 // test

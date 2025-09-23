@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Header.css";
+<<<<<<< HEAD
 import {
   FaPhoneAlt,
   FaEnvelope,
@@ -8,8 +9,11 @@ import {
   FaBars,
 } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+=======
+import { FaPhoneAlt, FaEnvelope, FaShoppingCart, FaSearch } from "react-icons/fa";
+import { Link, useLocation } from "react-router-dom";
+>>>>>>> 1b1e3f679fda46e4a0d8fb1a20abac59bc9609c1
 import axios from "axios";
-import api from "../api/Api";
 
 function Header({ cart = [], addToCart }) {
   const location = useLocation();
@@ -17,10 +21,7 @@ function Header({ cart = [], addToCart }) {
   const [openMenu, setOpenMenu] = useState(false);
   const [openCart, setOpenCart] = useState(false);
   const [user, setUser] = useState(null);
-
-  // Popup lịch sử
-  const [orderHistory, setOrderHistory] = useState([]);
-  const [selectedCustomer, setSelectedCustomer] = useState(null);
+  const [categories, setCategories] = useState([]);
 
   // Lấy user từ localStorage
   useEffect(() => {
@@ -30,18 +31,18 @@ function Header({ cart = [], addToCart }) {
     }
   }, []);
 
-  // 👉 Xem lịch sử
-  const handleViewHistory = async (customer) => {
-    try {
-      const res = await api.get(`/users/${customer.id}/orders`);
-      setOrderHistory(res.data || []); // luôn đảm bảo là array
-      setSelectedCustomer(customer);
-    } catch (err) {
-      console.error("Lỗi khi load lịch sử:", err);
-      setOrderHistory([]);
-      setSelectedCustomer(customer);
-    }
-  };
+  // Gọi API lấy categories
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await axios.get("http://127.0.0.1:8000/api/categories");
+        setCategories(res.data); // giả sử API trả về array [{id, name, slug}]
+      } catch (err) {
+        console.error("Fetch categories error:", err);
+      }
+    };
+    fetchCategories();
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("user");
@@ -49,16 +50,26 @@ function Header({ cart = [], addToCart }) {
     window.location.href = "/";
   };
 
+<<<<<<< HEAD
   const toggleMenu = () => setOpenMenu(!openMenu);
   const toggleCart = () => {
     if (cart.length > 0) {
       navigate("/order", { state: { cart } }); // Chuyển đến trang đặt món với dữ liệu giỏ hàng
     }
+=======
+  const toggleMenu = () => {
+    setOpenMenu(!openMenu);
   };
 
-  // 👉 Đặt món
+  const toggleCart = () => {
+    setOpenCart(!openCart);
+>>>>>>> 1b1e3f679fda46e4a0d8fb1a20abac59bc9609c1
+  };
+
   const handleOrder = async () => {
     if (cart.length === 0) return alert("Chưa có món nào!");
+    console.log("Cart data:", cart);
+
     try {
       const response = await axios.post("http://127.0.0.1:8000/api/orders", {
         table_id: 1,
@@ -76,16 +87,12 @@ function Header({ cart = [], addToCart }) {
       window.location.reload();
     } catch (err) {
       console.error("Order error:", err.response?.data || err.message);
-      alert(
-        "Có lỗi khi đặt món! Chi tiết: " +
-          (err.response?.data?.message || err.message)
-      );
+      alert("Có lỗi khi đặt món! Chi tiết: " + (err.response?.data?.message || err.message));
     }
   };
 
   return (
     <header>
-      {/* --- Top Bar --- */}
       <div className="top-bar">
         <div className="top-left">
           <span className="slogan">Enjoy delicious food</span>
@@ -102,7 +109,6 @@ function Header({ cart = [], addToCart }) {
         </div>
       </div>
 
-      {/* --- Navbar --- */}
       <div className="navbar">
         <div className="logo">
           <img src="/images/logo.png" alt="Libri Logo" />
@@ -117,52 +123,34 @@ function Header({ cart = [], addToCart }) {
         <nav className={`menu ${openMenu ? "show" : ""}`}>
           <Link to="/">Trang chủ</Link>
           <Link to="/about">Giới thiệu FOOD</Link>
+
+          {/* Dropdown menu categories từ API */}
           <div className="dropdown">
-            <Link to="/thucdon" className="menu-link" onClick={toggleMenu}>
+            <Link to="/product" className="menu-link" onClick={toggleMenu}>
               Thực đơn
             </Link>
             <div
               className={`dropdown-menu ${
-                openMenu ||
-                ["/thucdon", "/bo", "/heo", "/com", "/nuoc"].includes(
-                  location.pathname
-                )
-                  ? "show"
-                  : ""
+                openMenu || location.pathname.startsWith("/product") ? "show" : ""
               }`}
             >
-              <Link
-                to="/thucdon"
-                className={location.pathname === "/thucdon" ? "active" : ""}
-              >
-                Món ngon phải thử
-              </Link>
-              <Link
-                to="/bo"
-                className={location.pathname === "/bo" ? "active" : ""}
-              >
-                Bò Mỹ
-              </Link>
-              <Link
-                to="/heo"
-                className={location.pathname === "/heo" ? "active" : ""}
-              >
-                Heo Quay
-              </Link>
-              <Link
-                to="/com"
-                className={location.pathname === "/com" ? "active" : ""}
-              >
-                Cơm
-              </Link>
-              <Link
-                to="/nuoc"
-                className={location.pathname === "/nuoc" ? "active" : ""}
-              >
-                Thức uống
-              </Link>
+              {categories.length > 0 ? (
+                categories.map((cat) => (
+                  <Link
+                    key={cat.id}
+                    to={`/product/${cat.id}`}
+                    className={location.pathname === `/product/${cat.id}` ? "active" : ""}
+                  >
+                    {cat.name}
+                  </Link>
+                ))
+              ) : (
+                <p>Đang tải...</p>
+              )}
             </div>
           </div>
+
+          <Link to="/discount">Khuyến mãi</Link>
           <Link to="/service">Dịch vụ</Link>
         </nav>
 
@@ -176,22 +164,35 @@ function Header({ cart = [], addToCart }) {
             onMouseLeave={() => setOpenCart(false)}
           >
             <FaShoppingCart className="icon" />
-            {cart.length > 0 && (
-              <span className="cart-badge">{cart.length}</span>
-            )}
+            {cart.length > 0 && <span className="cart-badge">{cart.length}</span>}
 
-            <div
-              className={`dropdown-content cart-dropdown ${
-                openCart ? "show" : ""
-              }`}
-            >
+            <div className={`dropdown-content cart-dropdown ${openCart ? "show" : ""}`}>
               {cart.length === 0 ? (
                 <p>Chưa có món nào</p>
               ) : (
+<<<<<<< HEAD
                 cart.map((item, idx) => (
                   <div key={idx} className="cart-item">
                     {item.name} x {item.quantity} ={" "}
                     {(parseFloat(item.price) * item.quantity).toFixed(0)}đ
+=======
+                <>
+                  {cart.map((item, idx) => (
+                    <div key={idx} className="cart-item">
+                      {item.name} x {item.quantity} ={" "}
+                      {(parseFloat(item.price) * item.quantity).toFixed(0)}đ
+                    </div>
+                  ))}
+
+                  <div className="cart-total">
+                    Tổng:{" "}
+                    {cart
+                      .reduce(
+                        (total, item) => total + parseFloat(item.price) * item.quantity,
+                        0
+                      )
+                      .toFixed(0)}đ
+>>>>>>> 1b1e3f679fda46e4a0d8fb1a20abac59bc9609c1
                   </div>
                 ))
               )}
@@ -218,61 +219,12 @@ function Header({ cart = [], addToCart }) {
                   <a href="#" onClick={handleLogout}>
                     Đăng xuất
                   </a>
-                  <button
-                    className="btn-history"
-                    onClick={() => handleViewHistory(user)}
-                  >
-                    Xem lịch sử
-                  </button>
                 </div>
               </>
             )}
           </div>
         </div>
       </div>
-
-      {/* Popup lịch sử */}
-      {selectedCustomer && (
-        <div className="popup history-popup">
-          <div className="popup-box history-box">
-            <h3>Lịch sử đặt món - {selectedCustomer.name}</h3>
-            {orderHistory.length === 0 ? (
-              <p>Chưa có đơn hàng nào</p>
-            ) : (
-              <table className="history-table" border="1" cellPadding="8">
-                <thead>
-                  <tr>
-                    <th>ID Đơn</th>
-                    <th>Ngày</th>
-                    <th>Tổng tiền</th>
-                    <th>Món ăn</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {orderHistory.map((order) => (
-                    <tr key={order.id}>
-                      <td>{order.id}</td>
-                      <td>{new Date(order.created_at).toLocaleString()}</td>
-                      <td>{order.total_price}đ</td>
-                      <td>
-                        {order.items?.map((i) => (
-                          <div key={i.id}>
-                            {i.dish?.name} x {i.quantity} ={" "}
-                            {i.price * i.quantity}đ
-                          </div>
-                        ))}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            )}
-            <div className="popup-actions">
-              <button onClick={() => setSelectedCustomer(null)}>Đóng</button>
-            </div>
-          </div>
-        </div>
-      )}
     </header>
   );
 }

@@ -8,7 +8,7 @@ class OrderDetail extends Model
 {
     public function dish()
     {
-        return $this->belongsTo(Dishes::class);
+        return $this->belongsTo(Dishes::class, 'dish_id', 'id')->select('id', 'name');
     }
 
     protected $fillable = ['order_id', 'dish_id', 'quantity', 'price'];

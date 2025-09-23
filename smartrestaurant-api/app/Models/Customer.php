@@ -16,4 +16,12 @@ class Customer extends Model
         'type',
         'note',
     ];
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var list<string>
+     */
+    protected $hidden = [
+        'password',
+    ];
 }
