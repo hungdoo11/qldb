@@ -724,3 +724,62 @@ header {
 .order-btn:hover {
   background: #e63946;
 }
+
+
+/* cb */
+
+.ts-container {
+  padding: 40px;
+  text-align: center;
+}
+
+.ts-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.ts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.ts-card {
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.ts-card:hover {
+  transform: scale(1.05);
+  border-color: #007bff;
+}
+
+.ts-selected {
+  border: 2px solid green;
+  background-color: #e0ffe0;
+}
+
+.ts-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ts-card-number {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.ts-card-status {
+  font-size: 14px;
+  color: #555;
+}
+
+.ts-btn-confirm {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}

@@ -26,7 +26,7 @@ function Service() {
           </div>
           <div className="service-page-info">
             <h3>Tại cửa hàng</h3>
-            <Link to="/thucdon">
+            <Link to="/product/1">
               <button type="submit">Xem thêm</button>
             </Link>
           </div>

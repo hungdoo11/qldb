@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./Header.css";
 import {
   FaPhoneAlt,
@@ -16,9 +16,11 @@ function Header({ cart = [], addToCart }) {
   const location = useLocation();
   const navigate = useNavigate();
   const [openMenu, setOpenMenu] = useState(false);
+    const menuRef = useRef(null);
   const [openCart, setOpenCart] = useState(false);
   const [user, setUser] = useState(null);
   const [categories, setCategories] = useState([]);
+const tableNumber = localStorage.getItem("tableNumber") || 1; // mặc định 1
 
   // Lấy user từ localStorage
   useEffect(() => {
@@ -49,27 +51,43 @@ function Header({ cart = [], addToCart }) {
 
 
   const toggleMenu = () => setOpenMenu(!openMenu);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setOpenMenu(false); // click ngoài menu -> tắt menu
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   const toggleCart = () => {
     if (cart.length > 0) {
       navigate("/order", { state: { cart } }); // Chuyển đến trang đặt món với dữ liệu giỏ hàng
     }
   };
 
+  
+
   const handleOrder = async () => {
     if (cart.length === 0) return alert("Chưa có món nào!");
     console.log("Cart data:", cart);
 
     try {
-      const response = await axios.post("http://127.0.0.1:8000/api/orders", {
-        table_id: 1,
-        customer_name: user?.name || "Khách lẻ",
-        phone: user?.phone || "0000000000",
-        items: cart.map((item) => ({
-          dish_id: item.id,
-          price: item.price || 0,
-          quantity: item.quantity,
-        })),
-      });
+     const response = await axios.post("http://127.0.0.1:8000/api/orders", {
+  table_id: tableNumber,
+  customer_name: user?.name || "Khách lẻ",
+  phone: user?.phone || "0000000000",
+  items: cart.map((item) => ({
+    dish_id: item.id,
+    price: item.price || 0,
+    quantity: item.quantity,
+  })),
+});
+
 
       console.log("Order response:", response.data);
       alert("Đặt món thành công!");
@@ -114,7 +132,7 @@ function Header({ cart = [], addToCart }) {
           <Link to="/about">Giới thiệu FOOD</Link>
 
           {/* Dropdown menu categories từ API */}
-          <div className="dropdown">
+          <div className="dropdown" ref={menuRef}>
             <Link to="/product/1" className="menu-link" onClick={toggleMenu}>
               Thực đơn
             </Link>

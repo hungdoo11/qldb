@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 // Layouts
 import MainLayout from "./components/layout/MainLayout";
@@ -19,6 +19,7 @@ import SinhNhatMenu from "./components/Servicefood/SinhNhatMenu";
 import ThanhVien from "./components/Servicefood/ThanhVien";
 import Vip from "./components/Servicefood/Vip";
 import Oder from "./components/header/Oder";
+import TableSelectPage from "./components/header/TableSelectPage"; // import form chọn bàn
 
 // Admin pages
 import AdminDashboard from "./components/adm/AdminDashboard";
@@ -31,16 +32,16 @@ import Categories from "./components/adm/Categories";
 import Customers from "./components/adm/Customers";
 import Tables from "./components/adm/Tables";
 
-//add form
+// add form
 import MenuItemFormPage from "./components/addform/MenuItemFormPage";
 import TableFormPage from "./components/addform/TableFormPage";
-
 
 // shield
 import ProtectedRoute from "./components/shield/ProtectedRoute";
 
 function App() {
   const [cart, setCart] = useState([]);
+
 
   const addToCart = (item) => {
     setCart((prevCart) => {
@@ -54,15 +55,54 @@ function App() {
     });
   };
 
+  // Lấy thông tin user và bàn hiện tại
+  const [user, setUser] = useState(() => {
+    const storedUser = localStorage.getItem("user");
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
+  const [tableId, setTableId] = useState(localStorage.getItem("tableId"));
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    const storedTableId = localStorage.getItem("tableId");
+    setUser(storedUser ? JSON.parse(storedUser) : null);
+    setTableId(storedTableId);
+    console.log("User updated:", storedUser, "TableId:", storedTableId);
+  }, []);
+
   return (
     <BrowserRouter>
       <Routes>
         {/* Public + FE Layout */}
         <Route element={<MainLayout cart={cart} addToCart={addToCart} />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/order" element={<Oder />} />
-          <Route path="/login" element={<Login />} />
+
+          {/* Nếu chưa login -> login */}
+          <Route
+            path="/login"
+            element={!user || Object.keys(user).length === 0 ? <Login /> : <Navigate to={tableId ? "/" : "/select-table"} />}
+          />
           <Route path="/register" element={<Register />} />
+
+          {/* Form chọn bàn */}
+          <Route
+            path="/select-table"
+            element={user && Object.keys(user).length > 0 ? <TableSelectPage /> : <Navigate to="/login" />}
+          />
+
+          {/* Trang chủ + các FE page */}
+          <Route
+            path="/"
+            element={
+              !user || Object.keys(user).length === 0 ? (
+                <Navigate to="/login" />
+              ) : !tableId ? (
+                <Navigate to="/select-table" />
+              ) : (
+                <Home />
+              )
+            }
+
+          />
+          <Route path="/order" element={<Oder />} />
           <Route path="/about" element={<About />} />
           <Route path="/discount" element={<Discount />} />
           <Route path="/service" element={<Service />} />
@@ -74,7 +114,7 @@ function App() {
           <Route path="/vip" element={<Vip />} />
         </Route>
 
-        {/* Admin Layout (chỉ admin level=1) */}
+        {/* Admin Layout */}
         <Route
           path="/admin"
           element={
@@ -94,16 +134,11 @@ function App() {
           <Route path="tables" element={<Tables />} />
         </Route>
 
-        {/* addform */}
-
-        {/* tables */}
-
+        {/* Add form */}
         <Route path="/admin/tables/add" element={<TableFormPage />} />
         <Route path="/admin/tables/edit/:id" element={<TableFormPage />} />
-        {/* menuiteam */}
         <Route path="/admin/menuitems/creat" element={<MenuItemFormPage />} />
         <Route path="/admin/menuitems/edit/:id" element={<MenuItemFormPage />} />
-
       </Routes>
     </BrowserRouter>
   );

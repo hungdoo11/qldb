@@ -3,7 +3,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom"; // dùng để điều hướng
 import "./admin.css";
 
-export default function Tables() {
+export default function Tables() 
+{
   const [tables, setTables] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -15,32 +16,72 @@ const [totalPrice, setTotalPrice] = useState(0);
 
 const openDetail = async (table) => {
   setSelectedTable(table);
+  setLoading(true);
 
-  try {
-    const res = await axios.get(`http://127.0.0.1:8000/api/admin/orders/${table.id}`, {
-      headers: { Accept: "application/json" },
-    });
-
-    const order = res.data;
-    setOrderDetails(order);
-
-    // tính tổng
-    const total = order.items.reduce((sum, item) => sum + item.qty * item.price, 0);
-    setTotalPrice(total);
-
-  } catch (err) {
-    console.error("Lấy chi tiết đơn hàng lỗi:", err);
+try {
+  const res = await axios.get(
+    `http://127.0.0.1:8000/api/admin/orders/${table.id}`,
+    { headers: { Accept: "application/json" } }
+  );
+  console.log("API Response:", res.data); // Kiểm tra dữ liệu
+  if (!res.data || res.data.length === 0) {
     setOrderDetails(null);
+    setTotalPrice(0);
+    setLoading(false);
+    return;
   }
-};
 
+    const order = res.data[0];
+
+    const orderInfo = {
+      orderId: order.id || "N/A",
+      customerId: order.customer?.name || order.customer_id || "N/A",
+      userId: order.user?.name || order.user_id || "N/A",
+      table: order.table?.table_number || "N/A",
+      status: order.status || "Không xác định",
+      totalAmount: parseFloat(order.total_amount || 0).toLocaleString("vi-VN"),
+      createdAt: order.created_at || "N/A",
+      updatedAt: order.updated_at || "N/A",
+      items: order.details?.map((detail) => ({
+        name: detail.dish?.name || "Không xác định",
+        qty: detail.quantity || 0,
+        price: parseFloat(detail.price || 0),
+      })) || [],
+    };
+
+    setOrderDetails(orderInfo);
+    const total = orderInfo.items.reduce(
+      (sum, item) => sum + item.qty * item.price,
+      0
+    );
+    setTotalPrice(total);
+    setLoading(false);
+  } catch (err) {
+  console.error("Lỗi API:", err.response ? err.response.data : err.message);
+  setOrderDetails(null);
+  setTotalPrice(0);
+  setLoading(false);
+}
+};
 const closeDetail = () => {
   setSelectedTable(null);
   setOrderDetails(null);
   setTotalPrice(0);
 };
 
-
+//  if (order.items && order.items.length > 0) {
+//       const total = order.items.reduce(
+//         (sum, item) => sum + item.qty * item.price,
+//         0
+//       );
+//       setTotalPrice(total);
+//     } else {
+//       setTotalPrice(order.total_amount);
+//     }
+//   } catch (err) {
+//     console.error("Lấy chi tiết đơn hàng lỗi:", err);
+//     setOrderDetails(null);
+//   }
 
 
   const translateStatus = (status) => {
@@ -115,48 +156,60 @@ const closeDetail = () => {
 </button>
 
 
-       {selectedTable && (
+{selectedTable && (
   <div className="modal-overlay" onClick={closeDetail}>
     <div className="modal-box" onClick={(e) => e.stopPropagation()}>
       <h3>Chi tiết Bàn {selectedTable.table_number}</h3>
 
-      {orderDetails ? (
+      {loading ? (
+        <p>Đang tải thông tin đơn hàng...</p>
+      ) : orderDetails ? (
         <div className="order-info">
           <p><strong>Mã đơn:</strong> {orderDetails.orderId}</p>
-          <p><strong>Khách hàng:</strong> {orderDetails.customerName}</p>
-          <p><strong>SĐT:</strong> {orderDetails.phone}</p>
           <p><strong>Bàn:</strong> {orderDetails.table}</p>
+          <p><strong>Nhân viên:</strong> {orderDetails.userId}</p>
+          <p><strong>Khách hàng:</strong> {orderDetails.customerId}</p>
+          <p><strong>Trạng thái:</strong> {orderDetails.status}</p>
+          <p><strong>Tổng tiền:</strong> {orderDetails.totalAmount} đ</p>
+          <p><strong>Tạo lúc:</strong> {orderDetails.createdAt}</p>
+          <p><strong>Cập nhật lúc:</strong> {orderDetails.updatedAt}</p>
 
-          <table>
-            <thead>
-              <tr>
-                <th>Món</th>
-                <th>SL</th>
-                <th>Giá</th>
-                <th>Thành tiền</th>
-              </tr>
-            </thead>
-            <tbody>
-              {orderDetails.items.map((item, index) => (
-                <tr key={index}>
-                  <td>{item.name}</td>
-                  <td>{item.qty}</td>
-                  <td>{item.price.toLocaleString()} đ</td>
-                  <td>{(item.qty * item.price).toLocaleString()} đ</td>
+          {orderDetails.items.length > 0 ? (
+            <table>
+              <thead>
+                <tr>
+                  <th>Món</th>
+                  <th>SL</th>
+                  <th>Giá</th>
+                  <th>Thành tiền</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {orderDetails.items.map((item, index) => (
+                  <tr key={index}>
+                    <td>{item.name}</td>
+                    <td>{item.qty}</td>
+                    <td>{item.price.toLocaleString("vi-VN")} đ</td>
+                    <td>{(item.qty * item.price).toLocaleString("vi-VN")} đ</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p>Không có món nào trong đơn hàng.</p>
+          )}
 
           <div className="total">
-            <h3>Tổng cộng: {totalPrice.toLocaleString()} đ</h3>
+            <h3>Tổng cộng: {totalPrice.toLocaleString("vi-VN")} đ</h3>
           </div>
         </div>
       ) : (
-        <p>Đang tải thông tin đơn hàng...</p>
+        <p>Không có đơn hàng cho bàn này.</p>
       )}
 
-      <button className="btn-back" onClick={closeDetail}>Đóng</button>
+      <button className="btn-back" onClick={closeDetail}>
+        Đóng
+      </button>
     </div>
   </div>
 )}
