@@ -16,7 +16,7 @@ function Service() {
     <div className="service-page">
       <div className="service-page-tilte" data-aos="fade-up">
         <h2>Dịch Vụ</h2>
-        <small>Hãy tận hưởng khoảng thắc chọn vẹn còn FOOD</small>
+        <small>Hãy tận hưởng khoảng khắc chọn vẹn cùng sự phục vụ tận tình</small>
       </div>
 
       <div className="service-page-content">

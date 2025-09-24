@@ -53,14 +53,17 @@ function App() {
       return [...prevCart, { ...item, quantity: 1 }];
     });
   };
+  const clearCart = () => {
+  setCart([]);
+};
 
   return (
     <BrowserRouter>
       <Routes>
         {/* Public + FE Layout */}
-        <Route element={<MainLayout cart={cart} addToCart={addToCart} />}>
+        <Route element={<MainLayout cart={cart} addToCart={addToCart}  />}>
+        <Route path="/order" element={<Oder cartt={cart} clearCart={clearCart} />} />
           <Route path="/" element={<Home />} />
-          <Route path="/order" element={<Oder />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/about" element={<About />} />

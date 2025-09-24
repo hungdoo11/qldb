@@ -1,22 +1,20 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import api from "../api/Api";
 
-function Oder() {
+function Oder({ cartt, clearCart }) {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // ✅ State lưu giỏ hàng để tăng/giảm/xóa
   const [cart, setCart] = useState(location.state?.cart || []);
 
-  // ✅ Tăng số lượng
   const increaseQty = (index) => {
     const updated = [...cart];
     updated[index].quantity += 1;
     setCart(updated);
   };
 
-  // ✅ Giảm số lượng
   const decreaseQty = (index) => {
     const updated = [...cart];
     if (updated[index].quantity > 1) {
@@ -27,42 +25,48 @@ function Oder() {
     setCart(updated);
   };
 
-  // ✅ Xóa món
   const deleteItem = (index) => {
     const updated = cart.filter((_, i) => i !== index);
     setCart(updated);
   };
 
-  // ✅ Gửi đơn hàng
-  const handleOrder = async () => {
-    if (cart.length === 0) return alert("Chưa có món nào!");
+const handleOrder = async () => {
+  if (cart.length === 0) return alert("Chưa có món nào!");
 
-    try {
-      await axios.post("http://127.0.0.1:8000/api/orders", {
-        table_id: 1,
-        customer_name: localStorage.getItem("user")
-          ? JSON.parse(localStorage.getItem("user")).name
-          : "Khách lẻ",
-        phone: localStorage.getItem("user")
-          ? JSON.parse(localStorage.getItem("user")).phone
-          : "0000000000",
-        items: cart.map((item) => ({
-          dish_id: item.id,
-          price: item.price || 0,
-          quantity: item.quantity,
-        })),
-      });
+  const total_amount = cart.reduce(
+    (sum, item) => sum + parseFloat(item.price) * item.quantity,
+    0
+  );
+  const order_detail = JSON.stringify(
+    cart.map((item) => ({
+      dish_id: item.id,
+      quantity: item.quantity,
+      price: parseFloat(item.price) || 0,
+    }))
+  );
 
-      alert("✅ Đặt món thành công!");
-      navigate("/");
-    } catch (err) {
-      console.error("Order error:", err.response?.data || err.message);
-      alert(
-        "❌ Có lỗi khi đặt món! " +
-          (err.response?.data?.message || err.message)
-      );
-    }
-  };
+  try {
+    await api.post("/order", {
+      table_id: 1,
+      customer_id: localStorage.getItem("customer_id") ,
+      order_time: new Date().toISOString().slice(0, 19).replace("T", " "),
+      total_amount,
+      order_detail,
+    });
+
+    alert("✅ Đặt món thành công!");
+
+      clearCart();
+    navigate("/");
+  } catch (err) {
+    console.error("Order error:", err.response?.data || err.message);
+    alert(
+      "❌ Có lỗi khi đặt món! " +
+        (err.response?.data?.message || err.message)
+    );
+  }
+};
+
 
   const total = cart
     .reduce(

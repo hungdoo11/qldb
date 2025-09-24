@@ -33,6 +33,7 @@ function Login() {
       } else if (res.data.role === "customer") {
         localStorage.setItem("user", JSON.stringify(res.data.customer));
         localStorage.setItem("role", "customer");
+        localStorage.setItem("customer_id", JSON.stringify(res.data.customer.id));
         navigate("/"); // điều hướng user thường
       } else {
         alert("Sai tài khoản hoặc mật khẩu ❌");

@@ -50,7 +50,6 @@ class OrderController extends Controller
         $order = Order::create([
             'table_id' => $data['table_id'],
             'customer_id'=> $data['customer_id'],
-            'user_id'=> $data['user_id'],
             'order_time'=> $data['order_time'],
             'total_amount' => $data['total_amount'],
         ]);
