@@ -15,17 +15,6 @@ use App\Http\Controllers\OrderController;
 
 Route::apiResource('users', UserController::class);
 Route::apiResource('admin/dishes', AdminDishesController::class);
-
-
-// Route::post('/orders', [OrderController::class, 'store']);
-// Route::get('/orders', [OrderController::class, 'index']);
-// Route::get('/orders/{id}', [OrderController::class, 'show']);
-// Route::put('/orders/{id}/confirm', [OrderController::class, 'confirm']);
-// Route::put('/orders/{id}/complete', [OrderController::class, 'complete']);
-// Route::put('/orders/{id}/cancel', [OrderController::class, 'cancel']);
-
-
-
 Route::get('/hello', function () {
     return response()->json([
         'message' => 'Hello from Laravel 11 API 🚀'
@@ -39,8 +28,9 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::get('/dishes', [DishController::class, 'index']);
 Route::get('/dishes/category/{id}', [DishController::class, 'dishesCategory']);
 
-
-
+//order customer
+Route::post('/order', [OrderController::class, 'store']);
+Route::get('/users/{id}/orders', [OrderController::class, 'getOrdersByUser']);
 
 
 Route::get('/dishes/{id}', [DishController::class, 'show']);
@@ -77,6 +67,4 @@ Route::prefix('admin')->group(function () {
 
 });
 
-// test
 
-Route::get('/users/{id}/orders', [OrderController::class, 'getOrdersByUser']);

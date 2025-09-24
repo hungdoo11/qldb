@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import api from "../api/Api";
-import { useOutletContext, useParams } from "react-router-dom"; 
+import { useOutletContext, useParams } from "react-router-dom";
+import { FaShoppingCart, FaStar } from "react-icons/fa";
 import "./menu.css";
 
 class ProductDishesBase extends Component {
@@ -8,7 +9,7 @@ class ProductDishesBase extends Component {
     super(props);
     this.state = {
       foods: [],
-      selectedCategoryId: props.categoryId || null, 
+      selectedCategoryId: props.categoryId || null,
     };
   }
 
@@ -25,12 +26,10 @@ class ProductDishesBase extends Component {
     }
   }
 
-  // Lấy danh sách món theo category
   fetchFoods = async () => {
     try {
       const { selectedCategoryId } = this.state;
       if (!selectedCategoryId) return;
-
       const foods = await api.get(`/dishes/category/${selectedCategoryId}`);
       this.setState({ foods });
     } catch (err) {
@@ -46,34 +45,50 @@ class ProductDishesBase extends Component {
       <div className="menu-td-food">
         {foods.length > 0 ? (
           foods.map((food) => (
-            <div
-              key={food.id}
-              className="menu-td-food-item"
-              onClick={() =>
-                addToCart({
-                  id: food.id,
-                  name: food.name,
-                  price: parseFloat(food.price),
-                  image: food.image,
-                })
-              }
-            >
-              <div className="menu-td-wrapper">
-                <img src={`http://127.0.0.1:8000/${food.image}`} alt={food.name} className="ct" />
+            <div key={food.id} className="menu-card">
+              <div className="menu-img-wrapper">
+                <img
+                  src={`http://127.0.0.1:8000/${food.image}`}
+                  alt={food.name}
+                  className="menu-img"
+                />
+                <div className="menu-badge">🔥 Món nổi bật</div>
+
+                <div className="menu-overlay">
+                  <button
+                    className="menu-add-btn"
+                    onClick={() =>
+                      addToCart({
+                        id: food.id,
+                        name: food.name,
+                        price: parseFloat(food.price),
+                        image: food.image,
+                      })
+                    }
+                  >
+                    <FaShoppingCart size={18} /> Thêm vào giỏ
+                  </button>
+                </div>
               </div>
-              <div className="menu-name">{food.name}</div>
-              <div className="menu-price">{food.price}đ</div>
+
+              <div className="menu-info">
+                <div className="menu-name">{food.name}</div>
+               
+                <div className="menu-price">
+                  {parseFloat(food.price).toLocaleString()}đ
+                </div>
+               
+              </div>
             </div>
           ))
         ) : (
-          <p>Không có món nào trong danh mục này.</p>
+          <p className="no-data">Không có món nào trong danh mục này.</p>
         )}
       </div>
     );
   }
 }
 
-// Wrapper: lấy id từ URL và addToCart từ context
 export default function ProductDishesWrapper(props) {
   const { id } = useParams();
   const { addToCart } = useOutletContext();

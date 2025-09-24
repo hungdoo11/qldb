@@ -1,99 +1,150 @@
-/* Container chứa các món */
+/* Container */
 .menu-td-food {
   display: flex;
-  justify-content: center;
   flex-wrap: wrap;
-  gap: 20px;
-  padding: 20px;
-  margin: 20px auto;
-  width: 100%; /* Đảm bảo chiếm toàn bộ chiều rộng */
-  box-sizing: border-box;
+  justify-content: center;
+  gap: 30px;
+  padding: 40px 20px;
+  background: linear-gradient(to bottom, #fff, #fafafa);
 }
 
-/* Mỗi món */
-.menu-td-food-item {
+/* Card món ăn */
+.menu-card {
+  width: 300px;
   background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 18px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
   overflow: hidden;
-  flex: 0 0 calc(33.333% - 13.33px); /* Flex không co giãn, cố định 1/3 */
-  max-width: 400px;
-  height: 400px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
-  box-sizing: border-box;
-}
-
-/* Hiệu ứng hover */
-.menu-td-food-item:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-}
-
-/* Wrapper hình ảnh */
-.menu-td-wrapper {
   position: relative;
-  width: 100%;
-  height: 325px;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  cursor: pointer;
+}
+
+.menu-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.15);
+}
+
+/* Ảnh món */
+.menu-img-wrapper {
+  position: relative;
+  height: 220px;
   overflow: hidden;
 }
 
-.menu-td-wrapper img.bg {
+.menu-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.4s ease;
 }
 
-.menu-td-wrapper img.ct {
+.menu-card:hover .menu-img {
+  transform: scale(1.08);
+}
+
+/* Badge nổi bật */
+.menu-badge {
   position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  max-height: 150px;
+  top: 12px;
+  left: 12px;
+  background: #e74c3c;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: 12px;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
 
-/* Tiêu đề và thông tin món */
-.menu-title {
+/* Overlay thêm vào giỏ */
+.menu-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.menu-card:hover .menu-overlay {
+  opacity: 1;
+}
+
+.menu-add-btn {
+  background: #ff6b35;
+  color: #fff;
+  font-weight: 600;
+  font-size: 15px;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.menu-add-btn:hover {
+  background: #e85a2a;
+  transform: scale(1.05);
+}
+
+/* Nội dung món */
+.menu-info {
+  padding: 18px 20px;
   text-align: center;
-  font-weight: bold;
-  font-size: 16px;
-  color: #e21b22;
-  padding: 10px;
 }
 
 .menu-name {
-  font-size: 18px;
-  font-weight: 600;
-  margin: 10px 0 5px;
+  font-size: 20px;
+  font-weight: 700;
   color: #333;
-  text-align: center;
+  margin-bottom: 6px;
+}
+
+.menu-stars {
+  display: flex;
+  justify-content: center;
+  gap: 2px;
+  margin-bottom: 8px;
 }
 
 .menu-price {
-  font-size: 16px;
-  font-weight: bold;
+  font-size: 20px;
+  font-weight: 700;
   color: #e74c3c;
-  margin-bottom: 5px;
-  text-align: center;
+  margin-bottom: 10px;
 }
 
-.menu-category {
+.menu-desc {
   font-size: 14px;
   color: #777;
+  line-height: 1.5;
+  min-height: 40px;
+}
+
+/* Không có món */
+.no-data {
+  font-size: 18px;
+  color: #888;
+  margin-top: 50px;
   text-align: center;
 }
 
-/* Responsive design */
-@media (max-width: 1200px) {
-  .menu-td-food-item {
-    flex: 0 0 calc(50% - 10px); /* 2 món mỗi hàng */
-    max-width: 300px;
+/* Responsive */
+@media (max-width: 1024px) {
+  .menu-card {
+    width: 45%;
   }
 }
 
 @media (max-width: 768px) {
-  .menu-td-food-item {
-    flex: 0 0 100%; /* 1 món mỗi hàng */
-    max-width: 100%;
+  .menu-card {
+    width: 100%;
   }
 }

@@ -1,18 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "./Header.css";
-<<<<<<< HEAD
-import {
-  FaPhoneAlt,
-  FaEnvelope,
-  FaShoppingCart,
-  FaSearch,
-  FaBars,
-} from "react-icons/fa";
+
+import { FaPhoneAlt, FaEnvelope, FaShoppingCart, FaSearch, FaBars } from "react-icons/fa";
+
 import { Link, useLocation, useNavigate } from "react-router-dom";
-=======
-import { FaPhoneAlt, FaEnvelope, FaShoppingCart, FaSearch } from "react-icons/fa";
-import { Link, useLocation } from "react-router-dom";
->>>>>>> 1b1e3f679fda46e4a0d8fb1a20abac59bc9609c1
+
 import axios from "axios";
 
 function Header({ cart = [], addToCart }) {
@@ -50,20 +42,13 @@ function Header({ cart = [], addToCart }) {
     window.location.href = "/";
   };
 
-<<<<<<< HEAD
-  const toggleMenu = () => setOpenMenu(!openMenu);
-  const toggleCart = () => {
-    if (cart.length > 0) {
-      navigate("/order", { state: { cart } }); // Chuyển đến trang đặt món với dữ liệu giỏ hàng
-    }
-=======
+
   const toggleMenu = () => {
     setOpenMenu(!openMenu);
   };
 
   const toggleCart = () => {
     setOpenCart(!openCart);
->>>>>>> 1b1e3f679fda46e4a0d8fb1a20abac59bc9609c1
   };
 
   const handleOrder = async () => {
@@ -153,7 +138,7 @@ function Header({ cart = [], addToCart }) {
           <Link to="/discount">Khuyến mãi</Link>
           <Link to="/service">Dịch vụ</Link>
         </nav>
-
+        
         {/* Actions */}
         <div className="actions">
           {/* Giỏ hàng */}
@@ -170,12 +155,7 @@ function Header({ cart = [], addToCart }) {
               {cart.length === 0 ? (
                 <p>Chưa có món nào</p>
               ) : (
-<<<<<<< HEAD
-                cart.map((item, idx) => (
-                  <div key={idx} className="cart-item">
-                    {item.name} x {item.quantity} ={" "}
-                    {(parseFloat(item.price) * item.quantity).toFixed(0)}đ
-=======
+
                 <>
                   {cart.map((item, idx) => (
                     <div key={idx} className="cart-item">
@@ -192,9 +172,8 @@ function Header({ cart = [], addToCart }) {
                         0
                       )
                       .toFixed(0)}đ
->>>>>>> 1b1e3f679fda46e4a0d8fb1a20abac59bc9609c1
                   </div>
-                ))
+                  </>
               )}
             </div>
           </div>
