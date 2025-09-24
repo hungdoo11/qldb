@@ -23,7 +23,7 @@ class Svmenu extends Component {
                                Tại cửa hàng
                                 </h3>
                                
-                                 <Link to="/thucdon">
+                                 <Link to="/product/1">
                                 <button type="submit">Xem thêm</button>
                                   </Link>
                             </div>

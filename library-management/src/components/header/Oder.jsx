@@ -47,7 +47,7 @@ const handleOrder = async () => {
 
   try {
     await api.post("/order", {
-      table_id: 1,
+      table_id: localStorage.getItem("tableId") ,
       customer_id: localStorage.getItem("customer_id") ,
       order_time: new Date().toISOString().slice(0, 19).replace("T", " "),
       total_amount,
