@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "./Header.css";
-
 import {
   FaPhoneAlt,
   FaEnvelope,
@@ -8,6 +7,7 @@ import {
   FaSearch,
   FaBars,
 } from "react-icons/fa";
+
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import axios from "axios";
@@ -53,7 +53,6 @@ function Header({ cart = [], addToCart }) {
     if (cart.length > 0) {
       navigate("/order", { state: { cart } }); // Chuyển đến trang đặt món với dữ liệu giỏ hàng
     }
-
   };
 
   const handleOrder = async () => {
@@ -116,20 +115,20 @@ function Header({ cart = [], addToCart }) {
 
           {/* Dropdown menu categories từ API */}
           <div className="dropdown">
-            <Link to="/thucdon" className="menu-link" onClick={toggleMenu}>
+            <Link to="/product/1" className="menu-link" onClick={toggleMenu}>
               Thực đơn
             </Link>
             <div
               className={`dropdown-menu ${
-                openMenu || location.pathname.startsWith("/thucdon") ? "show" : ""
+                openMenu || location.pathname.startsWith("/product") ? "show" : ""
               }`}
             >
               {categories.length > 0 ? (
                 categories.map((cat) => (
                   <Link
                     key={cat.id}
-                    to={`/thucdon/${cat.id}`}
-                    className={location.pathname === `/thucdon/${cat.id}` ? "active" : ""}
+                    to={`/product/${cat.id}`}
+                    className={location.pathname === `/product/${cat.id}` ? "active" : ""}
                   >
                     {cat.name}
                   </Link>
@@ -143,7 +142,7 @@ function Header({ cart = [], addToCart }) {
           <Link to="/discount">Khuyến mãi</Link>
           <Link to="/service">Dịch vụ</Link>
         </nav>
-
+        
         {/* Actions */}
         <div className="actions">
           {/* Giỏ hàng */}
@@ -160,14 +159,12 @@ function Header({ cart = [], addToCart }) {
               {cart.length === 0 ? (
                 <p>Chưa có món nào</p>
               ) : (
-
                 cart.map((item, idx) => (
                   <div key={idx} className="cart-item">
                     {item.name} x {item.quantity} ={" "}
                     {(parseFloat(item.price) * item.quantity).toFixed(0)}đ
-
                   </div>
-                ))
+               ))
               )}
             </div>
           </div>

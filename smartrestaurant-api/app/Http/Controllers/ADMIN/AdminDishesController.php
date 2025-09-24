@@ -68,7 +68,7 @@ class AdminDishesController extends Controller
 
         $imageName = null;
         if ($request->hasFile('image')) {
-            $imageName = time() . '.' . $request->image->getClientOriginalName();
+            $imageName = time() . '.' .  $request->name;
             $request->file('image')->storeAs('images', $imageName, 'public');
         }
         $dish = Dishes::create([
