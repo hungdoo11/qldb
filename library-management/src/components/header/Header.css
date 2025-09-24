@@ -90,6 +90,7 @@ header {
   position: absolute;
   top: 100%;
   left: 50%;
+  margin-top: 7px;
   transform: translateX(-50%) translateY(10px);
   background: #fce4e4;
   display: flex;
@@ -723,4 +724,106 @@ header {
 
 .order-btn:hover {
   background: #e63946;
+}
+.order-page {
+  max-width: 600px;
+  margin: 40px auto;
+  background: #fff;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  font-family: "Segoe UI", sans-serif;
+}
+
+.order-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+}
+
+.empty-cart {
+  text-align: center;
+  color: #888;
+  font-size: 16px;
+}
+
+.cart-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  background: #fafafa;
+  padding: 12px;
+  border-radius: 12px;
+  transition: background 0.2s;
+}
+
+.cart-item:hover {
+  background: #f0f0f0;
+}
+
+.cart-item-img {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-right: 16px;
+  border: 1px solid #ddd;
+}
+
+.cart-item-info {
+  flex: 1;
+}
+
+.cart-item-name {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.cart-item-qty {
+  font-size: 14px;
+  color: #555;
+}
+
+.cart-item-price {
+  font-weight: 600;
+  color: #d32f2f;
+  margin-left: 6px;
+}
+
+.cart-summary {
+  display: flex;
+  justify-content: space-between;
+  margin: 24px 0 16px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #222;
+}
+
+.summary-value {
+  color: #e53935;
+}
+
+.order-btn {
+  width: 100%;
+  background: #e53935;
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.25s;
+}
+
+.order-btn:hover {
+  background: #c62828;
 }

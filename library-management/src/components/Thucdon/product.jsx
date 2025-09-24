@@ -62,7 +62,7 @@ class ProductDishesBase extends Component {
                         id: food.id,
                         name: food.name,
                         price: parseFloat(food.price),
-                        image: food.image,
+                        image: `http://127.0.0.1:8000/${food.image}`,
                       })
                     }
                   >
