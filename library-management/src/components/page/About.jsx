@@ -25,7 +25,7 @@ class About extends Component {
             những món ăn có chất lượng tốt, hương vị tuyệt hảo, dịch vụ chu đáo với
             một mức giá hợp lý... Hãy đến và thưởng thức nhé!
         </p>
-        <button>ĐẶT HÀNG</button>
+        {/* <button>ĐẶT HÀNG</button> */}
     </div>
 </div>
 

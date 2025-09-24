@@ -8,11 +8,11 @@ class Sinhnhat extends Component {
         {/* Slide */}
         <div className="slide">
           <div className="slide-right">
-            <img src="/images/book2.png" alt="" />
+            <img src="/images/bo1.png" alt="" />
           </div>
 
           <div className="slide-content">
-            <img src="/images/slide1.jpg" alt="" />
+            <img src="/images/baner.jpg" alt="" />
 
             {/* Thêm đoạn text + nút */}
             <div className="slide-text">
@@ -29,7 +29,7 @@ class Sinhnhat extends Component {
           </div>
 
           <div className="slide-left">
-            <img src="/images/book1.png" alt="" />
+            <img src="/images/heo1.png" alt="" />
           </div>
         </div>
 

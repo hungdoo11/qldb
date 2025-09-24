@@ -15,7 +15,7 @@ class Baner extends Component {
         <p>
            TẬN HƯỞNG NHỮNG KHOẢNH KHẮC TRỌN VẸN CÙNG FOOD
         </p>
-        <button>ĐẶT HÀNG</button>
+        {/* <button>ĐẶT HÀNG</button> */}
     </div>
 </div>
             </div>

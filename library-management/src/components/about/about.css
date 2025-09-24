@@ -57,6 +57,7 @@
     gap: 20px; /* khoảng cách giữa các item */
     width: 100%;
     height: auto; /* tự co dãn */
+    margin-top: 14px;
 }
 
 .menu-item {
