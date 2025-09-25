@@ -18,13 +18,13 @@ export default function Orders() {
           page: currentPage,
           start_date: startDate || undefined,
           end_date: endDate || undefined,
-          page_size: 11,
+          page_size: 6,
         },
         // Nếu API cần auth token, thêm headers:
         // headers: { Authorization: `Bearer ${token}` }
       });
 
-      console.log("API response:", res.data); // check dữ liệu
+      console.log("API response:", res); // check dữ liệu
       setOrders(res.data.data || []);
       setLastPage(res.data.last_page || 1);
     } catch (error) {

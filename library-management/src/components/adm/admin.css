@@ -708,7 +708,7 @@ body {
   background: #f1f1f1;
 }
 
-.menu-img {
+.menu-img-i {
   width: 70px;
   height: 50px;
   object-fit: cover;
@@ -1223,3 +1223,42 @@ body {
 
 .orders-container > div:last-child button:hover:not(:disabled) {
   background-color: #73d13d;}
+  /* Pagination container */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin: 30px 0;
+}
+
+/* Pagination buttons */
+.page-btn {
+  background: linear-gradient(135deg, #4e73df, #224abe);
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.page-btn:hover {
+  background: linear-gradient(135deg, #2e59d9, #1a3ea5);
+  transform: translateY(-1px);
+}
+
+.page-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Page info text */
+.page-info {
+  font-size: 16px;
+  color: #333;
+  font-weight: 500;
+}

@@ -117,23 +117,17 @@ class AdminOrderController extends Controller
                 'u.name as u_name',
                 'orders.*'
             );
-
-        // ✅ Lọc theo khoảng thời gian
         if ($request->has('start_date') && $request->has('end_date')) {
             $start = $request->input('start_date');
             $end   = $request->input('end_date');
 
-            // không cho lớn hơn ngày hiện tại
             $today = now()->format('Y-m-d');
             if ($end > $today) {
                 $end = $today;
             }
-
             $query->whereBetween(DB::raw('DATE(orders.created_at)'), [$start, $end]);
         }
-
-        // ✅ Phân trang (11 đơn hàng / trang)
-        $orders = $query->orderBy('orders.created_at', 'desc')->paginate(11);
+        $orders = $query->orderBy('orders.created_at', 'desc')->paginate($request->input('page_size') ?? 6, ['*', 'page',], $request->input('page') ?? 1);
 
         return response()->json($orders);
     }

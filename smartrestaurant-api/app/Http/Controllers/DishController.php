@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Dishes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class DishController extends Controller
 {
     public function index(Request $request)
     {
         $page = $request->query('page', 1);
-        $perPage = $request->query('per_page', 11);
+        $perPage = $request->query('per_page', 2);
         $categoryId = $request->query('category_id');
         $search = $request->query('search');
 
@@ -31,7 +32,6 @@ class DishController extends Controller
             $query->where('dishes.name', 'like', '%' . $search . '%');
         }
 
-        // Thử bỏ join để kiểm tra
         $dishes = Dishes::paginate($perPage, ['*'], 'page', $page);
         $data = $dishes->items();
         foreach ($data as &$item) {
@@ -40,7 +40,7 @@ class DishController extends Controller
             $item->image_path = $item->image ? config('app.url') . '/' . $item->image : null;
         }
 
-        \Log::info('Pagination Debug:', [
+        Log::info('Pagination Debug:', [
             'total_records' => $dishes->total(),
             'per_page' => $perPage,
             'last_page' => $dishes->lastPage(),
