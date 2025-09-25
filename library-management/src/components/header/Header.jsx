@@ -173,7 +173,7 @@ const tableNumber = localStorage.getItem("tableNumber") || 1; // mặc định 1
             </div>
           </div>
 
-          <Link to="/discount">Khuyến mãi</Link>
+          {/* <Link to="/discount">Khuyến mãi</Link> */}
           <Link to="/service">Dịch vụ</Link>
         </nav>
         
