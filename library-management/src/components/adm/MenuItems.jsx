@@ -1,31 +1,62 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/Api";
-import "./admin.css"; // Import CSS
+import "./admin.css";
 
 function MenuItems() {
   const [menuItems, setMenuItems] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [lastPage, setLastPage] = useState(1);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchMenuItems();
+    fetchCategories();
   }, []);
+
+  useEffect(() => {
+    fetchMenuItems();
+  }, [currentPage, selectedCategory]);
+
+  const fetchCategories = async () => {
+    try {
+      const res = await api.get("/categories");
+      console.log("Categories Response:", res.data);
+      setCategories(res.data || []);
+    } catch (err) {
+      console.error("Fetch categories error:", err.response?.data || err.message);
+    }
+  };
 
   const fetchMenuItems = async () => {
     try {
-      const res = await api.get("/dishes");
-      const formatted = res.map((item) => ({
-        id: item.id,
-        name: item.name,
-        price: item.price,
-        quantity: item.quantity || 1,
-        category: item.category_id ? item.category_name : "",
-        status: item.status || "Available",
-        preview: item.image_path,
-      }));
+      const res = await api.get("/dishes", {
+        params: {
+          page: currentPage,
+          per_page: 11,
+          category_id: selectedCategory || undefined,
+        },
+      });
+      console.log("Dishes Response:", res.data);
+      const data = res.data.data || res.data || [];
+      const formatted = Array.isArray(data)
+        ? data.map((item) => ({
+            id: item.id,
+            name: item.name,
+            price: item.price,
+            quantity: item.quantity || 1,
+            category: item.category_name || "",
+            status: item.status || "Available",
+            preview: item.image_path,
+          }))
+        : [];
       setMenuItems(formatted);
+      setLastPage(res.data.last_page || 1);
+      console.log("Current Page:", currentPage, "Last Page from API:", res.data.last_page);
     } catch (err) {
-      console.error("Fetch menu items error:", err);
+      console.error("Fetch menu items error:", err.response?.data || err.message);
+      setMenuItems([]);
     }
   };
 
@@ -43,9 +74,25 @@ function MenuItems() {
     <div className="menu-container">
       <div className="menu-header">
         <h2>Danh Sách Món Ăn</h2>
-        {/* <button className="btn-add" onClick={() => navigate("/admin/menuitems/creat")}>
-          + Thêm Món Ăn
-        </button> */}
+        <div className="filters">
+          <div className="filter-category">
+            <label>Phân loại: </label>
+            <select
+              value={selectedCategory}
+              onChange={(e) => {
+                setSelectedCategory(e.target.value);
+                setCurrentPage(1);
+              }}
+            >
+              <option value="">Tất cả</option>
+              {categories.map((cat) => (
+                <option key={cat.id} value={cat.id}>
+                  {cat.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
       </div>
 
       <table className="menu-table">
@@ -104,6 +151,24 @@ function MenuItems() {
           )}
         </tbody>
       </table>
+
+      <div className="pagination">
+        <button
+          onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+          disabled={currentPage === 1}
+        >
+          Prev
+        </button>
+        <span style={{ margin: "0 10px" }}>
+          Trang {currentPage} / {lastPage}
+        </span>
+        <button
+          onClick={() => setCurrentPage((p) => Math.min(lastPage, p + 1))}
+          disabled={currentPage === lastPage}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 }

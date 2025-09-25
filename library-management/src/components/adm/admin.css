@@ -206,6 +206,13 @@ body {
   gap: 20px; /* khoảng cách giữa các card */
   margin-top: 20px;
 }
+.orders-grid-order {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr); /* 5 card mỗi hàng */
+  gap: 20px; /* khoảng cách giữa các card */
+  margin-top: 20px;
+  height: 40%;
+}
 
 .order-card:hover {
   background: #fff4ec;
@@ -709,7 +716,7 @@ body {
   border: 1px solid #ddd;
 }
 
-.btn-edit, .btn-delete {
+.btn-edit, .btn-delete, .btn-confirm__oder {
   border: none;
   padding: 6px 12px;
   border-radius: 6px;
@@ -717,6 +724,11 @@ body {
   margin: 0 4px;
   font-size: 14px;
   transition: 0.3s;
+}
+
+.btn-confirm__oder{
+  background: #67be1f;
+  color: white;
 }
 
 .btn-edit {
@@ -1107,13 +1119,14 @@ body {
 }
 
 @media (max-width: 768px) {
-  .tables-grid, .orders-grid {
+  .tables-grid, .orders-grid, .orders-grid-order  {
     grid-template-columns: repeat(2, 1fr);
   }
+  
 }
 
 @media (max-width: 480px) {
-  .tables-grid, .orders-grid {
+  .tables-grid, .orders-grid, .orders-grid-order {
     grid-template-columns: 1fr;
   }
 }
@@ -1161,3 +1174,52 @@ body {
     width: 100%;
   }
 }
+
+/* searchorder */
+.orders-container div input[type="date"] {
+  padding: 6px 10px;
+  margin-right: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+  transition: 0.2s;
+}
+
+.orders-container div input[type="date"]:focus {
+  border-color: #1890ff;
+  box-shadow: 0 0 3px #1890ff;
+}
+
+.orders-container div button {
+  padding: 6px 14px;
+  background-color: #1890ff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.orders-container div button:hover {
+  background-color: #40a9ff;
+}
+
+/* --- Nút Prev/Next phân trang --- */
+.orders-container > div:last-child button {
+  padding: 6px 12px;
+  margin: 0 5px;
+  background-color: #52c41a;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.orders-container > div:last-child button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.orders-container > div:last-child button:hover:not(:disabled) {
+  background-color: #73d13d;}

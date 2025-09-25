@@ -20,7 +20,7 @@ class AdminDishesController extends Controller
             'status' => 'sometimes|required|string',
             'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
-        
+
         $data = $request->only(['name', 'price', 'quantity', 'category_id', 'status', 'description']);
 
         if ($request->hasFile('image')) {
@@ -33,7 +33,7 @@ class AdminDishesController extends Controller
 
         return response()->json($dish);
     }
-      public function destroy($id)
+    public function destroy($id)
     {
         try {
             $dish = Dishes::findOrFail($id);
@@ -83,7 +83,8 @@ class AdminDishesController extends Controller
 
         return response()->json($dish);
     }
-    public function show($id){
+    public function show($id)
+    {
         $dish = Dishes::find($id);
         return response()->json($dish);
     }

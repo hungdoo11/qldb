@@ -108,17 +108,34 @@ class AdminOrderController extends Controller
     }
     public function index(Request $request)
     {
-        $orders = Order::with('table:id,table_number')
+        $query = Order::with('table:id,table_number')
             ->where('status', 'paid')
             ->join('customers as c', 'orders.customer_id', 'c.id')
             ->join('users as u', 'orders.user_id', 'u.id')
-            ->select('c.name as cus_name', 'u.name as u_name', 'orders.*')
-            ->get();
-        return response()->json(
-            
-             $orders
-            
-        );
+            ->select(
+                'c.name as cus_name',
+                'u.name as u_name',
+                'orders.*'
+            );
+
+        // ✅ Lọc theo khoảng thời gian
+        if ($request->has('start_date') && $request->has('end_date')) {
+            $start = $request->input('start_date');
+            $end   = $request->input('end_date');
+
+            // không cho lớn hơn ngày hiện tại
+            $today = now()->format('Y-m-d');
+            if ($end > $today) {
+                $end = $today;
+            }
+
+            $query->whereBetween(DB::raw('DATE(orders.created_at)'), [$start, $end]);
+        }
+
+        // ✅ Phân trang (11 đơn hàng / trang)
+        $orders = $query->orderBy('orders.created_at', 'desc')->paginate(11);
+
+        return response()->json($orders);
     }
     public function orderByTable($table_id)
     {

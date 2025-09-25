@@ -22,8 +22,10 @@ class CategoryController extends Controller
 
     public function index()
     {
-        return response()->json(Category::all());
+        $categories = Category::all(['id', 'name']); // Chỉ lấy id và name
+        return response()->json($categories);
     }
+
     public function update(Request $request, $id)
     {
         $request->validate([

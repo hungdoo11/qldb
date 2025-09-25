@@ -1,54 +1,57 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import api from "../api/Api";
 import "./admin.css";
+import axios from "axios";
 
 export default function OrderList() {
+  const [orders, setOrders] = useState([]);         // danh sách đơn hàng từ API
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  const orders = [
-    {
-      id: "OD001",
-      customer: "Nguyễn Văn A",
-      phone: "0901234567",
-      status: "Chờ xác nhận",
-      items: [
-        { name: "Lẩu Thái", qty: 1, price: 250000 },
-        { name: "Bò nướng", qty: 2, price: 150000 },
-        { name: "Nước ngọt", qty: 3, price: 20000 },
-      ],
-    },
-    {
-      id: "OD002",
-      customer: "Trần Thị B",
-      phone: "0909876543",
-      status: "Đang giao",
-      items: [
-        { name: "Gà rán", qty: 2, price: 120000 },
-        { name: "Coca", qty: 2, price: 15000 },
-      ],
-    },
-    {
-      id: "OD003",
-      customer: "Lê Văn C",
-      phone: "0911222333",
-      status: "Hoàn thành",
-      items: [
-        { name: "Pizza Hải sản", qty: 1, price: 200000 },
-        { name: "Pepsi", qty: 3, price: 18000 },
-      ],
-    },
-  ];
+  // Pagination + filter nếu muốn (hiện tại lấy tất cả)
+  const [currentPage, setCurrentPage] = useState(1);
+  const [lastPage, setLastPage] = useState(1);
+
+  useEffect(() => {
+    fetchOrders();
+  }, [currentPage]);
+
+  const fetchOrders = async () => {
+    try {
+        const res = await axios.get("http://127.0.0.1:8000/api/admin/order", {
+        params: {
+          page: currentPage,
+        },
+      });
+      setOrders(res.data.data || []);
+      setLastPage(res.data.last_page || 1);
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+      setOrders([]);
+    }
+  };
+
+  const updateStatus = async (id, status) => {
+    try {
+      await api.put(`/orders/${id}`, { status });
+      fetchOrders();
+      if (selectedOrder && selectedOrder.id === id) {
+        setSelectedOrder({ ...selectedOrder, status }); // cập nhật modal
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div className="">
       <h2 className="admin-title">Danh sách đơn hàng</h2>
       <div className="admin-container">
-        <div className="orders-grid">
+        <div className="orders-grid-order">
           {orders.map((order) => {
-            const total = order.items.reduce(
-              (sum, item) => sum + item.qty * item.price,
-              0
-            );
+            const total = order.items
+              ? order.items.reduce((sum, item) => sum + item.qty * item.price, 0)
+              : 0;
 
             return (
               <div
@@ -60,8 +63,8 @@ export default function OrderList() {
                 }}
               >
                 <p><strong>Mã đơn:</strong> {order.id}</p>
-                <p><strong>Khách hàng:</strong> {order.customer}</p>
-                <p><strong>Số điện thoại:</strong> {order.phone}</p>
+                <p><strong>Khách hàng:</strong> {order.cus_name}</p>
+                <p><strong>Bàn:</strong> {order.table?.table_number || "Chưa có"}</p>
                 <p><strong>Trạng thái:</strong> {order.status}</p>
                 <p><strong>Tổng cộng:</strong> {total.toLocaleString()} đ</p>
               </div>
@@ -75,12 +78,12 @@ export default function OrderList() {
         <div className="modal-overlay" onClick={() => setIsOpen(false)}>
           <div
             className="modal-box"
-            onClick={(e) => e.stopPropagation()} // tránh tắt khi click bên trong
+            onClick={(e) => e.stopPropagation()}
           >
             <h2>Chi tiết đơn hàng</h2>
             <p><b>Mã đơn:</b> {selectedOrder.id}</p>
-            <p><b>Khách hàng:</b> {selectedOrder.customer}</p>
-            <p><b>Số điện thoại:</b> {selectedOrder.phone}</p>
+            <p><b>Khách hàng:</b> {selectedOrder.cus_name}</p>
+            <p><b>Bàn:</b> {selectedOrder.table?.table_number || "Chưa có"}</p>
             <p><b>Trạng thái:</b> {selectedOrder.status}</p>
 
             <h3>Danh sách món ăn</h3>
@@ -94,7 +97,7 @@ export default function OrderList() {
                 </tr>
               </thead>
               <tbody>
-                {selectedOrder.items.map((item, idx) => (
+                {selectedOrder.items?.map((item, idx) => (
                   <tr key={idx}>
                     <td>{item.name}</td>
                     <td>{item.qty}</td>
@@ -106,8 +109,15 @@ export default function OrderList() {
             </table>
 
             <div className="order-actions">
-              <button className="btn-confirm">Xác nhận</button>
-              <button className="btn-back" onClick={() => setIsOpen(false)}>Đóng</button>
+              <button
+                className="btn-confirm"
+                onClick={() => updateStatus(selectedOrder.id, "Đang sử dụng")}
+              >
+                Xác nhận
+              </button>
+              <button className="btn-back" onClick={() => setIsOpen(false)}>
+                Đóng
+              </button>
             </div>
           </div>
         </div>

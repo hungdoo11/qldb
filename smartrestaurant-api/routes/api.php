@@ -61,10 +61,7 @@ Route::prefix('admin')->group(function () {
     Route::get('/order', [AdminOrderController::class, 'index']);
     Route::get('/order-by-table/{table_id}', [AdminOrderController::class, 'orderByTable']);
     //category
-     Route::put('/category/{id}', [AdminCategoryController::class, 'update']);
-     Route::get('/category/{id}', [AdminCategoryController::class, 'show']);
-     Route::delete('/category/{id}', [AdminCategoryController::class, 'destroy']);
-
+    Route::put('/category/{id}', [AdminCategoryController::class, 'update']);
+    Route::get('/category/{id}', [AdminCategoryController::class, 'show']);
+    Route::delete('/category/{id}', [AdminCategoryController::class, 'destroy']);
 });
-
-
