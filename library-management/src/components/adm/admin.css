@@ -212,34 +212,107 @@ body {
 }
 
 /* Modal overlay */
+/* Overlay nền mờ */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
-  align-items: center;
   justify-content: center;
-  z-index: 1000;
+  align-items: center;
+  z-index: 999;
 }
 
-/* Modal box */
+/* Hộp modal */
 .modal-box {
   background: #fff;
-  padding: 20px;
   border-radius: 12px;
-  width: 600px;
-  max-width: 95%;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  padding: 20px 30px;
+  max-width: 600px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
   animation: fadeIn 0.3s ease;
 }
 
+/* Tiêu đề modal */
+.modal-box h3 {
+  margin-top: 0;
+  font-size: 22px;
+  color: #333;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+/* Thông tin đơn hàng */
+.order-info p {
+  margin: 5px 0;
+  font-size: 16px;
+  color: #555;
+}
+
+/* Bảng món */
+.order-info table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  font-size: 15px;
+}
+
+.order-info table th,
+.order-info table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.order-info table th {
+  background-color: #f0f0f0;
+  font-weight: 600;
+}
+
+.order-info table tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+/* Tổng cộng */
+.total {
+  margin-top: 15px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: right;
+  color: #111;
+}
+
+/* Nút đóng modal */
+.modal-box .btn-back {
+  margin-top: 20px;
+  display: block;
+  width: 100%;
+  padding: 10px 0;
+  background-color: #f44336;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.2s ease;
+}
+
+.modal-box .btn-back:hover {
+  background-color: #d32f2f;
+}
+
+/* Animation modal */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-20px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
 
 
 .toggle-icon {
@@ -721,6 +794,13 @@ body {
   padding: 5px;
   text-align: center;
 }
+
+.order-info p strong {
+  flex: 1;               /* chiếm 1 phần không gian */
+  text-align: left;
+  color: #333;
+}
+
 
 .total {
   margin-top: 15px;

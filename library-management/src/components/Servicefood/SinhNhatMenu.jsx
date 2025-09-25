@@ -14,7 +14,7 @@ class Snmenu extends Component {
       <img src="/images/combo1.png" alt="Combo A" />
       <h3>PHẦN A POPO (10 NGƯỜI)</h3>
       <p className="price">750,000 đ</p>
-      <button className="btn-order">ĐẶT HÀNG</button>
+      {/* <button className="btn-order">ĐẶT HÀNG</button> */}
     </div>
 
     {/* Combo B */}
@@ -22,7 +22,7 @@ class Snmenu extends Component {
       <img src="/images/combo2.jpg" alt="Combo B" />
       <h3>PHẦN B TWIRLIE (10 NGƯỜI)</h3>
       <p className="price">950,000 đ</p>
-      <button className="btn-order">ĐẶT HÀNG</button>
+      {/* <button className="btn-order">ĐẶT HÀNG</button> */}
     </div>
 
     {/* Combo C */}
@@ -30,7 +30,7 @@ class Snmenu extends Component {
       <img src="/images/combo3.webp" alt="Combo C" />
       <h3>PHẦN C JOLLIBEE (10 NGƯỜI)</h3>
       <p className="price">1,150,000 đ</p>
-      <button className="btn-order">ĐẶT HÀNG</button>
+      {/* <button className="btn-order">ĐẶT HÀNG</button> */}
     </div>
   </div>
 </div>

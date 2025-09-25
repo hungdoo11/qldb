@@ -20,9 +20,10 @@ const openDetail = async (table) => {
 
 try {
   const res = await axios.get(
-    `http://127.0.0.1:8000/api/admin/orders/${table.id}`,
-    { headers: { Accept: "application/json" } }
-  );
+  `http://127.0.0.1:8000/api/admin/order-by-table/${table.id}`,
+  { headers: { Accept: "application/json" } }
+);
+
   console.log("API Response:", res.data); // Kiểm tra dữ liệu
   if (!res.data || res.data.length === 0) {
     setOrderDetails(null);
@@ -34,20 +35,21 @@ try {
     const order = res.data[0];
 
     const orderInfo = {
-      orderId: order.id || "N/A",
-      customerId: order.customer?.name || order.customer_id || "N/A",
-      userId: order.user?.name || order.user_id || "N/A",
-      table: order.table?.table_number || "N/A",
-      status: order.status || "Không xác định",
-      totalAmount: parseFloat(order.total_amount || 0).toLocaleString("vi-VN"),
-      createdAt: order.created_at || "N/A",
-      updatedAt: order.updated_at || "N/A",
-      items: order.details?.map((detail) => ({
-        name: detail.dish?.name || "Không xác định",
-        qty: detail.quantity || 0,
-        price: parseFloat(detail.price || 0),
-      })) || [],
-    };
+  orderId: order.id,
+  customerName: order.customer?.name || "N/A",
+  userName: order.user?.name || "N/A",
+  tableNumber: order.table?.table_number || "N/A",
+  status: order.status || "Không xác định",
+  totalAmount: parseFloat(order.total_amount || 0).toLocaleString("vi-VN"),
+  createdAt: order.created_at || "N/A",
+  updatedAt: order.updated_at || "N/A",
+  items: order.details?.map(detail => ({
+    name: detail.dish?.name || "Không xác định",
+    qty: detail.quantity,
+    price: parseFloat(detail.price)
+  })) || []
+};
+
 
     setOrderDetails(orderInfo);
     const total = orderInfo.items.reduce(
@@ -166,9 +168,10 @@ const closeDetail = () => {
       ) : orderDetails ? (
         <div className="order-info">
           <p><strong>Mã đơn:</strong> {orderDetails.orderId}</p>
-          <p><strong>Bàn:</strong> {orderDetails.table}</p>
-          <p><strong>Nhân viên:</strong> {orderDetails.userId}</p>
-          <p><strong>Khách hàng:</strong> {orderDetails.customerId}</p>
+            <p><strong>Nhân viên:</strong> {orderDetails.userName}</p>
+            <p><strong>Khách hàng:</strong> {orderDetails.customerName}</p>
+            <p><strong>Bàn:</strong> {orderDetails.tableNumber}</p>
+
           <p><strong>Trạng thái:</strong> {orderDetails.status}</p>
           <p><strong>Tổng tiền:</strong> {orderDetails.totalAmount} đ</p>
           <p><strong>Tạo lúc:</strong> {orderDetails.createdAt}</p>

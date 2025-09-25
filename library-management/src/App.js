@@ -20,6 +20,7 @@ import ThanhVien from "./components/Servicefood/ThanhVien";
 import Vip from "./components/Servicefood/Vip";
 import Oder from "./components/header/Oder";
 import TableSelectPage from "./components/header/TableSelectPage"; // import form chọn bàn
+import OrderHistory from "./components/header/OrderHistory";
 
 // Admin pages
 import AdminDashboard from "./components/adm/AdminDashboard";
@@ -41,7 +42,13 @@ import ProtectedRoute from "./components/shield/ProtectedRoute";
 
 function App() {
   const [cart, setCart] = useState([]);
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+  const [tableId, setTableId] = useState(localStorage.getItem("tableId"));
 
+  useEffect(() => {
+    setUser(JSON.parse(localStorage.getItem("user")));
+    setTableId(localStorage.getItem("tableId"));
+  }, []);
 
   const addToCart = (item) => {
     setCart((prevCart) => {
@@ -55,44 +62,24 @@ function App() {
     });
   };
 
-  // Lấy thông tin user và bàn hiện tại
-  const [user, setUser] = useState(() => {
-    const storedUser = localStorage.getItem("user");
-    return storedUser ? JSON.parse(storedUser) : null;
-  });
-  const [tableId, setTableId] = useState(localStorage.getItem("tableId"));
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    const storedTableId = localStorage.getItem("tableId");
-    setUser(storedUser ? JSON.parse(storedUser) : null);
-    setTableId(storedTableId);
-    console.log("User updated:", storedUser, "TableId:", storedTableId);
-  }, []);
-
   return (
     <BrowserRouter>
       <Routes>
         {/* Public + FE Layout */}
         <Route element={<MainLayout cart={cart} addToCart={addToCart} />}>
-
-          {/* Nếu chưa login -> login */}
           <Route
             path="/login"
-            element={!user || Object.keys(user).length === 0 ? <Login /> : <Navigate to={tableId ? "/" : "/select-table"} />}
+            element={!user ? <Login /> : <Navigate to={tableId ? "/" : "/select-table"} />}
           />
           <Route path="/register" element={<Register />} />
-
-          {/* Form chọn bàn */}
           <Route
             path="/select-table"
-            element={user && Object.keys(user).length > 0 ? <TableSelectPage /> : <Navigate to="/login" />}
+            element={user ? <TableSelectPage /> : <Navigate to="/login" />}
           />
-
-          {/* Trang chủ + các FE page */}
           <Route
             path="/"
             element={
-              !user || Object.keys(user).length === 0 ? (
+              !user ? (
                 <Navigate to="/login" />
               ) : !tableId ? (
                 <Navigate to="/select-table" />
@@ -100,8 +87,8 @@ function App() {
                 <Home />
               )
             }
-
           />
+          <Route path="/order-history" element={<OrderHistory />} />
           <Route path="/order" element={<Oder />} />
           <Route path="/about" element={<About />} />
           <Route path="/discount" element={<Discount />} />

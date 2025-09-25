@@ -13,7 +13,7 @@ class ThanhVien extends Component {
       <img src="/images/com4.webp" alt="Combo A" />
       <h3>Giảm 50% </h3>
       <p className="price">Đơn từ 1.000.000</p>
-      <button className="btn-order">ĐẶT HÀNG</button>
+      {/* <button className="btn-order">ĐẶT HÀNG</button> */}
     </div>
 
     {/* Combo B */}
@@ -21,7 +21,7 @@ class ThanhVien extends Component {
       <img src="/images/bo1.png" alt="Combo B" />
       <h3>Tặng 1 phần bò</h3>
       <p className="price">Áp dụng bàn 4 người</p>
-      <button className="btn-order">ĐẶT HÀNG</button>
+      {/* <button className="btn-order">ĐẶT HÀNG</button> */}
     </div>
 
     {/* Combo C */}
@@ -29,7 +29,7 @@ class ThanhVien extends Component {
       <img src="/images/combo5.jpg" alt="Combo C" />
       <h3>Đi 4 tính tiền 3</h3>
       <p className="price">Từ 14h-16h</p>
-      <button className="btn-order">ĐẶT HÀNG</button>
+      {/* <button className="btn-order">ĐẶT HÀNG</button> */}
     </div>
   </div>
 </div>

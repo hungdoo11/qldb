@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
   ResponsiveContainer, LineChart, Line
@@ -7,51 +7,64 @@ import {
 import "./admin.css";
 
 function AdminDashboard() {
-  const [openTableMenu, setOpenTableMenu] = useState(false);
+  const [orderData, setOrderData] = useState([]);
+  const [revenueData, setRevenueData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [ordersRes, revenueRes] = await Promise.all([
+          axios.get("http://127.0.0.1:8000/api/admin/statistical-order-by-day"),
+          axios.get("http://127.0.0.1:8000/api/admin/statistical-revenue-by-day")
+        ]);
 
-  const revenueData = [
-    { month: "Th1", revenue: 4000 },
-    { month: "Th2", revenue: 3000 },
-    { month: "Th3", revenue: 5000 },
-    { month: "Th4", revenue: 4780 },
-    { month: "Th5", revenue: 5890 },
-    { month: "Th6", revenue: 4390 },
-    { month: "Th7", revenue: 6490 },
-  ];
+        // Map dữ liệu API thành dạng Recharts
+        const orders = ordersRes.data.map(item => ({
+          day: item.day_name,
+          orders: item.value
+        }));
 
-  const orderData = [
-    { day: "T2", orders: 30 },
-    { day: "T3", orders: 45 },
-    { day: "T4", orders: 28 },
-    { day: "T5", orders: 60 },
-    { day: "T6", orders: 42 },
-    { day: "T7", orders: 55 },
-    { day: "CN", orders: 38 },
-  ];
+        const revenue = revenueRes.data.map(item => ({
+          day: item.day_name,
+          revenue: parseFloat(item.value)
+        }));
+
+        setOrderData(orders);
+        setRevenueData(revenue);
+        setLoading(false);
+      } catch (err) {
+        console.error("Lỗi fetch dữ liệu thống kê:", err);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) return <p>Đang tải dữ liệu thống kê...</p>;
 
   return (
     <div className="admin-dashboard">
       <h2 className="dashboard-title">Trang Quản Trị Admin</h2>
 
-   
-
-      {/* Biểu đồ */}
       <div className="charts-section">
+        {/* Biểu đồ Doanh thu theo ngày */}
         <div className="chart-box">
-          <h3>Doanh thu theo tháng</h3>
+          <h3>Doanh thu theo ngày</h3>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={revenueData}>
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" />
+              <XAxis dataKey="day" />
               <YAxis />
-              <Tooltip />
+              <Tooltip formatter={(value) => new Intl.NumberFormat('vi-VN').format(value) + " đ"} />
               <Legend />
               <Line type="monotone" dataKey="revenue" stroke="#8884d8" strokeWidth={2} />
             </LineChart>
           </ResponsiveContainer>
         </div>
 
+        {/* Biểu đồ Đơn hàng theo ngày */}
         <div className="chart-box">
           <h3>Đơn hàng theo ngày</h3>
           <ResponsiveContainer width="100%" height={300}>

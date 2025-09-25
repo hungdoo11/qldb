@@ -783,3 +783,22 @@ header {
   font-size: 16px;
   cursor: pointer;
 }
+
+/* his */
+.account-dropdown {
+  width: 250px;
+}
+
+.order-history {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #ddd;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.order-item {
+  font-size: 14px;
+  padding: 5px 0;
+  border-bottom: 1px solid #eee;
+}

@@ -20,6 +20,7 @@ function Header({ cart = [], addToCart }) {
   const [openCart, setOpenCart] = useState(false);
   const [user, setUser] = useState(null);
   const [categories, setCategories] = useState([]);
+  const [orderHistory, setOrderHistory] = useState([]);
 const tableNumber = localStorage.getItem("tableNumber") || 1; // mặc định 1
 
   // Lấy user từ localStorage
@@ -29,6 +30,21 @@ const tableNumber = localStorage.getItem("tableNumber") || 1; // mặc định 1
       setUser(JSON.parse(savedUser));
     }
   }, []);
+
+  useEffect(() => {
+  const fetchOrderHistory = async () => {
+    if (!user) return;
+    try {
+      const res = await axios.get(
+        `http://127.0.0.1:8000/api/orders?user_id=${user.id}`
+      );
+      setOrderHistory(res.data); // giả sử API trả về array order
+    } catch (err) {
+      console.error("Fetch order history error:", err);
+    }
+  };
+  fetchOrderHistory();
+}, [user]);
 
   // Gọi API lấy categories
   useEffect(() => {
@@ -192,25 +208,36 @@ const tableNumber = localStorage.getItem("tableNumber") || 1; // mặc định 1
 
           {/* Tài khoản */}
           <div className="dropdown">
-            {!user ? (
-              <>
-                <button className="btn-account">Tài khoản</button>
-                <div className="dropdown-content">
-                  <a href="/login">Đăng nhập</a>
-                  <a href="/register">Đăng ký</a>
-                </div>
-              </>
-            ) : (
-              <>
-                <button className="btn-account">Chào, {user.name}</button>
-                <div className="dropdown-content">
-                  <a href="#" onClick={handleLogout}>
-                    Đăng xuất
-                  </a>
-                </div>
-              </>
-            )}
-          </div>
+  {!user ? (
+    <>
+      <button className="btn-account">Tài khoản</button>
+      <div className="dropdown-content">
+        <a href="/login">Đăng nhập</a>
+        <a href="/register">Đăng ký</a>
+      </div>
+    </>
+  ) : (
+    <>
+      <button className="btn-account">Chào, {user.name}</button>
+      <div className="dropdown-content account-dropdown">
+        <a href="#" onClick={handleLogout}>
+          Đăng xuất
+        </a>
+
+        {/* Nút xem lịch sử order */}
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            navigate("/order-history");
+          }}
+        >
+          Xem lịch sử
+        </a>
+      </div>
+    </>
+  )}
+</div>
         </div>
       </div>
     </header>
