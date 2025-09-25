@@ -90,6 +90,7 @@ header {
   position: absolute;
   top: 100%;
   left: 50%;
+  margin-top: 7px;
   transform: translateX(-50%) translateY(10px);
   background: #fce4e4;
   display: flex;
@@ -726,6 +727,7 @@ header {
 }
 
 
+
 /* cb */
 
 .ts-container {
@@ -777,6 +779,7 @@ header {
   font-size: 14px;
   color: #555;
 }
+
 
 .ts-btn-confirm {
   padding: 10px 20px;

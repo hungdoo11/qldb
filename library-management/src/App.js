@@ -61,16 +61,19 @@ function App() {
       return [...prevCart, { ...item, quantity: 1 }];
     });
   };
+  const clearCart = () => {
+    setCart([]);
+  };
 
   return (
     <BrowserRouter>
       <Routes>
-        {/* Public + FE Layout */}
+
         <Route element={<MainLayout cart={cart} addToCart={addToCart} />}>
-          <Route
-            path="/login"
-            element={!user ? <Login /> : <Navigate to={tableId ? "/" : "/select-table"} />}
-          />
+
+          <Route path="/order" element={<Oder cartt={cart} clearCart={clearCart} />} />
+          <Route path="/login" element={<Login setUser={setUser} />} />
+
           <Route path="/register" element={<Register />} />
           <Route
             path="/select-table"
@@ -81,7 +84,7 @@ function App() {
             element={
               !user ? (
                 <Navigate to="/login" />
-              ) : !tableId ? (
+              ) : !localStorage.getItem("tableId") ? (
                 <Navigate to="/select-table" />
               ) : (
                 <Home />

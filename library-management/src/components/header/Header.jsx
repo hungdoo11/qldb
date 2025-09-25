@@ -153,9 +153,8 @@ const tableNumber = localStorage.getItem("tableNumber") || 1; // mặc định 1
               Thực đơn
             </Link>
             <div
-              className={`dropdown-menu ${
-                openMenu || location.pathname.startsWith("/product") ? "show" : ""
-              }`}
+              className={` dropdown-menu ${openMenu || location.pathname.startsWith("/product") ? "show" : ""
+                }`}
             >
               {categories.length > 0 ? (
                 categories.map((cat) => (
@@ -176,32 +175,141 @@ const tableNumber = localStorage.getItem("tableNumber") || 1; // mặc định 1
           {/* <Link to="/discount">Khuyến mãi</Link> */}
           <Link to="/service">Dịch vụ</Link>
         </nav>
-        
+
         {/* Actions */}
         <div className="actions">
           {/* Giỏ hàng */}
           <div
             className="dropdown-icon cart-container"
+            style={{ position: "relative", cursor: "pointer" }}
             onClick={toggleCart}
             onMouseEnter={() => setOpenCart(true)}
             onMouseLeave={() => setOpenCart(false)}
           >
             <FaShoppingCart className="icon" />
-            {cart.length > 0 && <span className="cart-badge">{cart.length}</span>}
+            {cart.length > 0 && (
+              <span
+                style={{
+                  background: "#e63946",
+                  color: "#fff",
+                  fontSize: "12px",
+                  padding: "2px 6px",
+                  borderRadius: "50%",
+                  position: "absolute",
+                  top: "-6px",
+                  right: "-8px",
+                }}
+              >
+                {cart.length}
+              </span>
+            )}
 
-            <div className={`dropdown-content cart-dropdown ${openCart ? "show" : ""}`}>
+            <div
+              style={{
+                position: "absolute",
+                top: "120%",
+                right: 0,
+                width: "320px",
+                background: "#fff",
+                borderRadius: "12px",
+                boxShadow: "0 6px 18px rgba(0, 0, 0, 0.1)",
+                padding: "12px",
+                display: openCart ? "flex" : "none",
+                flexDirection: "column",
+                zIndex: 1000,
+              }}
+            >
               {cart.length === 0 ? (
-                <p>Chưa có món nào</p>
+                <p style={{ textAlign: "center", color: "#777", fontStyle: "italic" }}>
+                  🛒 Giỏ hàng trống
+                </p>
               ) : (
-                cart.map((item, idx) => (
-                  <div key={idx} className="cart-item">
-                    {item.name} x {item.quantity} ={" "}
-                    {(parseFloat(item.price) * item.quantity).toFixed(0)}đ
+                <>
+                  <div style={{ maxHeight: "220px", overflowY: "auto" }}>
+                    {cart.map((item, idx) => (
+                      <div
+                        key={idx}
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          marginBottom: "12px",
+                          borderBottom: "1px solid #f1f1f1",
+                          paddingBottom: "8px",
+                        }}
+                      >
+                        {item.image && (
+                          <img
+                            src={item.image}
+                            alt={item.name}
+                            style={{
+                              width: "50px",
+                              height: "50px",
+                              borderRadius: "8px",
+                              objectFit: "cover",
+                              marginRight: "10px",
+                            }}
+                          />
+                        )}
+
+                        <div style={{ flex: 1 }}>
+                          <p style={{ fontWeight: 600, fontSize: "14px", marginBottom: "2px" }}>
+                            {item.name}
+                          </p>
+                          <p style={{ fontSize: "13px", color: "#555" }}>
+                            {item.quantity} × {parseFloat(item.price).toLocaleString()}đ
+                          </p>
+                        </div>
+
+                        <div style={{ fontWeight: "bold", color: "#333" }}>
+                          {(parseFloat(item.price) * item.quantity).toLocaleString()}đ
+                        </div>
+                      </div>
+                    ))}
                   </div>
-               ))
+
+                  <div style={{ borderTop: "1px solid #eee", paddingTop: "10px" }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        fontSize: "15px",
+                        marginBottom: "8px",
+                      }}
+                    >
+                      <span>Tổng cộng:</span>
+                      <strong>
+                        {cart
+                          .reduce(
+                            (total, item) =>
+                              total + parseFloat(item.price) * item.quantity,
+                            0
+                          )
+                          .toLocaleString()}
+                        đ
+                      </strong>
+                    </div>
+                    <button
+                      style={{
+                        background: "#2a9d8f",
+                        color: "#fff",
+                        border: "none",
+                        padding: "10px",
+                        borderRadius: "8px",
+                        fontWeight: "bold",
+                        cursor: "pointer",
+                        transition: "0.2s",
+                        width: "100%",
+                      }}
+                      onClick={() => navigate("/order", { state: { cart } })}
+                    >
+                      Thanh toán
+                    </button>
+                  </div>
+                </>
               )}
             </div>
           </div>
+
 
           {/* Search */}
           <FaSearch className="icon" />
