@@ -628,7 +628,7 @@ body {
 /* Box hiển thị */
 .tables-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr); /* luôn 3 cột */
+  grid-template-columns: repeat(7, 1fr); /* luôn 3 cột */
   gap: 20px; /* khoảng cách giữa các bàn */
   margin-top: 20px;
 }
@@ -830,6 +830,12 @@ body {
 .admin-container {
   display: flex;
   height: 100vh;
+  
+  font-family: Arial, sans-serif;
+}
+.admin-conttable-revenue {
+  display: flex;
+  /* height: 100vh; */
   
   font-family: Arial, sans-serif;
 }
@@ -1223,3 +1229,79 @@ body {
 
 .orders-container > div:last-child button:hover:not(:disabled) {
   background-color: #73d13d;}
+
+
+  /* --- Payment Modal --- */
+.payment-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1200;
+}
+
+.payment-box {
+  background: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  width: 420px;
+  max-width: 95%;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+  animation: fadeInScale 0.3s ease;
+}
+
+.payment-box h3 {
+  margin-bottom: 15px;
+  font-size: 20px;
+  color: #333;
+  text-align: center;
+}
+
+.payment-select,
+.payment-input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0 15px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.payment-list {
+  margin: 15px 0;
+  padding-left: 20px;
+  color: #444;
+  font-size: 14px;
+}
+
+.payment-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.payment-done {
+  text-align: center;
+}
+
+.payment-done h3 {
+  margin-bottom: 20px;
+  color: green;
+}
+
+/* Animation cho modal */
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
