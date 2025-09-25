@@ -60,6 +60,7 @@ Route::prefix('admin')->group(function () {
     //order
     Route::get('/order', [AdminOrderController::class, 'index']);
     Route::get('/order-by-table/{table_id}', [AdminOrderController::class, 'orderByTable']);
+    Route::get('/order-by-id/{id}', [AdminOrderController::class, 'orderById']);
     //category
     Route::put('/category/{id}', [AdminCategoryController::class, 'update']);
     Route::get('/category/{id}', [AdminCategoryController::class, 'show']);

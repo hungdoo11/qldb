@@ -140,4 +140,12 @@ class AdminOrderController extends Controller
             ->get();
         return response()->json($orders);
     }
+     public function orderById($id)
+    {
+        $orders =  Order::select('id', 'table_id', 'user_id', 'customer_id', 'status', 'total_amount')
+            ->with(['table:id,table_number', 'user', 'details.dish', 'customer:id,name', 'payments:order_id,method,amount,payment_time'])
+            ->where('id', $id)
+            ->get();
+        return response()->json($orders);
+    }
 }

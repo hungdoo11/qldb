@@ -22,6 +22,10 @@ class Order extends Model
     {
         return $this->belongsTo(Customer::class, 'customer_id', 'id');
     }
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
 
     protected $fillable = ['table_id', 'customer_id', 'user_id', 'status', 'total_amount', 'order_time'];
 }
