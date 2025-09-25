@@ -14,9 +14,6 @@ use function Symfony\Component\String\b;
 
 class AdminOrderController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public $year;
     public $month;
     public $day;
@@ -53,10 +50,6 @@ class AdminOrderController extends Controller
 
         return response()->json($renuve);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
     public function orderByDay()
     {
         $date = Now()->format('Y-m-d');
@@ -115,52 +108,25 @@ class AdminOrderController extends Controller
     }
     public function index(Request $request)
     {
-        $orders = Order::where('status', 'paid')
+        $orders = Order::with('table:id,table_number')
+            ->where('status', 'paid')
             ->join('customers as c', 'orders.customer_id', 'c.id')
             ->join('users as u', 'orders.user_id', 'u.id')
             ->select('c.name as cus_name', 'u.name as u_name', 'orders.*')
             ->get();
-        return response()->json($orders);
+        return response()->json(
+            
+             $orders
+            
+        );
     }
-    public function store(Request $request)
-    {
-      
-    }
-
-    /**
-     * Display the specified resource.
-     */
     public function orderByTable($table_id)
     {
-        $orders =  Order::select('id', 'table_id', 'user_id', 'customer_id','status', 'total_amount')
+        $orders =  Order::select('id', 'table_id', 'user_id', 'customer_id', 'status', 'total_amount')
             ->with(['table:id,table_number', 'user', 'details.dish', 'customer:id,name'])
             ->where('table_id', $table_id)
             ->where('status', 'serving')
             ->get();
         return response()->json($orders);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 }

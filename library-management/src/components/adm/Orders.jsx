@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./admin.css";
+import api from "../api/Api";
 
 export default function Orders() {
   const [orders, setOrders] = useState([]);
@@ -11,8 +12,9 @@ export default function Orders() {
   }, []);
 
   const fetchOrders = async () => {
-    const res = await axios.get("http://127.0.0.1:8000/api/orders");
-    setOrders(res.data);
+    const res = await api.get("/admin/order");
+    console.log(res)
+    setOrders(res);
   };
 
   const updateStatus = async (id, status) => {
@@ -29,39 +31,35 @@ export default function Orders() {
     <div className="orders-container">
       <h2>Quản lý Đơn hàng</h2>
       <table className="admin-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Khách hàng</th>
-            <th>SĐT</th>
-            <th>Món ăn</th>
-            <th>Trạng thái</th>
-            <th>Hành động</th>
-          </tr>
-        </thead>
-        <tbody>
-          {orders.map((o) => (
-            <tr key={o.id}>
-              <td>{o.id}</td>
-             <td>{o.customer_name}</td>   // ✅ dùng đúng field trả về từ DB
-              <td>{o.phone}</td>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Khách hàng</th>
+      <th>Bàn</th>
+      <th>Tổng tiền</th>
+      <th>Trạng thái</th>
+      <th>Hành động</th>
+    </tr>
+  </thead>
+  <tbody>
+    {orders.map((o) => (
+      <tr key={o.id}>
+        <td>{o.id}</td>
+        <td>{o.cus_name}</td>
+        <td>{o.table?.table_number}</td>
+        <td>{o.total_amount} đ</td>
+        <td>{o.status}</td>
+        <td>
+          <button onClick={() => updateStatus(o.id, "Đang sử dụng")}>
+            Xác nhận
+          </button>
+          <button onClick={() => deleteOrder(o.id)}>Hủy</button>
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
 
-
-             <td>
-              {o.details.map((i) => `${i.dish.name} x${i.quantity}`).join(", ")}
-            </td>
-
-              <td>{o.status}</td>
-              <td>
-                <button onClick={() => updateStatus(o.id, "Đang sử dụng")}>
-                  Xác nhận
-                </button>
-                <button onClick={() => deleteOrder(o.id)}>Hủy</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
     </div>
   );
 }
