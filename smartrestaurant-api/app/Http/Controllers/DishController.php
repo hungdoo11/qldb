@@ -32,7 +32,7 @@ class DishController extends Controller
         }
 
         // Thử bỏ join để kiểm tra
-        $dishes = Dishes::paginate($perPage, ['*'], 'page', $page); // Tạm thời bỏ join
+        $dishes = Dishes::paginate($perPage, ['*'], 'page', $page);
         $data = $dishes->items();
         foreach ($data as &$item) {
             $category = \App\Models\Category::find($item->category_id);
