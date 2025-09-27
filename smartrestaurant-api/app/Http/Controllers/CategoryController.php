@@ -22,7 +22,7 @@ class CategoryController extends Controller
 
     public function index()
     {
-        $categories = Category::all(['id', 'name']); // Chỉ lấy id và name
+        $categories = Category::all(['id', 'name']);
         return response()->json($categories);
     }
 
@@ -38,7 +38,6 @@ class CategoryController extends Controller
         return response()->json($category);
     }
 
-    // ✅ Xóa category
     public function destroy($id)
     {
         $category = Category::findOrFail($id);

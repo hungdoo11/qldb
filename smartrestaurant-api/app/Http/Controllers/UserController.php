@@ -8,13 +8,11 @@ use App\Models\Customer;
 
 class UserController extends Controller
 {
-    // GET /api/users
     public function index()
     {
-        $admins = User::all();          // bảng admin
-        $customers = Customer::all();   // bảng khách
+        $admins = User::all();         
+        $customers = Customer::all();  
 
-        // Gộp vào 1 array, thêm role để React biết
         $allUsers = $admins->map(fn($u) => [
             'id' => $u->id,
             'name' => $u->name,
@@ -31,11 +29,10 @@ class UserController extends Controller
             ])
         );
 
-        return response()->json($allUsers->values()); // ->values() đảm bảo array index liên tiếp
+        return response()->json($allUsers->values()); 
 
     }
 
-    // PUT /api/users/{id}
     public function update(Request $request, $id)
     {
         $user = User::find($id);
@@ -54,7 +51,6 @@ class UserController extends Controller
         return response()->json($user, 200);
     }
 
-    // DELETE /api/users/{id}
     public function destroy($id)
     {
         $user = User::find($id);
