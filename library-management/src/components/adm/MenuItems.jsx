@@ -5,6 +5,7 @@ import "./admin.css";
 
 function MenuItems() {
   const [menuItems, setMenuItems] = useState([]);
+  const [menuItemExtras, setMenuItemExtras] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -17,13 +18,13 @@ function MenuItems() {
 
   useEffect(() => {
     fetchMenuItems();
-  }, [currentPage, selectedCategory]);
+  }, [currentPage]);
 
   const fetchCategories = async () => {
     try {
       const res = await api.get("/categories");
-      console.log("Categories Response:", res.data);
-      setCategories(res.data || []);
+      console.log("Categories Response:", res);
+      setCategories(res || []);
     } catch (err) {
       console.error("Fetch categories error:", err.response?.data || err.message);
     }
@@ -34,29 +35,31 @@ function MenuItems() {
       const res = await api.get("/dishes", {
         params: {
           page: currentPage,
-          per_page: 11,
-          category_id: selectedCategory || undefined,
+          per_page: 4,
         },
       });
       console.log("Dishes Response:", res.data);
       const data = res.data.data || res.data || [];
       const formatted = Array.isArray(data)
         ? data.map((item) => ({
-            id: item.id,
-            name: item.name,
-            price: item.price,
-            quantity: item.quantity || 1,
-            category: item.category_name || "",
-            status: item.status || "Available",
-            preview: item.image_path,
-          }))
+          id: item.id,
+          name: item.name,
+          price: item.price,
+          quantity: item.quantity || 1,
+          category: item.category_name || "",
+          category_id: item.category_id ,
+          status: item.status || "Available",
+          preview: item.image_path,
+        }))
         : [];
       setMenuItems(formatted);
-      setLastPage(res.data.last_page || 1);
+      setMenuItemExtras(formatted);
+      setLastPage(res.last_page || 1);
       console.log("Current Page:", currentPage, "Last Page from API:", res.data.last_page);
     } catch (err) {
       console.error("Fetch menu items error:", err.response?.data || err.message);
       setMenuItems([]);
+      setMenuItemExtras([]);
     }
   };
 
@@ -69,7 +72,9 @@ function MenuItems() {
       console.error("Delete error:", err);
     }
   };
-
+  const setItemBYcategory = (id) =>{
+    setMenuItemExtras(menuItems.filter((item) => item.category_id == id))
+  }
   return (
     <div className="menu-container">
       <div className="menu-header">
@@ -80,8 +85,7 @@ function MenuItems() {
             <select
               value={selectedCategory}
               onChange={(e) => {
-                setSelectedCategory(e.target.value);
-                setCurrentPage(1);
+                setItemBYcategory(e.target.value);
               }}
             >
               <option value="">Tất cả</option>
@@ -108,12 +112,12 @@ function MenuItems() {
           </tr>
         </thead>
         <tbody>
-          {menuItems.length > 0 ? (
-            menuItems.map((item) => (
+          {menuItemExtras.length > 0 ? (
+            menuItemExtras.map((item) => (
               <tr key={item.id}>
                 <td>
                   {item.preview && (
-                    <img src={item.preview} alt={item.name} className="menu-img" />
+                    <img src={item.preview} alt={item.name} className="menu-img-i" />
                   )}
                 </td>
                 <td>{item.name}</td>
@@ -122,9 +126,8 @@ function MenuItems() {
                 <td>{item.category}</td>
                 <td>
                   <span
-                    className={`status ${
-                      item.status === "Available" ? "status-available" : "status-unavailable"
-                    }`}
+                    className={`status ${item.status === "Available" ? "status-available" : "status-unavailable"
+                      }`}
                   >
                     {item.status === "Available" ? "Có sẵn" : "Hết hàng"}
                   </span>
@@ -154,21 +157,26 @@ function MenuItems() {
 
       <div className="pagination">
         <button
+          className="page-btn"
           onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
           disabled={currentPage === 1}
         >
-          Prev
+          ⬅️ Trước
         </button>
-        <span style={{ margin: "0 10px" }}>
-          Trang {currentPage} / {lastPage}
+
+        <span className="page-info">
+          Trang <strong>{currentPage}</strong> / {lastPage}
         </span>
+
         <button
+          className="page-btn"
           onClick={() => setCurrentPage((p) => Math.min(lastPage, p + 1))}
           disabled={currentPage === lastPage}
         >
-          Next
+          Tiếp ➡️
         </button>
       </div>
+
     </div>
   );
 }

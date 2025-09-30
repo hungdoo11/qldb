@@ -46,8 +46,8 @@ const fetchMenuItem = async (id) => {
       quantity: item.quantity || "",
       category_id: item.category_id || "",
       status: item.status || "Available",
-      image: null, // chưa thay đổi ảnh thì null
-      preview: item.image ? `/uploads/${item.image}` : "",
+      image: null, 
+      preview: item.image ? `http://127.0.0.1:8000/${item.image}` : "",
     });
   } catch (err) {
     console.error("Fetch menu item error:", err);

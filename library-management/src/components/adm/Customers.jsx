@@ -13,7 +13,7 @@ export default function Customers() {
 
   const fetchCustomers = async () => {
     try {
-      const res = await api.get("/users");
+      const res = await api.get("/customer");
       setCustomers(res);
     } catch (err) {
       console.error("Lỗi khi load users:", err);
@@ -36,7 +36,7 @@ export default function Customers() {
   const handleDelete = async (id) => {
     if (!window.confirm("Bạn có chắc muốn xóa khách hàng này?")) return;
     try {
-      await api.delete(`/users/${id}`);
+      await api.delete(`/customer/${id}`);
       fetchCustomers();
     } catch (err) {
       console.error("Lỗi khi xóa:", err);
@@ -45,7 +45,7 @@ export default function Customers() {
 
   const handleSave = async () => {
     try {
-      await api.put(`/users/${editingCustomer}`, formData);
+      await api.put(`/customer/${editingCustomer}`, formData);
       setEditingCustomer(null);
       fetchCustomers();
     } catch (err) {
@@ -68,6 +68,8 @@ export default function Customers() {
             <th>Tên</th>
             <th>Email</th>
             <th>SĐT</th>
+            <th>ĐIỂM</th>
+            <th>LOẠI</th>
             <th>Hành động</th>
           </tr>
         </thead>
@@ -78,6 +80,8 @@ export default function Customers() {
               <td>{c.name}</td>
               <td>{c.email}</td>
               <td>{c.phone ?? "Chưa có"}</td>
+              <td>{c.points}</td>
+              <td>{c.type}</td>
               <td>
                 <button className="btn-edit" onClick={() => handleEdit(c)}>Sửa</button>{" "}
                 <button className="btn-delete" onClick={() => handleDelete(c.id)}>Xóa</button>

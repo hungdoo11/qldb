@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import "./TableSelectPage.css";
+import "./TableSelectPage.css"; // thêm file css riêng
 
 export default function TableSelectPage() {
   const [tables, setTables] = useState([]);
@@ -11,7 +11,6 @@ export default function TableSelectPage() {
 
   const navigate = useNavigate();
 
-  // Lấy danh sách bàn
   const fetchTables = async () => {
     try {
       const res = await axios.get("http://127.0.0.1:8000/api/admin/tables", {
@@ -30,14 +29,11 @@ export default function TableSelectPage() {
     fetchTables();
   }, []);
 
-  // Xác nhận chọn bàn
-  const handleConfirm = useCallback(() => {
-    if (!selectedTable) {
-      return alert("Vui lòng chọn bàn trước khi xác nhận");
-    }
+  const handleSelect = useCallback(() => {
+    if (!selectedTable) return alert("Vui lòng chọn bàn");
     localStorage.setItem("tableNumber", selectedTable.table_number);
     localStorage.setItem("tableId", selectedTable.id);
-    navigate("/"); // 👉 chuyển sang trang chủ
+    navigate("/");
   }, [selectedTable, navigate]);
 
   const translateStatus = (status) => {
@@ -82,11 +78,9 @@ export default function TableSelectPage() {
           );
         })}
       </div>
-
-      {/* Nút xác nhận */}
       <button
         className="ts-btn-confirm"
-        onClick={handleConfirm}
+        onClick={handleSelect}
         disabled={!selectedTable}
       >
         Xác nhận bàn

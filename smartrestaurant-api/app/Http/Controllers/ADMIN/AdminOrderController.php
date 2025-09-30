@@ -108,8 +108,8 @@ class AdminOrderController extends Controller
     }
     public function index(Request $request)
     {
-        $query = Order::with('table:id,table_number')
-            ->where('status', 'paid')
+        $query = Order::with('table:id,table_number', 'details.dish')
+            ->where('status', $request->input('status') ?? 'paid')
             ->join('customers as c', 'orders.customer_id', 'c.id')
             ->join('users as u', 'orders.user_id', 'u.id')
             ->select(
@@ -117,23 +117,17 @@ class AdminOrderController extends Controller
                 'u.name as u_name',
                 'orders.*'
             );
-
-        // ✅ Lọc theo khoảng thời gian
         if ($request->has('start_date') && $request->has('end_date')) {
             $start = $request->input('start_date');
             $end   = $request->input('end_date');
 
-            // không cho lớn hơn ngày hiện tại
             $today = now()->format('Y-m-d');
             if ($end > $today) {
                 $end = $today;
             }
-
             $query->whereBetween(DB::raw('DATE(orders.created_at)'), [$start, $end]);
         }
-
-        // ✅ Phân trang (11 đơn hàng / trang)
-        $orders = $query->orderBy('orders.created_at', 'desc')->paginate(11);
+        $orders = $query->orderBy('orders.created_at', 'desc')->paginate($request->input('page_size') ?? 6, ['*', 'page',], $request->input('page') ?? 1);
 
         return response()->json($orders);
     }
@@ -145,5 +139,48 @@ class AdminOrderController extends Controller
             ->where('status', 'serving')
             ->get();
         return response()->json($orders);
+    }
+    public function orderById($id)
+    {
+        $orders =  Order::select('id', 'table_id', 'user_id', 'customer_id', 'status', 'total_amount')
+            ->with(['table:id,table_number', 'user', 'details.dish', 'customer:id,name', 'payments:order_id,method,amount,payment_time'])
+            ->where('id', $id)
+            ->get();
+        return response()->json($orders);
+    }
+    public function update(Request $request, $id)
+    {
+        $order = Order::findOrFail($id);
+        if (!$order) {
+            return response()->json([
+                'message' => 'Xác nhận món ăn thất bại.',
+                'status' => 404
+            ], 200);
+        }
+        $order->update([
+            'status' => $request->input('status')
+        ]);
+        return response()->json([
+            'message' => 'Xác nhận món ăn thành công.',
+            'status' => 200
+        ], 200);
+    }
+    public function destroyOrderDetailByOrder(Request $request)
+    {
+        try {
+            $orderDetail = OrderDetail::where('order_id', $request->input('order_id'))
+                ->where('dish_id', $request->input('dish_id'))
+                ->first();
+                $orderDetail->delete();
+                return response()->json([
+                     'message' => 'Món ăn đã được xóa thành công',
+                     'status' => 200
+                 ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Xóa món ăn thất bại',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 }
