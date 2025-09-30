@@ -46,7 +46,7 @@ export default function Revenue() {
           </BarChart>
         </ResponsiveContainer>
       </div>
-    <div className="admin-container">
+    <div className="admin-conttable-revenue">
 
       {/* Biểu đồ */}
 
