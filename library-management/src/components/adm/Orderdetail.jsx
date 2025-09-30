@@ -1,30 +1,22 @@
 import React, { useState, useEffect } from "react";
 import api from "../api/Api";
 import "./admin.css";
-import axios from "axios";
 
 export default function OrderList() {
-  const [orders, setOrders] = useState([]);         // danh sách đơn hàng từ API
+  const [orders, setOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  // Pagination + filter nếu muốn (hiện tại lấy tất cả)
-  const [currentPage, setCurrentPage] = useState(1);
-  const [lastPage, setLastPage] = useState(1);
-
   useEffect(() => {
     fetchOrders();
-  }, [currentPage]);
+  }, []);
 
   const fetchOrders = async () => {
     try {
-        const res = await axios.get("http://127.0.0.1:8000/api/admin/order", {
-        params: {
-          page: currentPage,
-        },
+      const res = await api.get("/admin/order", {
+        params: { status: "pending" },
       });
-      setOrders(res.data.data || []);
-      setLastPage(res.data.last_page || 1);
+      setOrders(res.data || []); // dữ liệu thật nằm trong res.data.data
     } catch (error) {
       console.error("Error fetching orders:", error);
       setOrders([]);
@@ -33,53 +25,89 @@ export default function OrderList() {
 
   const updateStatus = async (id, status) => {
     try {
-      await api.put(`/orders/${id}`, { status });
+      const res = await api.put(`/admin/order/${id}`, { status });
+      if (res.status == 200) {
+        setIsOpen(false);
+        setSelectedOrder(null);
+      }
       fetchOrders();
       if (selectedOrder && selectedOrder.id === id) {
-        setSelectedOrder({ ...selectedOrder, status }); // cập nhật modal
+        setSelectedOrder({ ...selectedOrder, status });
       }
     } catch (error) {
       console.error(error);
     }
   };
+  const removeDish = async (orderId, dishId) => {
+    const res = await api.delete(`/admin/order-detail-by-order`, {
+      params: {
+        dish_id: dishId,
+        order_id: orderId,
+      }
+    });
+    console.log(res)
+    if(res.status == 200){
+      setSelectedOrder((prev) => ({
+      ...prev,
+      details: prev.details.filter((d) => d.dish_id !== dishId),
+    }));
+    }
+  };
+
 
   return (
-    <div className="">
-      <h2 className="admin-title">Danh sách đơn hàng</h2>
+    <div>
+      <h2 className="admin-title">Danh sách đơn bếp</h2>
       <div className="admin-container">
         <div className="orders-grid-order">
-          {orders.map((order) => {
-            const total = order.items
-              ? order.items.reduce((sum, item) => sum + item.qty * item.price, 0)
+          {orders.map((order, index) => {
+            const total = order.details
+              ? order.details.reduce(
+                (sum, d) => sum + d.quantity * parseFloat(d.price),
+                0
+              )
               : 0;
 
             return (
               <div
                 key={order.id}
-                className="order-card"
+                className="order-card bordered-card"
                 onClick={() => {
                   setSelectedOrder(order);
                   setIsOpen(true);
                 }}
               >
-                <p><strong>Mã đơn:</strong> {order.id}</p>
-                <p><strong>Khách hàng:</strong> {order.cus_name}</p>
-                <p><strong>Bàn:</strong> {order.table?.table_number || "Chưa có"}</p>
-                <p><strong>Trạng thái:</strong> {order.status}</p>
-                <p><strong>Tổng cộng:</strong> {total.toLocaleString()} đ</p>
+                {/* Header: thứ tự + mã đơn */}
+                <div className="order-header">
+                  <span className="order-queue">#{index + 1}</span>
+                  <span className="order-id">Mã: {order.id}</span>
+                  <span className={`status-badge status-${order.status}`}>
+                    {order.status}
+                  </span>
+                </div>
+
+                {/* Body: khách + bàn */}
+                <div className="order-body">
+                  <p><b>Khách:</b> {order.cus_name}</p>
+                  <p><b>Bàn:</b> {order.table?.table_number || "Chưa có"}</p>
+                </div>
+
+                {/* Footer: tổng cộng */}
+                <div className="order-footer">
+                  <span className="total-label">Tổng cộng:</span>
+                  <span className="total-price">{total.toLocaleString()} đ</span>
+                </div>
               </div>
             );
           })}
         </div>
+
       </div>
 
-      {/* Modal hiển thị chi tiết */}
+      {/* Modal chi tiết */}
       {isOpen && selectedOrder && (
         <div className="modal-overlay" onClick={() => setIsOpen(false)}>
-          <div
-            className="modal-box"
-            onClick={(e) => e.stopPropagation()}
-          >
+          <div className="modal-box" onClick={(e) => e.stopPropagation()}>
             <h2>Chi tiết đơn hàng</h2>
             <p><b>Mã đơn:</b> {selectedOrder.id}</p>
             <p><b>Khách hàng:</b> {selectedOrder.cus_name}</p>
@@ -94,31 +122,46 @@ export default function OrderList() {
                   <th>Số lượng</th>
                   <th>Đơn giá</th>
                   <th>Thành tiền</th>
+                  <th>Hành động</th> {/* thêm cột */}
                 </tr>
               </thead>
               <tbody>
-                {selectedOrder.items?.map((item, idx) => (
+                {selectedOrder.details?.map((d, idx) => (
                   <tr key={idx}>
-                    <td>{item.name}</td>
-                    <td>{item.qty}</td>
-                    <td>{item.price.toLocaleString()} đ</td>
-                    <td>{(item.qty * item.price).toLocaleString()} đ</td>
+                    <td>{d.dish?.name}</td>
+                    <td>{d.quantity}</td>
+                    <td>{parseFloat(d.price).toLocaleString()} đ</td>
+                    <td>{(d.quantity * parseFloat(d.price)).toLocaleString()} đ</td>
+                    <td>
+                      <button
+                        className="btn-reject"
+                        onClick={() => removeDish(selectedOrder.id, d.dish_id)}
+                      >
+                        ❌
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
             </table>
-
             <div className="order-actions">
               <button
-                className="btn-confirm"
-                onClick={() => updateStatus(selectedOrder.id, "Đang sử dụng")}
+                className="btn-accept"
+                onClick={() => updateStatus(selectedOrder.id, "serving")}
               >
                 Xác nhận
+              </button>
+              <button
+                className="btn-reject-order"
+                onClick={() => updateStatus(selectedOrder.id, "cancelled")}
+              >
+                Từ chối
               </button>
               <button className="btn-back" onClick={() => setIsOpen(false)}>
                 Đóng
               </button>
             </div>
+
           </div>
         </div>
       )}

@@ -10,6 +10,9 @@ export default function Orders() {
   const [endDate, setEndDate] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const [selectedOrder, setSelectedOrder] = useState(null); // lưu chi tiết đơn
+  const [showDetail, setShowDetail] = useState(false); // bật modal
+
   const fetchOrders = async () => {
     setLoading(true);
     try {
@@ -20,11 +23,8 @@ export default function Orders() {
           end_date: endDate || undefined,
           page_size: 6,
         },
-        // Nếu API cần auth token, thêm headers:
-        // headers: { Authorization: `Bearer ${token}` }
       });
 
-      console.log("API response:", res); // check dữ liệu
       setOrders(res.data.data || []);
       setLastPage(res.data.last_page || 1);
     } catch (error) {
@@ -35,17 +35,19 @@ export default function Orders() {
     }
   };
 
-  // tự động fetch khi page hoặc filter thay đổi
   useEffect(() => {
     fetchOrders();
   }, [currentPage, startDate, endDate]);
 
-  const updateStatus = async (id, status) => {
+  const fetchOrderDetail = async (id) => {
     try {
-      await axios.put(`http://127.0.0.1:8000/api/orders/${id}`, { status });
-      fetchOrders();
+      const res = await axios.get(
+        `http://127.0.0.1:8000/api/admin/order-by-id/${id}`
+      );
+      setSelectedOrder(res.data[0]); // vì API trả về mảng
+      setShowDetail(true);
     } catch (error) {
-      console.error(error);
+      console.error("Error fetching order detail:", error);
     }
   };
 
@@ -76,7 +78,7 @@ export default function Orders() {
         />
         <button
           onClick={() => {
-            setCurrentPage(1); // reset trang về 1
+            setCurrentPage(1);
             fetchOrders();
           }}
         >
@@ -106,20 +108,20 @@ export default function Orders() {
                 <td>{o.id}</td>
                 <td>{o.cus_name}</td>
                 <td>{o.table?.table_number}</td>
-                <td>{o.total_amount} đ</td>
+                <td>{Number(o.total_amount).toLocaleString('vi-VN')} đ</td>
                 <td>{o.status}</td>
                 <td>
                   <button
                     className="btn-confirm__oder"
-                    onClick={() => updateStatus(o.id, "Đang sử dụng")}
+                    onClick={() => fetchOrderDetail(o.id)}
                   >
-                    Xác nhận
+                    Chi tiết
                   </button>
                   <button
                     className="btn-delete"
                     onClick={() => deleteOrder(o.id)}
                   >
-                    Hủy
+                    Xoá
                   </button>
                 </td>
               </tr>
@@ -146,6 +148,55 @@ export default function Orders() {
           Next
         </button>
       </div>
+
+      {showDetail && selectedOrder && (
+  <div className="order-modal">
+    <div className="order-modal__content">
+      <div className="order-modal__header">
+        <h3>Chi tiết đơn #{selectedOrder.id}</h3>
+        <button
+          className="order-modal__close"
+          onClick={() => setShowDetail(false)}
+        >
+          ✕
+        </button>
+      </div>
+
+      <div className="order-modal__body">
+        <p><b>Khách hàng:</b> {selectedOrder.customer?.name}</p>
+        <p><b>Bàn:</b> {selectedOrder.table?.table_number}</p>
+        <p><b>Nhân viên:</b> {selectedOrder.user?.name}</p>
+        <p><b>Tổng tiền:</b> {Number(selectedOrder.total_amount).toLocaleString('vi-VN')} đ</p>
+        <p><b>Trạng thái:</b> {selectedOrder.status}</p>
+
+        <h4>Món ăn</h4>
+        <ul>
+          {selectedOrder.details.map((d, i) => (
+            <li key={i}>
+              <span>{d.dish?.name} (SL: {d.quantity})</span>
+              <span>{Number(d.price).toLocaleString('vi-VN')} đ</span>
+            </li>
+          ))}
+        </ul>
+
+        <h4>Thanh toán</h4>
+        <ul>
+          {selectedOrder.payments.map((p, i) => (
+            <li key={i}>
+              <span>{p.method}</span>
+              <span>{Number(p.amount).toLocaleString('vi-VN')} đ</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div className="order-modal__footer">
+        <button onClick={() => setShowDetail(false)}>Đóng</button>
+      </div>
+    </div>
+  </div>
+)}
+
     </div>
   );
 }

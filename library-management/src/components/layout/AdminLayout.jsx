@@ -21,7 +21,7 @@ export default function AdminLayout() {
         <nav>
           <Link to="/admin">Dashboard</Link>
           <Link to="/admin/orders">Quản lý Đơn hàng</Link>
-          <Link to="/admin/orderdetail">Chi tiết Đơn hàng</Link>
+          <Link to="/admin/orderdetail">Đơn bếp</Link>
           {/* <Link to="/admin/payment">Thanh toán</Link> */}
           <Link to="/admin/revenue">Doanh thu</Link>
           
@@ -49,7 +49,8 @@ export default function AdminLayout() {
             </div>
           )}
 
-          <Link to="/admin/customers">Quản lý Khách hàng</Link>
+          <Link to="/admin/customers">Quản lý khách hàng</Link>
+          <Link to="/admin/manager-users">Quản lý nhân viên</Link>
 
           {/* Quản lý Bàn */}
           <div

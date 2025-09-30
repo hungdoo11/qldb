@@ -32,6 +32,7 @@ import Revenue from "./components/adm/Revenue";
 import Categories from "./components/adm/Categories";
 import Customers from "./components/adm/Customers";
 import Tables from "./components/adm/Tables";
+import ManagerUser from "./components/adm/Manager_user";
 
 // add form
 import MenuItemFormPage from "./components/addform/MenuItemFormPage";
@@ -48,6 +49,7 @@ function App() {
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("user")));
     setTableId(localStorage.getItem("tableId"));
+    console.log('o' +user)
   }, []);
 
   const addToCart = (item) => {
@@ -69,7 +71,7 @@ function App() {
     <BrowserRouter>
       <Routes>
 
-        <Route element={<MainLayout cart={cart} addToCart={addToCart} />}>
+        <Route element={<MainLayout cart={cart} addToCart={addToCart} user={user}/>}>
 
           <Route path="/order" element={<Oder cartt={cart} clearCart={clearCart} />} />
           <Route path="/login" element={<Login setUser={setUser} />} />
@@ -121,6 +123,7 @@ function App() {
           <Route path="revenue" element={<Revenue />} />
           <Route path="categories" element={<Categories />} />
           <Route path="customers" element={<Customers />} />
+          <Route path="manager-users" element={<ManagerUser />} />
           <Route path="tables" element={<Tables />} />
         </Route>
 

@@ -12,39 +12,42 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import axios from "axios";
 
-function Header({ cart = [], addToCart }) {
+function Header({ cart = [], addToCart, value }) {
   const location = useLocation();
   const navigate = useNavigate();
   const [openMenu, setOpenMenu] = useState(false);
-    const menuRef = useRef(null);
+  const menuRef = useRef(null);
   const [openCart, setOpenCart] = useState(false);
   const [user, setUser] = useState(null);
   const [categories, setCategories] = useState([]);
   const [orderHistory, setOrderHistory] = useState([]);
-const tableNumber = localStorage.getItem("tableNumber") || 1; // mặc định 1
-
+  const tableNumber = localStorage.getItem("tableNumber") || 1;
+  
   // Lấy user từ localStorage
   useEffect(() => {
+    if(value){
+      setUser(value)
+    }
     const savedUser = localStorage.getItem("user");
     if (savedUser) {
       setUser(JSON.parse(savedUser));
     }
-  }, []);
+  }, [value]);
 
   useEffect(() => {
-  const fetchOrderHistory = async () => {
-    if (!user) return;
-    try {
-      const res = await axios.get(
-        `http://127.0.0.1:8000/api/orders?user_id=${user.id}`
-      );
-      setOrderHistory(res.data); // giả sử API trả về array order
-    } catch (err) {
-      console.error("Fetch order history error:", err);
-    }
-  };
-  fetchOrderHistory();
-}, [user]);
+    const fetchOrderHistory = async () => {
+      if (!user) return;
+      try {
+        // const res = await axios.get(
+        //   `http://127.0.0.1:8000/api/orders?user_id=${user.id}`
+        // );
+        // setOrderHistory(res.data); 
+      } catch (err) {
+        console.error("Fetch order history error:", err);
+      }
+    };
+    fetchOrderHistory();
+  }, [user]);
 
   // Gọi API lấy categories
   useEffect(() => {
@@ -65,7 +68,6 @@ const tableNumber = localStorage.getItem("tableNumber") || 1; // mặc định 1
     window.location.href = "/";
   };
 
-
   const toggleMenu = () => setOpenMenu(!openMenu);
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -85,24 +87,24 @@ const tableNumber = localStorage.getItem("tableNumber") || 1; // mặc định 1
       navigate("/order", { state: { cart } }); // Chuyển đến trang đặt món với dữ liệu giỏ hàng
     }
   };
-
   
+
 
   const handleOrder = async () => {
     if (cart.length === 0) return alert("Chưa có món nào!");
     console.log("Cart data:", cart);
 
     try {
-     const response = await axios.post("http://127.0.0.1:8000/api/orders", {
-  table_id: tableNumber,
-  customer_name: user?.name || "Khách lẻ",
-  phone: user?.phone || "0000000000",
-  items: cart.map((item) => ({
-    dish_id: item.id,
-    price: item.price || 0,
-    quantity: item.quantity,
-  })),
-});
+      const response = await axios.post("http://127.0.0.1:8000/api/orders", {
+        table_id: tableNumber,
+        customer_name: user?.name || "Khách lẻ",
+        phone: user?.phone || "0000000000",
+        items: cart.map((item) => ({
+          dish_id: item.id,
+          price: item.price || 0,
+          quantity: item.quantity,
+        })),
+      });
 
 
       console.log("Order response:", response.data);
@@ -316,36 +318,36 @@ const tableNumber = localStorage.getItem("tableNumber") || 1; // mặc định 1
 
           {/* Tài khoản */}
           <div className="dropdown">
-  {!user ? (
-    <>
-      <button className="btn-account">Tài khoản</button>
-      <div className="dropdown-content">
-        <a href="/login">Đăng nhập</a>
-        <a href="/register">Đăng ký</a>
-      </div>
-    </>
-  ) : (
-    <>
-      <button className="btn-account">Chào, {user.name}</button>
-      <div className="dropdown-content account-dropdown">
-        <a href="#" onClick={handleLogout}>
-          Đăng xuất
-        </a>
+            {!user?.name ? (
+              <>
+                <button className="btn-account">Tài khoản</button>
+                <div className="dropdown-content">
+                  <a href="/login">Đăng nhập</a>
+                  <a href="/register">Đăng ký</a>
+                </div>
+              </>
+            ) : (
+              <>
+                <button className="btn-account">Chào, {user?.name}</button>
+                <div className="dropdown-content account-dropdown">
+                  <a href="#" onClick={handleLogout}>
+                    Đăng xuất
+                  </a>
 
-        {/* Nút xem lịch sử order */}
-        <a
-          href="#"
-          onClick={(e) => {
-            e.preventDefault();
-            navigate("/order-history");
-          }}
-        >
-          Xem lịch sử
-        </a>
-      </div>
-    </>
-  )}
-</div>
+                  {/* Nút xem lịch sử order */}
+                  <a
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigate("/order-history");
+                    }}
+                  >
+                    Xem lịch sử
+                  </a>
+                </div>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </header>
