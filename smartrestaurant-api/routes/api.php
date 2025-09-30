@@ -10,10 +10,12 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\DishController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\OrderController;
 
 
 Route::apiResource('users', UserController::class);
+Route::apiResource('customer', CustomerController::class);
 Route::apiResource('admin/dishes', AdminDishesController::class);
 Route::get('/hello', function () {
     return response()->json([
@@ -61,6 +63,8 @@ Route::prefix('admin')->group(function () {
     Route::get('/order', [AdminOrderController::class, 'index']);
     Route::get('/order-by-table/{table_id}', [AdminOrderController::class, 'orderByTable']);
     Route::get('/order-by-id/{id}', [AdminOrderController::class, 'orderById']);
+    Route::put('/order/{id}', [AdminOrderController::class, 'update']);
+    Route::delete('/order-detail-by-order', [AdminOrderController::class, 'destroyOrderDetailByOrder']);
     //category
     Route::put('/category/{id}', [AdminCategoryController::class, 'update']);
     Route::get('/category/{id}', [AdminCategoryController::class, 'show']);

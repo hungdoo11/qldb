@@ -108,8 +108,8 @@ class AdminOrderController extends Controller
     }
     public function index(Request $request)
     {
-        $query = Order::with('table:id,table_number')
-            ->where('status', 'paid')
+        $query = Order::with('table:id,table_number', 'details.dish')
+            ->where('status', $request->input('status') ?? 'paid')
             ->join('customers as c', 'orders.customer_id', 'c.id')
             ->join('users as u', 'orders.user_id', 'u.id')
             ->select(
@@ -140,12 +140,47 @@ class AdminOrderController extends Controller
             ->get();
         return response()->json($orders);
     }
-     public function orderById($id)
+    public function orderById($id)
     {
         $orders =  Order::select('id', 'table_id', 'user_id', 'customer_id', 'status', 'total_amount')
             ->with(['table:id,table_number', 'user', 'details.dish', 'customer:id,name', 'payments:order_id,method,amount,payment_time'])
             ->where('id', $id)
             ->get();
         return response()->json($orders);
+    }
+    public function update(Request $request, $id)
+    {
+        $order = Order::findOrFail($id);
+        if (!$order) {
+            return response()->json([
+                'message' => 'Xác nhận món ăn thất bại.',
+                'status' => 404
+            ], 200);
+        }
+        $order->update([
+            'status' => $request->input('status')
+        ]);
+        return response()->json([
+            'message' => 'Xác nhận món ăn thành công.',
+            'status' => 200
+        ], 200);
+    }
+    public function destroyOrderDetailByOrder(Request $request)
+    {
+        try {
+            $orderDetail = OrderDetail::where('order_id', $request->input('order_id'))
+                ->where('dish_id', $request->input('dish_id'))
+                ->first();
+                $orderDetail->delete();
+                return response()->json([
+                     'message' => 'Món ăn đã được xóa thành công',
+                     'status' => 200
+                 ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Xóa món ăn thất bại',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 }
