@@ -12,24 +12,24 @@ class Snmenu extends Component {
     {/* Combo A */}
     <div className="combo-card">
       <img src="/images/combo1.png" alt="Combo A" />
-      <h3>PHẦN A POPO (10 NGƯỜI)</h3>
-      <p className="price">750,000 đ</p>
+      <h3>Tặng phần bò waygu (Bàn 2 NGƯỜI)</h3>
+      {/* <p className="price">750,000 đ</p> */}
       {/* <button className="btn-order">ĐẶT HÀNG</button> */}
     </div>
 
     {/* Combo B */}
     <div className="combo-card">
       <img src="/images/combo2.jpg" alt="Combo B" />
-      <h3>PHẦN B TWIRLIE (10 NGƯỜI)</h3>
-      <p className="price">950,000 đ</p>
+      <h3>Pizza sinh nhât + 2 Steak (6 NGƯỜI)</h3>
+      {/* <p className="price">950,000 đ</p> */}
       {/* <button className="btn-order">ĐẶT HÀNG</button> */}
     </div>
 
     {/* Combo C */}
     <div className="combo-card">
       <img src="/images/combo3.webp" alt="Combo C" />
-      <h3>PHẦN C JOLLIBEE (10 NGƯỜI)</h3>
-      <p className="price">1,150,000 đ</p>
+      <h3>Quà lưu niệm cho khách hàng </h3>
+      {/* <p className="price">1,150,000 đ</p> */}
       {/* <button className="btn-order">ĐẶT HÀNG</button> */}
     </div>
   </div>
