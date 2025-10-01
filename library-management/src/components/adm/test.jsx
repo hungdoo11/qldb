@@ -15,7 +15,8 @@ function MenuItems() {
   useEffect(() => {
     fetchCategories().then(() => setIsCategoriesLoaded(true));
   }, []);
-
+ const [payments, setPayments] = useState([]); // danh sách thanh toán
+  const [method, setMethod] = useState("cash");
   useEffect(() => {
     if (isCategoriesLoaded) {
       fetchMenuItems();

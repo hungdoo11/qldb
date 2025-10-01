@@ -304,7 +304,7 @@ function Header({ cart = [], addToCart, value }) {
                       }}
                       onClick={() => navigate("/order", { state: { cart } })}
                     >
-                      Thanh toán
+                      Đặt món
                     </button>
                   </div>
                 </>
@@ -314,7 +314,7 @@ function Header({ cart = [], addToCart, value }) {
 
 
           {/* Search */}
-          <FaSearch className="icon" />
+          {/* <FaSearch className="icon" /> */}
 
           {/* Tài khoản */}
           <div className="dropdown">

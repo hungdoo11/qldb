@@ -7,6 +7,11 @@ export default function OrderList() {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
 
+  const [showQtyModal, setShowQtyModal] = useState(false);
+const [currentDish, setCurrentDish] = useState({ orderId: null, dishId: null, maxQty: 0 });
+const [qtyInput, setQtyInput] = useState(1);
+
+
   useEffect(() => {
     fetchOrders();
   }, []);
@@ -38,21 +43,33 @@ export default function OrderList() {
       console.error(error);
     }
   };
-  const removeDish = async (orderId, dishId) => {
-    const res = await api.delete(`/admin/order-detail-by-order`, {
-      params: {
-        dish_id: dishId,
-        order_id: orderId,
-      }
-    });
-    console.log(res)
-    if(res.status == 200){
-      setSelectedOrder((prev) => ({
-      ...prev,
-      details: prev.details.filter((d) => d.dish_id !== dishId),
-    }));
+ const removeDish = async (orderId, dishId, qtyToRemove) => {
+  if (!qtyToRemove || qtyToRemove <= 0) {
+    alert("Số lượng không hợp lệ!");
+    return;
+  }
+
+  const res = await api.delete(`/admin/order-detail-by-order`, {
+    params: {
+      dish_id: dishId,
+      order_id: orderId,
+      quantity: qtyToRemove,
     }
-  };
+  });
+
+  if (res.status === 200) {
+    setSelectedOrder((prev) => ({
+      ...prev,
+      details: prev.details.map((d) =>
+        d.dish_id === dishId
+          ? { ...d, quantity: d.quantity - qtyToRemove }
+          : d
+      ).filter((d) => d.quantity > 0)
+    }));
+  }
+};
+
+
 
 
   return (
@@ -133,12 +150,18 @@ export default function OrderList() {
                     <td>{parseFloat(d.price).toLocaleString()} đ</td>
                     <td>{(d.quantity * parseFloat(d.price)).toLocaleString()} đ</td>
                     <td>
-                      <button
-                        className="btn-reject"
-                        onClick={() => removeDish(selectedOrder.id, d.dish_id)}
-                      >
-                        ❌
-                      </button>
+                     <button
+                      className="btn-reject"
+                      onClick={() => {
+                        setCurrentDish({ orderId: selectedOrder.id, dishId: d.dish_id, maxQty: d.quantity });
+                        setQtyInput(1);
+                        setShowQtyModal(true);
+                      }}
+                    >
+                      ❌
+                    </button>
+
+
                     </td>
                   </tr>
                 ))}
@@ -164,7 +187,36 @@ export default function OrderList() {
 
           </div>
         </div>
+        
       )}
+      {showQtyModal && (
+  <div className="modal-overlay" onClick={() => setShowQtyModal(false)}>
+    <div className="mini-modal" onClick={(e) => e.stopPropagation()}>
+      <h4>Nhập số lượng muốn xóa (Tối đa {currentDish.maxQty})</h4>
+      <input
+        type="number"
+        min="1"
+        max={currentDish.maxQty}
+        value={qtyInput}
+        onChange={(e) => setQtyInput(e.target.value)}
+      />
+      <div className="modal-buttons">
+       <button
+        className="btn-accept"
+        onClick={() => {
+          removeDish(currentDish.orderId, currentDish.dishId, parseInt(qtyInput));
+          setShowQtyModal(false);
+        }}
+      >
+        OK
+      </button>
+
+        <button className="btn-reject-order" onClick={() => setShowQtyModal(false)}>Hủy</button>
+      </div>
+    </div>
+  </div>
+)}
+
     </div>
   );
 }

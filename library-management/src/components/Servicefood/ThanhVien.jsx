@@ -11,8 +11,8 @@ class ThanhVien extends Component {
     {/* Combo A */}
     <div className="combo-card">
       <img src="/images/com4.webp" alt="Combo A" />
-      <h3>Giảm 50% </h3>
-      <p className="price">Đơn từ 1.000.000</p>
+      <h3>Thu thập con dấu nhà hàng </h3>
+      <p className="price">Khi dùng món tại nhà hàng</p>
       {/* <button className="btn-order">ĐẶT HÀNG</button> */}
     </div>
 
@@ -27,8 +27,8 @@ class ThanhVien extends Component {
     {/* Combo C */}
     <div className="combo-card">
       <img src="/images/combo5.jpg" alt="Combo C" />
-      <h3>Đi 4 tính tiền 3</h3>
-      <p className="price">Từ 14h-16h</p>
+      <h3>Tặng combo sum vầy</h3>
+      <p className="price">Từ 19h00 - 23h00</p>
       {/* <button className="btn-order">ĐẶT HÀNG</button> */}
     </div>
   </div>

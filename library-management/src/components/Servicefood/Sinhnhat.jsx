@@ -24,7 +24,7 @@ class Sinhnhat extends Component {
                 sinh nhật con bạn không? Nếu có thì hãy bắt tay với Jollibee để thực
                 hiện kế hoạch này nhé!
               </p>
-              <button className="btn-order">ĐẶT TIỆC NGAY</button>
+              {/* <button className="btn-order">ĐẶT TIỆC NGAY</button> */}
             </div>
           </div>
 
@@ -46,9 +46,9 @@ class Sinhnhat extends Component {
                 <span className="highlight">Combo ưng ý</span>
               </h2>
               <ul>
-                <li>1 Mỳ Ý Sốt Bò Bằm + 1 ly Pepsi vừa</li>
-                <li>2 Miếng gà không xương</li>
-                <li>1 Khoai tây chiên vừa</li>
+                <li>Tiệc đông vui, quà hấp dẫn</li>
+                <li>Tràng ngập ưu đãi chào mừng sinh nhật</li>
+                <li>Hãy ghé FOOD đón nhận ưu đãi ngày sinh nhật nào</li>
               </ul>
             </div>
           </div>

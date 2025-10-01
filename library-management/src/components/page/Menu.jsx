@@ -22,7 +22,7 @@ class Menu extends Component {
             <div className="menu-wrapper">
               <img src="/images/bgr1.jpg" alt="" className="bg" />
               <img src="/images/a1.png" alt="" className="ct" />
-              <Link to="thucdon" className="menu-text">Bánh giòn ngon</Link>
+              <Link to="/product/1" className="menu-text">Bánh giòn ngon</Link>
             </div>
           </div>
 
@@ -30,7 +30,7 @@ class Menu extends Component {
             <div className="menu-wrapper">
               <img src="/images/bgr1.jpg" alt="" className="bg" />
               <img src="/images/a2.png" alt="" className="ct" />
-              <Link to="thucdon" className="menu-text">Bánh giòn ngon</Link>
+              <Link to="/product/1" className="menu-text">Bánh giòn ngon</Link>
             </div>
           </div>
 
@@ -38,7 +38,7 @@ class Menu extends Component {
             <div className="menu-wrapper">
               <img src="/images/bgr1.jpg" alt="" className="bg" />
               <img src="/images/a3.png" alt="" className="ct" />
-              <Link to="thucdon" className="menu-text">Bánh giòn ngon</Link>
+              <Link to="/product/1" className="menu-text">Bánh giòn ngon</Link>
             </div>
           </div>
 
@@ -46,7 +46,7 @@ class Menu extends Component {
             <div className="menu-wrapper">
               <img src="/images/bgr1.jpg" alt="" className="bg" />
               <img src="/images/a4.png" alt="" className="ct" />
-              <Link to="thucdon" className="menu-text">Bánh giòn ngon</Link>
+              <Link to="/product/1" className="menu-text">Bánh giòn ngon</Link>
             </div>
           </div>
         </div>

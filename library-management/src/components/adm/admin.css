@@ -404,7 +404,7 @@ body {
   padding: 15px;
   text-align: center;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  height: 246px
+  height: 200px
 }
 
 .table-card h3 {
@@ -1118,15 +1118,11 @@ body {
 }
 
 /* grid */
-.tables-grid, .orders-grid {
-  /* display: grid;
-  gap: 20px; */
-  /* grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); */
-}
+
 
 @media (max-width: 768px) {
   .tables-grid, .orders-grid, .orders-grid-order  {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
   
 }
@@ -1878,4 +1874,45 @@ body {
 @keyframes fadeIn {
   from {opacity: 0; transform: scale(0.95);}
   to {opacity: 1; transform: scale(1);}
+}
+
+
+
+/* Overlay riêng cho popup nhỏ */
+.mini-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3); /* mờ nhẹ hơn */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1001; /* cao hơn modal chính */
+}
+
+/* Hộp nhập số lượng */
+.mini-modal {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 280px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  z-index: 1002;
+}
+
+.mini-modal input {
+  width: 100%;
+  padding: 8px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
 }
