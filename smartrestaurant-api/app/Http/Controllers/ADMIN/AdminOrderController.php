@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Customer;
 use App\Models\Order;
 use App\Models\OrderDetail;
+use App\Models\Payment;
 use App\Models\Table;
 use BcMath\Number;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -22,6 +25,69 @@ class AdminOrderController extends Controller
         $this->year = Now()->format('Y');
         $this->month = Now()->format('m');
         $this->day = Now()->format('d');
+    }
+    public function paymentOrder(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $data = $request->all();
+            $payments = json_decode($data['payment'], true);
+            if ($payments) {
+                foreach ($payments as $value) {
+                    $payment = Payment::create([
+                        'payment_time' => now(),
+                        'method' => $value['method'],
+                        'amount' => $value['amount'],
+                        'order_id' => $data['order_id']
+                    ]);
+                }
+            }
+            $order = Order::find($data['order_id']);
+            $order->update([
+                'status' => 'paid',
+                'final_amount' =>  $data['final_amount'],
+                'discount_method' => $data['use_points'] ? 'Points : -' . $data['points_used_money'] : 'none'
+            ]);
+            $table = Table::find($order->table_id);
+            $table->update([
+                'status' => 'available'
+            ]);
+            $order->refresh();
+            
+            $totalPriceOrder = Order::where('customer_id', $order->customer_id)
+            ->sum('total_amount');
+            if ($totalPriceOrder >= 0 && $totalPriceOrder <= 5000000) {
+                $type = 'walk-in';
+            } elseif ($totalPriceOrder > 5000000 && $totalPriceOrder <= 20000000) {
+                $type = 'member';
+            } else {
+                $type = 'vip';
+            }
+            $customer = Customer::find($order->customer_id);
+
+            if ($customer->type == 'vip') {
+                $discount = 10000;
+            } elseif ($customer->type == 'member') {
+                $discount = 11000;
+            } else {
+                $discount = 12000;
+            }
+            $point = $customer->points + ($order->total_amount / $discount);
+            $customer->update([
+                'points' => round( $point - $data['points_used_count']),
+                'type' => $type,
+            ]);
+            DB::commit();
+            return response()->json([
+                'message' => 'Thành công.',
+            ], 200);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'message' => 'Thất bại :' . $e->getMessage(),
+            ], 500);
+        }
     }
     public function Renuve()
     {
@@ -133,8 +199,25 @@ class AdminOrderController extends Controller
     }
     public function orderByTable($table_id)
     {
-        $orders =  Order::select('id', 'table_id', 'user_id', 'customer_id', 'status', 'total_amount')
-            ->with(['table:id,table_number', 'user', 'details.dish', 'customer:id,name'])
+        $pending = $orders =  Order::where('table_id', $table_id)
+            ->where('status', 'pending')
+            ->exists();
+        if ($pending) {
+            return response()->json([
+                'status' => 'pending'
+            ]);
+        }
+        $orders =  Order::select(
+            'id',
+            'table_id',
+            'user_id',
+            'customer_id',
+            'status',
+            'total_amount',
+            DB::raw("DATE_FORMAT(created_at, '%H:%m:%i %d-%m-%Y') as create_ated"),
+            DB::raw("DATE_FORMAT(updated_at, '%H:%m:%i %d-%m-%Y') as update_ated")
+        )
+            ->with(['table:id,table_number', 'user', 'details.dish', 'customer:id,name,points,type'])
             ->where('table_id', $table_id)
             ->where('status', 'serving')
             ->get();
@@ -171,11 +254,11 @@ class AdminOrderController extends Controller
             $orderDetail = OrderDetail::where('order_id', $request->input('order_id'))
                 ->where('dish_id', $request->input('dish_id'))
                 ->first();
-                $orderDetail->delete();
-                return response()->json([
-                     'message' => 'Món ăn đã được xóa thành công',
-                     'status' => 200
-                 ], 200);
+            $orderDetail->delete();
+            return response()->json([
+                'message' => 'Món ăn đã được xóa thành công',
+                'status' => 200
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Xóa món ăn thất bại',

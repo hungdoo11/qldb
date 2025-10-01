@@ -18,7 +18,9 @@ return new class extends Migration
             $table->string('customer_name');
             $table->string('phone')->nullable();
             $table->enum('status', ['pending', 'confirmed', 'completed', 'canceled'])->default('pending');
-            $table->decimal('total_price', 12, 2)->default(0);
+            $table->decimal('total_amount', 12, 2)->default(0);
+            $table->decimal('final_amount', 12, 2)->default(0);
+            $table->string('discount_method')->default('none');
             $table->timestamps();
 
             $table->foreign('table_id')->references('id')->on('tables')->onDelete('cascade');
