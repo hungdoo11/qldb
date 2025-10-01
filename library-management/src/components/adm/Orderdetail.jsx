@@ -202,14 +202,14 @@ const [qtyInput, setQtyInput] = useState(1);
       />
       <div className="modal-buttons">
        <button
-  className="btn-accept"
-  onClick={() => {
-    removeDish(currentDish.orderId, currentDish.dishId, parseInt(qtyInput));
-    setShowQtyModal(false);
-  }}
->
-  OK
-</button>
+        className="btn-accept"
+        onClick={() => {
+          removeDish(currentDish.orderId, currentDish.dishId, parseInt(qtyInput));
+          setShowQtyModal(false);
+        }}
+      >
+        OK
+      </button>
 
         <button className="btn-reject-order" onClick={() => setShowQtyModal(false)}>Hủy</button>
       </div>
