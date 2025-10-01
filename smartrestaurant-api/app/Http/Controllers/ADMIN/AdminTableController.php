@@ -19,7 +19,7 @@ class AdminTableController extends Controller
     {
         $validated = $request->validate([
             'table_number' => 'required|string|max:255',
-            'capacity' => 'required|integer', // đổi thành integer
+            'capacity' => 'required|integer', 
             'status' => 'required|string',
         ]);
 

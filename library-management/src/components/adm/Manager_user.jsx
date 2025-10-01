@@ -11,7 +11,7 @@ export default function ManagerUser() {
     name: "",
     email: "",
     phone: "",
-    role: "staff",   // ✅ sửa mặc định thành staff (hoặc "")
+    role: "admin",  
     password: "",
   });
 
@@ -34,7 +34,7 @@ export default function ManagerUser() {
       name: "",
       email: "",
       phone: "",
-      role: "staff",   // ✅ đồng bộ luôn
+      role: "admin",  
       password: "",
     });
   };
@@ -46,7 +46,7 @@ export default function ManagerUser() {
       name: customer.name,
       email: customer.email,
       phone: customer.phone ?? "",
-      role: customer.role ?? "staff",  // ✅ lấy role của user để select sẵn
+      role: customer.role ?? "admin",  
       password: "",
     });
   };
@@ -204,7 +204,6 @@ export default function ManagerUser() {
               className="styled-select"
             >
               <option value="admin">Admin</option>
-              <option value="staff">Staff</option>
               <option value="chef">Chef</option>
             </select>
 

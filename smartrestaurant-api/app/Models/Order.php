@@ -27,5 +27,5 @@ class Order extends Model
         return $this->hasMany(Payment::class);
     }
 
-    protected $fillable = ['table_id', 'customer_id', 'user_id', 'status', 'total_amount', 'order_time'];
+    protected $fillable = ['table_id', 'customer_id', 'user_id', 'status', 'total_amount', 'order_time', 'discount_method', 'final_amount'];
 }
