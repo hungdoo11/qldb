@@ -47,7 +47,7 @@ class AdminOrderController extends Controller
             $order->update([
                 'status' => 'paid',
                 'final_amount' =>  $data['final_amount'],
-                'discount_method' => $data['use_points'] ? 'Points : -' . $data['points_used_money'] : 'none'
+                'discount_method' => $data['use_points'] ? 'Dùng điểm : -' . $data['points_used_money'] : 'none'
             ]);
             $table = Table::find($order->table_id);
             $table->update([

@@ -99,6 +99,7 @@ export default function Orders() {
               <th>Bàn</th>
               <th>Tổng tiền</th>
               <th>Thành tiền cuối cùng</th>
+              <th>Phương thức</th>
               <th>Trạng thái</th>
               <th>Hành động</th>
             </tr>
@@ -111,6 +112,7 @@ export default function Orders() {
                 <td>{o.table?.table_number}</td>
                 <td>{Number(o.total_amount).toLocaleString('vi-VN')} đ</td>
                 <td>{Number(o.final_amount).toLocaleString('vi-VN')} đ</td>
+                <td>{o.discount_method}</td>
                 <td>{o.status}</td>
                 <td>
                   <button
