@@ -805,3 +805,132 @@ header {
   padding: 5px 0;
   border-bottom: 1px solid #eee;
 }
+
+/* history */
+
+.history-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.65);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: history-fadeInBg 0.3s ease;
+}
+
+/* Khung modal */
+.history-modal-content {
+  background: #fff;
+  border-radius: 12px;
+  width: 650px;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+  animation: history-slideUp 0.35s ease;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
+/* Header */
+.history-modal-header {
+  background: linear-gradient(135deg, #ff7a00, #ff9d3d);
+  color: white;
+  padding: 15px 20px;
+  border-radius: 12px 12px 0 0;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* Nội dung */
+.history-modal-body {
+  padding: 20px 25px;
+}
+
+.history-modal-body p {
+  margin: 6px 0;
+  font-size: 15px;
+  color: #444;
+}
+
+.history-modal-body b {
+  color: #222;
+}
+
+/* Danh sách món ăn */
+.history-modal-body ul {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.history-modal-body li {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 14px;
+  font-size: 14px;
+}
+
+.history-modal-body li:nth-child(odd) {
+  background: #fafafa;
+}
+
+.history-modal-body li:nth-child(even) {
+  background: #fff;
+}
+
+.history-section-title {
+  margin-top: 15px;
+  margin-bottom: 8px;
+  font-weight: 600;
+  font-size: 16px;
+  color: #ff7a00;
+}
+
+/* Footer */
+.history-modal-footer {
+  padding: 15px 20px;
+  text-align: right;
+  border-top: 1px solid #eee;
+}
+
+.history-modal-footer button {
+  padding: 8px 20px;
+  background: #ff7a00;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.history-modal-footer button:hover {
+  background: #e86a00;
+}
+
+/* Animation */
+@keyframes history-slideUp {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes history-fadeInBg {
+  from {
+    background-color: rgba(0, 0, 0, 0);
+  }
+  to {
+    background-color: rgba(0, 0, 0, 0.65);
+  }
+}
