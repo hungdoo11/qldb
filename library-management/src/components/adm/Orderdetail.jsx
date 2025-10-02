@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import api from "../api/Api";
 import "./admin.css";
+import echo from "../pusher";
 
 export default function OrderList() {
   const [orders, setOrders] = useState([]);
@@ -8,15 +9,24 @@ export default function OrderList() {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    fetchOrders();
+    fetchOrders()
+    echo.channel('orders')
+      .listen(".OrderNew", (e) => {
+        console.log("ok :"+ e.order_id)
+        fetchOrders()
+      })
   }, []);
 
   const fetchOrders = async () => {
     try {
       const res = await api.get("/admin/order", {
-        params: { status: "pending" },
+        params: {
+          status: "pending",
+          page: 1,
+          page_size: 20
+        }
       });
-      setOrders(res.data || []); // dữ liệu thật nằm trong res.data.data
+      setOrders(res.data || []);
     } catch (error) {
       console.error("Error fetching orders:", error);
       setOrders([]);
@@ -46,11 +56,11 @@ export default function OrderList() {
       }
     });
     console.log(res)
-    if(res.status == 200){
+    if (res.status == 200) {
       setSelectedOrder((prev) => ({
-      ...prev,
-      details: prev.details.filter((d) => d.dish_id !== dishId),
-    }));
+        ...prev,
+        details: prev.details.filter((d) => d.dish_id !== dishId),
+      }));
     }
   };
 
@@ -60,47 +70,51 @@ export default function OrderList() {
       <h2 className="admin-title">Danh sách đơn bếp</h2>
       <div className="admin-container">
         <div className="orders-grid-order">
-          {orders.map((order, index) => {
-            const total = order.details
-              ? order.details.reduce(
-                (sum, d) => sum + d.quantity * parseFloat(d.price),
-                0
-              )
-              : 0;
+          {orders
+            .slice() // copy mảng tránh mutate state
+            .sort((a, b) => a.id - b.id) // sắp xếp id tăng dần
+            .map((order, index) => {
+              const total = order.details
+                ? order.details.reduce(
+                  (sum, d) => sum + d.quantity * parseFloat(d.price),
+                  0
+                )
+                : 0;
 
-            return (
-              <div
-                key={order.id}
-                className="order-card bordered-card"
-                onClick={() => {
-                  setSelectedOrder(order);
-                  setIsOpen(true);
-                }}
-              >
-                {/* Header: thứ tự + mã đơn */}
-                <div className="order-header">
-                  <span className="order-queue">#{index + 1}</span>
-                  <span className="order-id">Mã: {order.id}</span>
-                  <span className={`status-badge status-${order.status}`}>
-                    {order.status}
-                  </span>
-                </div>
+              return (
+                <div
+                  key={order.id}
+                  className="order-card bordered-card"
+                  onClick={() => {
+                    setSelectedOrder(order);
+                    setIsOpen(true);
+                  }}
+                >
+                  {/* Header: thứ tự + mã đơn */}
+                  <div className="order-header">
+                    <span className="order-queue">#{index + 1}</span>
+                    <span className="order-id">Mã: {order.id}</span>
+                    <span className={`status-badge status-${order.status}`}>
+                      {order.status}
+                    </span>
+                  </div>
 
-                {/* Body: khách + bàn */}
-                <div className="order-body">
-                  <p><b>Khách:</b> {order.cus_name}</p>
-                  <p><b>Bàn:</b> {order.table?.table_number || "Chưa có"}</p>
-                </div>
+                  {/* Body: khách + bàn */}
+                  <div className="order-body">
+                    <p><b>Khách:</b> {order.cus_name}</p>
+                    <p><b>Bàn:</b> {order.table?.table_number || "Chưa có"}</p>
+                  </div>
 
-                {/* Footer: tổng cộng */}
-                <div className="order-footer">
-                  <span className="total-label">Tổng cộng:</span>
-                  <span className="total-price">{total.toLocaleString()} đ</span>
+                  {/* Footer: tổng cộng */}
+                  <div className="order-footer">
+                    <span className="total-label">Tổng cộng:</span>
+                    <span className="total-price">{total.toLocaleString()} đ</span>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
         </div>
+
 
       </div>
 

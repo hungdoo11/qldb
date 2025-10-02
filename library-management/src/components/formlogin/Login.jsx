@@ -26,7 +26,13 @@ function Login({setUser}) {
       if (res.data.role === "admin") {
         if (res.data.user && Object.keys(res.data.user).length > 0) {
           localStorage.setItem("user", JSON.stringify(res.data.user));
-          localStorage.setItem("role", "admin");
+          console.log(res.data.user.role)
+          if(res.data.user.role == 'admin'){
+            localStorage.setItem("role", "admin");
+          }
+           if(res.data.user.role == 'chef'){
+            localStorage.setItem("role", "chef");
+          }
           navigate("/admin");
         } else {
           alert("Dữ liệu admin không hợp lệ!");

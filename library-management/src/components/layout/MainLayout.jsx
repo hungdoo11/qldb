@@ -4,7 +4,6 @@ import { Outlet } from 'react-router-dom';
 
 function MainLayout({ cart, addToCart, user }) {
   useEffect(()=>{
-    console.log('haha'+user?.name)
   })
   return (
     <>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/Api";
 import "./admin.css";
+import echo from "../pusher";
 
 function MenuItems() {
   const [menuItems, setMenuItems] = useState([]);
@@ -13,7 +14,8 @@ function MenuItems() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchCategories();
+    fetchCategories()
+    
   }, []);
 
   useEffect(() => {

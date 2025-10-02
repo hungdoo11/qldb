@@ -3,8 +3,7 @@ import { Navigate } from "react-router-dom";
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const user = JSON.parse(localStorage.getItem("user"));
-  const role = localStorage.getItem("role"); // giả sử lưu user vào localStorage
-
+  const role = localStorage.getItem("role");
   if (!user || !allowedRoles.includes(role)) {
     return <Navigate to="/" replace />;
   }

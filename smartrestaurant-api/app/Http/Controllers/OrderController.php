@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\OrderNew;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderDetail;
@@ -44,6 +45,7 @@ class OrderController extends Controller
                 'status' => 'occupied'
             ]);
             DB::commit();
+            broadcast(New OrderNew(1));
             return response()->json([
                 'message' => 'Đặt món thành công!',
             ], 201);
