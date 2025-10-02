@@ -54,9 +54,9 @@ class AdminOrderController extends Controller
                 'status' => 'available'
             ]);
             $order->refresh();
-            
+
             $totalPriceOrder = Order::where('customer_id', $order->customer_id)
-            ->sum('total_amount');
+                ->sum('total_amount');
             if ($totalPriceOrder >= 0 && $totalPriceOrder <= 5000000) {
                 $type = 'walk-in';
             } elseif ($totalPriceOrder > 5000000 && $totalPriceOrder <= 20000000) {
@@ -75,7 +75,7 @@ class AdminOrderController extends Controller
             }
             $point = $customer->points + ($order->total_amount / $discount);
             $customer->update([
-                'points' => round( $point - $data['points_used_count']),
+                'points' => round($point - $data['points_used_count']),
                 'type' => $type,
             ]);
             DB::commit();

@@ -45,7 +45,7 @@ class OrderController extends Controller
                 'status' => 'occupied'
             ]);
             DB::commit();
-            broadcast(New OrderNew(1));
+            broadcast(new OrderNew(1));
             return response()->json([
                 'message' => 'Đặt món thành công!',
             ], 201);
@@ -57,14 +57,23 @@ class OrderController extends Controller
                 'error' => $e->getMessage()
             ], 500);
         }
-
     }
-    
+
     public function getOrdersByUser($id)
     {
         $orders = Order::with('items.dish')
             ->where('user_id', $id)
             ->orderBy('created_at', 'desc')
+            ->get();
+
+        return response()->json($orders);
+    }
+    public function getCustomerOrders($cus_name)
+    {
+        $orders = Order::join('customers', 'orders.customer_id', '=', 'customers.id')
+            ->where('customers.name', $cus_name)
+            ->select('orders.*', 'customers.name as cus_name')
+            ->orderBy('orders.id', 'desc')
             ->get();
 
         return response()->json($orders);

@@ -66,6 +66,8 @@ Route::prefix('admin')->group(function () {
     Route::put('/order/{id}', [AdminOrderController::class, 'update']);
     Route::delete('/order-detail-by-order', [AdminOrderController::class, 'destroyOrderDetailByOrder']);
     Route::post('/payment-order', [AdminOrderController::class, 'paymentOrder']);
+    Route::get('/customer/orders/{cus_name}', [OrderController::class, 'getCustomerOrders']);
+
     //category
     Route::put('/category/{id}', [AdminCategoryController::class, 'update']);
     Route::get('/category/{id}', [AdminCategoryController::class, 'show']);
